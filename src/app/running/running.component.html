@@ -1,0 +1,69 @@
+<div class="runcomponent">
+  <div class="runform">
+      <form class="d-flex justify-content-start gap-3" #runForm="ngForm" (ngSubmit)="addRun()">
+          <div class="row">
+             <div class="form-floating form-control-sm col">
+                  <input type="date" id="date" class="form-control" [(ngModel)]="newRun.date" name="date">
+                  <label for="date">Date</label>
+              </div>
+              <div class="form-floating form-control-sm col">
+                  <input type="number" id="dist" class="form-control" [(ngModel)]="newRun.dist" name="dist" required>
+                  <label for="dist">Distance</label>
+              </div>
+              <div class="form-floating form-control-sm col">
+                  <input type="number" id="cumul" class="form-control" [(ngModel)]="newRun.cumul" name="cumul">
+                  <label for="cumul">Cumul</label>
+              </div>
+              <div class="form-floating form-control-sm col">
+                  <input type="number" id="vitesse" class="form-control" [(ngModel)]="newRun.vitesse" name="vitesse">
+                  <label for="vitesse">Vitesse</label>
+              </div>
+              <div class="form-floating form-control-sm col">
+                  <input type="number" id="deniv" class="form-control" [(ngModel)]="newRun.deniv" name="deniv">
+                  <label for="deniv">Denivele</label>
+              </div>
+              <div class="form-floating form-control-sm col">
+                  <input type="time" id="temps" class="form-control" [(ngModel)]="newRun.temps" name="temps">
+                  <label for="temps">Temps</label>
+              </div>
+              <div class="form-floating form-control-sm col">
+                  <input type="text" id="parcours" class="form-control" [(ngModel)]="newRun.parcours" name="parcours">
+                  <label for="parcours">Parcours</label>
+              </div> 
+          </div>
+          <button type="submit" class="btn btn-outline-primary bouton" [disabled]="!runForm.form.valid">Ajouter</button>
+      </form>
+  </div>
+  
+  <div class="runtable">
+      <table class="table  table-striped">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Distance</th>
+              <th>Cumul</th>
+              <th>Viyesse</th>
+              <th>Denivele</th>
+              <th>Temps</th>
+              <th>Parcours</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let run of outings, let i = index">
+              <td>{{ run.date }}</td>
+              <td>{{ run.dist }}</td>
+              <td>{{ run.cumul }}</td>
+              <td>{{ run.vitesse }}</td>
+              <td>{{ run.deniv }}</td>
+              <td>{{ run.temps }}</td>
+              <td>{{ run.parcours }}</td>
+              <td>
+                  <button class="btn deleteButton" (click)="removeRun(i)"><i class="bi bi-trash"></i>
+                  </button><button type="button" class="btn editButton" (click)="editRun(i)" data-bs-toggle="modal" data-bs-target="#editRideModal"><i class="bi bi-pen"></i></button>
+                  <app-modal-edit-ride [ride]="selectedRun"></app-modal-edit-ride>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+  </div>  
+</div>
