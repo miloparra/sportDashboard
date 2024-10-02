@@ -1,64 +1,94 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalEditRideComponent } from '../modal-edit-ride/modal-edit-ride.component';
-
-export interface Ride {
-  date: string;
-  dist: number;
-  cumulCoureur: number;
-  cumulVelo: number;
-  deniv: number;
-  temps: number;
-  parcours: string;
-}
+import { BikeService } from './bike.service';
+import { Ride } from './bike.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-bike',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalEditRideComponent],
+  providers: [BikeService],
+  imports: [CommonModule, FormsModule, ModalEditRideComponent, HttpClientModule],
   templateUrl: './bike.component.html',
   styleUrl: './bike.component.scss'
 })
-export class BikeComponent {
+export class BikeComponent implements OnInit {
 
   outings: Ride[] = [];
 
+  constructor(private bikeService: BikeService) {}
+
   private emptyRide: Ride = {
-    date: '',
-    dist: 0,
-    cumulCoureur: 0,
-    cumulVelo: 0,
-    deniv: 0,
-    temps: 0,
+    id: 0,
+    date_sortie: '',
+    distance: 0,
+    cumul_coureur: 0,
+    cumul_velo: 0,
+    denivele: 0,
+    temps: '',
     parcours: ''
   };
 
   newRide: Ride = {
-    date: '',
-    dist: 0,
-    cumulCoureur: 0,
-    cumulVelo: 0,
-    deniv: 0,
-    temps: 0,
+    id: 0,
+    date_sortie: '',
+    distance: 0,
+    cumul_coureur: 0,
+    cumul_velo: 0,
+    denivele: 0,
+    temps: '',
     parcours: ''
   };
 
-  // Fonction pour ajouter une ride
-  addRide(): void {
-      this.outings.push({ ...this.newRide }); // Ajout de la nouvelle sortie au tableau
-      this.newRide = { ...this.emptyRide }; // Vide le formulaire après l'ajout
+  // AFFICHAGE DES RIDES
+  ngOnInit(): void {
+    this.bikeService.getOutings().subscribe(data => {
+      this.outings = data;
+    });
   }
 
-  // Fonction pour supprimer une ride
+  // AJOUT D'UNE RIDE
+  addRide(): void {
+    // Ajout de la nouvelle ride
+    this.bikeService.addRide(this.newRide).subscribe({
+      next: (response) => {
+        console.log('Réponse du serveur : ', response);
+        // Mettre à jour le tableau après l'ajout
+        this.bikeService.getOutings().subscribe(data => { 
+          this.outings = data;
+        });
+      },
+      error: (err) => {
+        console.error('Erreur lors de l\'ajout de la sortie : ', err);
+      }
+    });
+    
+    this.newRide = { ...this.emptyRide }; // Vide le formulaire après l'ajout
+  }
+
+  // SPPRESSION D'UNE RIDE
   removeRide(index: number) {
-    this.outings.splice(index, 1);
+    // Recuperation de l'id de la ride a supprimer
+    const id = this.outings[index].id;
+    // Suppression de la ride en BD
+    this.bikeService.deleteRide(id).subscribe({
+      next: (response) => {
+        console.log('Réponse du serveur : ', response);
+        // Suppression de la ride de l'affichage local
+        this.outings.splice(index, 1);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la suppression de la sortie : ', err);
+      }
+    });
   }
 
   selectedRide: any;
 
   // Fonction pour modifier unr ride
-  editRide(index: number) {
-    this.selectedRide = this.outings[index];
-  }
+  // editRide(index: number) {
+  //   this.selectedRide = this.outings[index];
+  // }
 }

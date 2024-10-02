@@ -3,23 +3,23 @@
         <form class="d-flex justify-content-start gap-3" #rideForm="ngForm" (ngSubmit)="addRide()">
             <div class="row">
                <div class="form-floating form-control-sm col">
-                    <input type="date" id="date" class="form-control" [(ngModel)]="newRide.date" name="date">
+                    <input type="date" id="date" class="form-control" [(ngModel)]="newRide.date_sortie" name="date">
                     <label for="date">Date</label>
                 </div>
                 <div class="form-floating form-control-sm col">
-                    <input type="number" id="dist" class="form-control" [(ngModel)]="newRide.dist" name="dist" required>
+                    <input type="number" id="dist" class="form-control" [(ngModel)]="newRide.distance" name="dist" required>
                     <label for="dist">Distance</label>
                 </div>
                 <div class="form-floating form-control-sm col">
-                    <input type="number" id="cumulCoureur" class="form-control" [(ngModel)]="newRide.cumulCoureur" name="cumulCoureur">
+                    <input type="number" id="cumulCoureur" class="form-control" [(ngModel)]="newRide.cumul_coureur" name="cumulCoureur">
                     <label for="cumulCoureur">Cumul Coureur</label>
                 </div>
                 <div class="form-floating form-control-sm col">
-                    <input type="number" id="cumulVelo" class="form-control" [(ngModel)]="newRide.cumulVelo" name="cumulVelo">
+                    <input type="number" id="cumulVelo" class="form-control" [(ngModel)]="newRide.cumul_velo" name="cumulVelo">
                     <label for="cumulVelo">Cumul Velo</label>
                 </div>
                 <div class="form-floating form-control-sm col">
-                    <input type="number" id="deniv" class="form-control" [(ngModel)]="newRide.deniv" name="deniv">
+                    <input type="number" id="deniv" class="form-control" [(ngModel)]="newRide.denivele" name="deniv">
                     <label for="deniv">Denivele</label>
                 </div>
                 <div class="form-floating form-control-sm col">
@@ -50,17 +50,17 @@
             </thead>
             <tbody>
               <tr *ngFor="let ride of outings, let i = index">
-                <td>{{ ride.date }}</td>
-                <td>{{ ride.dist }}</td>
-                <td>{{ ride.cumulCoureur }}</td>
-                <td>{{ ride.cumulVelo }}</td>
-                <td>{{ ride.deniv }}</td>
+                <td>{{ ride.date_sortie }}</td>
+                <td>{{ ride.distance }}</td>
+                <td>{{ ride.cumul_coureur }}</td>
+                <td>{{ ride.cumul_velo }}</td>
+                <td>{{ ride.denivele }}</td>
                 <td>{{ ride.temps }}</td>
                 <td>{{ ride.parcours }}</td>
                 <td>
-                    <button class="btn deleteButton" (click)="removeRide(i)"><i class="bi bi-trash"></i>
-                    </button><button type="button" class="btn editButton" (click)="editRide(i)" data-bs-toggle="modal" data-bs-target="#editRideModal"><i class="bi bi-pen"></i></button>
-                    <app-modal-edit-ride [ride]="selectedRide"></app-modal-edit-ride>
+                    <button class="btn deleteButton" (click)="removeRide(i)"><i class="bi bi-trash"></i></button>
+                    <!-- <button type="button" class="btn editButton" (click)="editRide(i)" data-bs-toggle="modal" data-bs-target="#editRideModal"><i class="bi bi-pen"></i></button> -->
+                    <!-- <app-modal-edit-ride [ride]="selectedRide"></app-modal-edit-ride> -->
                 </td>
               </tr>
             </tbody>
