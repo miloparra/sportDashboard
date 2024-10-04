@@ -14,4 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class AppComponent {
   title = 'sportdashboard';
+
+  openApp() {
+    window.open('http://localhost:8080', '_blank', 'width=600,height=550');
+  }
 }
