@@ -3,7 +3,7 @@
         <form class="d-flex justify-content-start gap-3" #rideForm="ngForm" (ngSubmit)="addRide()">
             <div class="row">
                <div class="form-floating form-control-sm col">
-                    <input type="date" id="date" class="form-control" [(ngModel)]="newRide.date_sortie" name="date">
+                    <input type="date" id="date" class="form-control" [(ngModel)]="newRide.date_sortie" name="date" required>
                     <label for="date">Date</label>
                 </div>
                 <div class="form-floating form-control-sm col">
@@ -51,10 +51,10 @@
             <tbody>
               <tr *ngFor="let ride of outings, let i = index">
                 <td>{{ ride.date_sortie.slice(0, 10) }}</td>
-                <td>{{ ride.distance }}</td>
-                <td>{{ ride.cumul_coureur }}</td>
-                <td>{{ ride.cumul_velo }}</td>
-                <td>{{ ride.denivele }}</td>
+                <td>{{ ride.distance }} km</td>
+                <td>{{ ride.cumul_coureur }} km</td>
+                <td>{{ ride.cumul_velo }} km</td>
+                <td>{{ ride.denivele }} m</td>
                 <td>{{ ride.temps }}</td>
                 <td>{{ ride.parcours }}</td>
                 <td>
