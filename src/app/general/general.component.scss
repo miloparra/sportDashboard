@@ -1,15 +1,18 @@
-.newActivityForm {
-    margin-top: 40px;
+.generalcomponent {
+    margin-top: 30px;
+    padding: 30px;
 }
 
-mat-form-field {
-    margin-left: 20px;
+.bouton {
+    height: 40px;
+    margin-top: 14px;
+    margin-left: 10px;
 }
 
-button {
-    margin-left: 20px;
+.generaltable {
+    margin-top: 20px;
 }
 
-table {
-    width: 100%;
+.deleteButton {
+    color: rgb(205, 50, 50);
 }

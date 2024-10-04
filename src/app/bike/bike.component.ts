@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-bike',
   standalone: true,
-  providers: [BikeService],
+  providers: [BikeService, ModalEditRideComponent],
   imports: [CommonModule, FormsModule, ModalEditRideComponent, HttpClientModule],
   templateUrl: './bike.component.html',
   styleUrl: './bike.component.scss'
@@ -18,7 +18,7 @@ export class BikeComponent implements OnInit {
 
   outings: Ride[] = [];
 
-  constructor(private bikeService: BikeService) {}
+  constructor(private bikeService: BikeService, private modalEditRideComponent: ModalEditRideComponent) {}
 
   private emptyRide: Ride = {
     id: 0,
@@ -42,6 +42,17 @@ export class BikeComponent implements OnInit {
     parcours: ''
   };
 
+  editableRide: Ride = {
+    id: 0,
+    date_sortie: '',
+    distance: 0,
+    cumul_coureur: 0,
+    cumul_velo: 0,
+    denivele: 0,
+    temps: '',
+    parcours: ''
+  }
+
   // AFFICHAGE DES RIDES
   ngOnInit(): void {
     this.bikeService.getOutings().subscribe(data => {
@@ -61,14 +72,14 @@ export class BikeComponent implements OnInit {
         });
       },
       error: (err) => {
-        console.error('Erreur lors de l\'ajout de la sortie : ', err);
+        console.error('Erreur lors de l\'ajout de la ride : ', err);
       }
     });
     
     this.newRide = { ...this.emptyRide }; // Vide le formulaire après l'ajout
   }
 
-  // SPPRESSION D'UNE RIDE
+  // SUPPRESSION D'UNE RIDE
   removeRide(index: number) {
     // Recuperation de l'id de la ride a supprimer
     const id = this.outings[index].id;
@@ -85,10 +96,9 @@ export class BikeComponent implements OnInit {
     });
   }
 
-  selectedRide: any;
-
-  // Fonction pour modifier unr ride
-  // editRide(index: number) {
-  //   this.selectedRide = this.outings[index];
-  // }
+  // MODIFICATION D'UNE RIDE
+  editRide(ride: Ride) {
+    ride.date_sortie = ride.date_sortie.slice(0, 10);
+    this.editableRide = ride;
+  }
 }

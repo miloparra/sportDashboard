@@ -50,7 +50,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let ride of outings, let i = index">
-                <td>{{ ride.date_sortie }}</td>
+                <td>{{ ride.date_sortie.slice(0, 10) }}</td>
                 <td>{{ ride.distance }}</td>
                 <td>{{ ride.cumul_coureur }}</td>
                 <td>{{ ride.cumul_velo }}</td>
@@ -59,8 +59,10 @@
                 <td>{{ ride.parcours }}</td>
                 <td>
                     <button class="btn deleteButton" (click)="removeRide(i)"><i class="bi bi-trash"></i></button>
-                    <!-- <button type="button" class="btn editButton" (click)="editRide(i)" data-bs-toggle="modal" data-bs-target="#editRideModal"><i class="bi bi-pen"></i></button> -->
-                    <!-- <app-modal-edit-ride [ride]="selectedRide"></app-modal-edit-ride> -->
+                    <button class="btn editButton" (click)="editRide(ride)" data-bs-toggle="modal" data-bs-target="#editRideModal">
+                        <i class="bi bi-pen"></i>
+                    </button>
+                    <app-modal-edit-ride [rideToEdit] = "editableRide"></app-modal-edit-ride>
                 </td>
               </tr>
             </tbody>
