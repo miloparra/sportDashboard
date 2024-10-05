@@ -1,1 +1,61 @@
-<p>swim works!</p>
+<div class="swimcomponent">
+    <div class="swimform">
+        <form class="d-flex justify-content-start gap-3" #swimForm="ngForm" (ngSubmit)="addSwim()">
+            <div class="row">
+               <div class="form-floating form-control-sm col">
+                    <input type="date" id="date" class="form-control" [(ngModel)]="newSwim.date_swim" name="date" required>
+                    <label for="date">Date</label>
+                </div>
+                <div class="form-floating form-control-sm col">
+                    <input type="time" id="temps" class="form-control" [(ngModel)]="newSwim.temps" name="temps"  step="2">
+                    <label for="temps">Temps</label>
+                </div>
+                <div class="form-floating form-control-sm col">
+                    <input type="number" id="dist" class="form-control" [(ngModel)]="newSwim.distance" name="dist" required>
+                    <label for="dist">Distance</label>
+                </div>
+                <div class="form-floating form-control-sm col">
+                    <input type="number" id="cumul" class="form-control" [(ngModel)]="newSwim.cumul" name="cumul">
+                    <label for="cumul">Cumul</label>
+                </div>
+                <div class="form-floating form-control-sm col">
+                    <input type="number" id="vitesse" class="form-control" [(ngModel)]="newSwim.vitesse" name="vitesse">
+                    <label for="vitesse">Vitesse</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-outline-primary bouton" [disabled]="!swimForm.form.valid">Ajouter</button>
+        </form>
+    </div>
+    
+    <div class="swimtable">
+        <table class="table table-striped align-middle table-borderless">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Temps</th>
+                <th>Distance</th>
+                <th>Cumul</th>
+                <th>Vitesse</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let swim of swims, let i = index">
+                <td>{{ swim.date_swim.slice(0, 10) }}</td>
+                <td>{{ swim.temps }}</td>
+                <td>{{ swim.distance }} km</td>
+                <td>{{ swim.cumul }} km</td>
+                <td>{{ swim.vitesse }} km/h</td>
+                <td>
+                    <button class="btn deleteButton" (click)="removeSwim(i)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    <button class="btn editButton" (click)="editSwim(swim)" data-bs-toggle="modal" data-bs-target="#swimModal">
+                        <i class="bi bi-pen"></i>
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+    </div>  
+</div>
+<app-swim-modal [modalSwim]="editedSwim" [createMode]="false"></app-swim-modal>
