@@ -71,7 +71,6 @@ export class RunComponent {
         console.error('Erreur lors de l\'ajout du run : ', err);
       }
     });
-    
     this.newRun = { ...this.emptyRun }; // Vide le formulaire après l'ajout
   }
 

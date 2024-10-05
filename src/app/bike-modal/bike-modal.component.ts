@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BikeService } from '../bike/bike.service';
+import { BikeService, Ride } from '../bike/bike.service';
 
 @Component({
   selector: 'app-bike-modal',
@@ -16,6 +16,17 @@ export class BikeModalComponent {
 
   constructor(private bikeService: BikeService) {}
 
+  private emptyRide: Ride = {
+    id: 0,
+    date_sortie: '',
+    distance: 0,
+    cumul_coureur: 0,
+    cumul_velo: 0,
+    denivele: 0,
+    temps: '',
+    parcours: ''
+  };
+
   addRide() {
     // Ajout de la nouvelle ride
     this.bikeService.addRide(this.modalRide).subscribe({
@@ -26,6 +37,7 @@ export class BikeModalComponent {
         console.error('Erreur lors de l\'ajout de la ride : ', err);
       }
     });
+    this.modalRide = { ...this.emptyRide }; // Vide le formulaire après l'ajout
   }
 
   saveRide() {

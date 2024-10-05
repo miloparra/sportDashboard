@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RunService } from '../run/run.service';
+import { Run, RunService } from '../run/run.service';
 
 @Component({
   selector: 'app-run-modal',
@@ -16,6 +16,16 @@ export class RunModalComponent {
 
   constructor(private runService: RunService) {}
 
+  private emptyRun: Run = {
+    id: 0,
+    date_run: '',
+    distance: 0,
+    cumul: 0,
+    vitesse: 0,
+    denivele: 0,
+    temps: ''
+  };
+
   addRun() {
     // Ajout de la nouvelle run
     this.runService.addRun(this.modalRun).subscribe({
@@ -26,6 +36,7 @@ export class RunModalComponent {
         console.error('Erreur lors de l\'ajout de la run : ', err);
       }
     });
+    this.modalRun = { ...this.emptyRun }; // Vide le formulaire après l'ajout
   }
 
   saveRun() {

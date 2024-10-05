@@ -74,7 +74,6 @@ export class BikeComponent {
         console.error('Erreur lors de l\'ajout de la ride : ', err);
       }
     });
-    
     this.newRide = { ...this.emptyRide }; // Vide le formulaire après l'ajout
   }
 
