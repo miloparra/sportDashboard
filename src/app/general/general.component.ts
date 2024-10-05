@@ -27,8 +27,5 @@ export class GeneralComponent {
     temps: '',
     parcours: ''
   }
-
-  addSportDay() {
-    console.log('ajout d\'une nouvelle journee');
-  }
+  
 }

@@ -1,29 +1,9 @@
 <div class="generalcomponent">
-  <div class="generalform">
-      <form class="d-flex justify-content-start gap-3" #generalForm="ngForm" (ngSubmit)="addSportDay()">
-          <div class="row">
-             <div class="form-floating form-control-sm col">
-                  <input type="date" id="date" class="form-control" name="date">
-                  <label for="date">Date</label>
-              </div>
-              <div class="form-floating form-control-sm col">
-                  <input type="number" id="dist" class="form-control" name="dist" required>
-                  <label for="dist">Run</label>
-              </div>
-              <div class="form-floating form-control-sm col">
-                <button class="btn btn-outline-primary bouton" data-bs-toggle="modal" data-bs-target="#editRideModal">Add Ride</button>
-              </div>
-              <div class="form-floating form-control-sm col">
-                  <input type="number" id="cumulVelo" class="form-control" name="cumulVelo">
-                  <label for="cumulVelo">Swim</label>
-              </div>
-              <div class="form-floating form-control-sm col">
-                  <input type="number" id="deniv" class="form-control" name="deniv">
-                  <label for="deniv">Fitness</label>
-              </div>
-          </div>
-          <button type="submit" class="btn btn-outline-primary bouton" [disabled]="!generalForm.form.valid">Ajouter</button>
-      </form>
+  <div class="generalform d-flex justify-content-center">
+    <button class="btn btn-outline-dark bouton">Add Run</button>
+    <button class="btn btn-outline-dark bouton" data-bs-toggle="modal" data-bs-target="#editRideModal">Add Ride</button>
+    <button class="btn btn-outline-dark bouton">Add Swim</button>
+    <button class="btn btn-outline-dark bouton">Add Fitness Session</button>
   </div>
   
   <div class="generaltable">
@@ -51,10 +31,6 @@
               </td>
               <td>
                 <button class="btn"><i class="bi bi-plus-square"></i></button>
-              </td>
-              <td>
-                  <button class="btn deleteButton"><i class="bi bi-trash"></i></button>
-                  <button class="btn editButton"><i class="bi bi-pen"></i></button>
               </td>
             </tr>
           </tbody>
