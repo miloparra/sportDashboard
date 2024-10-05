@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ModalEditRideComponent } from '../modal-edit-ride/modal-edit-ride.component';
+import { BikeModalComponent } from '../bike-modal/bike-modal.component';
 import { BikeService, Ride } from './bike.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
   selector: 'app-bike',
   standalone: true,
   providers: [BikeService],
-  imports: [CommonModule, FormsModule, ModalEditRideComponent, HttpClientModule],
+  imports: [CommonModule, FormsModule, BikeModalComponent, HttpClientModule],
   templateUrl: './bike.component.html',
   styleUrl: './bike.component.scss'
 })

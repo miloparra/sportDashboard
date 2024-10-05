@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ModalEditRideComponent } from '../modal-edit-ride/modal-edit-ride.component';
+import { BikeModalComponent } from '../bike-modal/bike-modal.component';
 
 export interface Run {
   date: string;
@@ -16,7 +16,7 @@ export interface Run {
 @Component({
   selector: 'app-running',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalEditRideComponent],
+  imports: [CommonModule, FormsModule, BikeModalComponent],
   templateUrl: './running.component.html',
   styleUrl: './running.component.scss'
 })

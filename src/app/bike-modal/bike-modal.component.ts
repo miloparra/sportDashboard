@@ -1,16 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BikeService } from './../bike/bike.service';
+import { BikeService } from '../bike/bike.service';
 
 @Component({
-  selector: 'app-modal-edit-ride',
+  selector: 'app-bike-modal',
   standalone: true,
   imports: [FormsModule, CommonModule],
-  templateUrl: './modal-edit-ride.component.html',
-  styleUrl: './modal-edit-ride.component.scss'
+  templateUrl: './bike-modal.component.html',
+  styleUrl: './bike-modal.component.scss'
 })
-export class ModalEditRideComponent {
+export class BikeModalComponent {
   @Input() modalRide: any;
   @Input() createMode: boolean = true;
 
