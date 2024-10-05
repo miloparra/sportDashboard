@@ -40,7 +40,6 @@ export class BikeService {
   // MODIFICATION D'UNE RIDE
   updateRide(id: number, ride: Ride): Observable<any> {
     const url = `${this.apiUrl}/${id}`; // Construction de l'URL avec l'identifiant
-    console.log('je passe bien dans le service  ' + url);
     return this.http.put(url, ride);
   }
 

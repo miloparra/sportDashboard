@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RunningComponent } from './running.component';
+import { RunModalComponent } from './run-modal.component';
 
-describe('RunningComponent', () => {
-  let component: RunningComponent;
-  let fixture: ComponentFixture<RunningComponent>;
+describe('RunModalComponent', () => {
+  let component: RunModalComponent;
+  let fixture: ComponentFixture<RunModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RunningComponent]
+      imports: [RunModalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RunningComponent);
+    fixture = TestBed.createComponent(RunModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
