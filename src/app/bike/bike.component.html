@@ -58,14 +58,16 @@
                 <td>{{ ride.temps }}</td>
                 <td>{{ ride.parcours }}</td>
                 <td>
-                    <button class="btn deleteButton" (click)="removeRide(i)"><i class="bi bi-trash"></i></button>
+                    <button class="btn deleteButton" (click)="removeRide(i)">
+                        <i class="bi bi-trash"></i>
+                    </button>
                     <button class="btn editButton" (click)="editRide(ride)" data-bs-toggle="modal" data-bs-target="#editRideModal">
                         <i class="bi bi-pen"></i>
                     </button>
-                    <app-modal-edit-ride [rideToEdit] = "editableRide"></app-modal-edit-ride>
                 </td>
               </tr>
             </tbody>
         </table>
     </div>  
 </div>
+<app-modal-edit-ride [modalRide]="editedRide" [createMode]="false"></app-modal-edit-ride>

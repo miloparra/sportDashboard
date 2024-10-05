@@ -11,8 +11,7 @@
                   <label for="dist">Run</label>
               </div>
               <div class="form-floating form-control-sm col">
-                  <input type="number" id="cumulCoureur" class="form-control" name="cumulCoureur">
-                  <label for="cumulCoureur">Bike</label>
+                <button class="btn btn-outline-primary bouton" data-bs-toggle="modal" data-bs-target="#editRideModal">Add Ride</button>
               </div>
               <div class="form-floating form-control-sm col">
                   <input type="number" id="cumulVelo" class="form-control" name="cumulVelo">
@@ -62,3 +61,4 @@
       </table>
   </div>  
 </div>
+<app-modal-edit-ride [modalRide]="newRide" [createMode]="true"></app-modal-edit-ride>

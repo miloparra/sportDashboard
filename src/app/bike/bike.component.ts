@@ -1,24 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalEditRideComponent } from '../modal-edit-ride/modal-edit-ride.component';
-import { BikeService } from './bike.service';
-import { Ride } from './bike.service';
+import { BikeService, Ride } from './bike.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-bike',
   standalone: true,
-  providers: [BikeService, ModalEditRideComponent],
+  providers: [BikeService],
   imports: [CommonModule, FormsModule, ModalEditRideComponent, HttpClientModule],
   templateUrl: './bike.component.html',
   styleUrl: './bike.component.scss'
 })
-export class BikeComponent implements OnInit {
+export class BikeComponent {
 
   outings: Ride[] = [];
 
-  constructor(private bikeService: BikeService, private modalEditRideComponent: ModalEditRideComponent) {}
+  constructor(private bikeService: BikeService) {}
 
   private emptyRide: Ride = {
     id: 0,
@@ -42,7 +41,7 @@ export class BikeComponent implements OnInit {
     parcours: ''
   };
 
-  editableRide: Ride = {
+  editedRide: Ride = {
     id: 0,
     date_sortie: '',
     distance: 0,
@@ -99,6 +98,6 @@ export class BikeComponent implements OnInit {
   // MODIFICATION D'UNE RIDE
   editRide(ride: Ride) {
     ride.date_sortie = ride.date_sortie.slice(0, 10);
-    this.editableRide = ride;
+    this.editedRide = ride;
   }
 }
