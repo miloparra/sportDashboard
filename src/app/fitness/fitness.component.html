@@ -1,1 +1,26 @@
-<p>fitness works!</p>
+<div class="fitnesscomponent">
+    <div class="fitnessform row">
+        <form class="seanceform col-6" #fitnessForm="ngForm" (ngSubmit)="addSeance()">
+            <div class="row">
+                <div class="form-floating form-control-sm col">
+                    <input type="date" id="date" class="form-control" [(ngModel)]="newSeance.date_fitness" name="date" required>
+                    <label for="date">Date</label>
+                </div>
+                <div class="form-floating form-control-sm col">
+                    <button type="button" class="btn btn-outline-primary bouton" (click)="addExercice()">Add Exercice</button>
+                    <button type="submit" class="btn btn-outline-success boutonSave" [disabled]="!fitnessForm.form.valid">Save</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating form-control-sm col">
+                    <ng-template #container></ng-template>
+                </div>
+            </div>
+        </form>
+        <div class="seanceview col-6">
+
+        </div>
+    </div>
+    <div class="fitnesstable">
+    </div>
+</div>

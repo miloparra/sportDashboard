@@ -1,0 +1,18 @@
+<hr />
+<div class="exercicecomponent">
+    <div class="row">
+        <button class="btn deleteButton col-auto" (click)="removeExercice()">
+            <i class="bi bi-x-circle"></i>
+        </button>
+        <div class="form-floating form-control-sm col">
+            <input type="text" id="exercice" class="form-control" [(ngModel)]="newExercice.name_exo" name="exercice">
+            <label for="exercice">Exercice</label>
+        </div>
+        <div class="form-floating form-control-sm col">
+            <button type="button" class="btn btn-outline-primary bouton" (click)="addSerie()">Add Series</button>
+        </div>
+    </div>
+    <div class="row">
+        <ng-template #container></ng-template>
+    </div>
+</div>

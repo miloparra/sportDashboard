@@ -1,0 +1,23 @@
+<div class="seriecomponent">
+    <div class="row">
+        <button class="btn deleteButton col-auto" (click)="removeSerie()">
+            <i class="bi bi-x-circle"></i>
+        </button>
+        <div class="form-floating form-control-sm col">
+            <input type="number" id="nbserie" class="form-control" [(ngModel)]="newSerie.nb_serie" name="nbserie">
+            <label for="nbserie">Nombre de series</label>
+        </div>
+        <div class="form-floating form-control-sm col">
+            <input type="number" id="repetition" class="form-control" [(ngModel)]="newSerie.nb_repetition" name="repetition">
+            <label for="repetition">Repetition</label>
+        </div>
+        <div class="form-floating form-control-sm col">
+            <input type="number" id="weight" class="form-control" [(ngModel)]="newSerie.weight" name="weight">
+            <label for="weight">Poids</label>
+        </div>
+        <div class="form-floating form-control-sm col">
+            <input type="text" id="type" class="form-control" [(ngModel)]="newSerie.type_serie" name="type">
+            <label for="type">Type</label>
+        </div>
+    </div>
+</div>
