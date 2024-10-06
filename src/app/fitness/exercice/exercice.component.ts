@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SerieComponent } from './serie/serie.component';
 import { Exercice } from '../fitness.service';
@@ -11,6 +11,7 @@ import { Exercice } from '../fitness.service';
   styleUrl: './exercice.component.scss'
 })
 export class ExerciceComponent {
+  @Output() removeRequest = new EventEmitter<void>(); // Événement pour signaler la suppression
 
   @ViewChild('container', { read: ViewContainerRef, static: true }) container!: ViewContainerRef;
 
@@ -24,7 +25,7 @@ export class ExerciceComponent {
   }
 
   removeExercice() {
-    throw new Error('Method not implemented.');
+    this.removeRequest.emit(); // Emet l'événement vers le parent
   }
 
   addSerie() {
@@ -34,6 +35,20 @@ export class ExerciceComponent {
     // Stocker la référence du composant enfant créé
     this.serieFormComponents.push(serieComponentRef.instance);
     console.log(this.serieFormComponents);
+
+    // Ecouter l'événement `removeRequest` du composant Exercice
+    serieComponentRef.instance.removeRequest.subscribe(() => {
+      this.removeSerieForm(serieComponentRef.instance, serieComponentRef);
+    });
+  }
+
+  // Méthode pour supprimer un composant Exercice
+  removeSerieForm(exerciceComponentInstance: any, exerciceComponentRef: any) {
+    const index = this.serieFormComponents.indexOf(exerciceComponentInstance);
+    if (index !== -1) {
+      this.serieFormComponents.splice(index, 1); // Supprimer de la liste
+      exerciceComponentRef.destroy(); // Détruire le composant visuellement
+    }
   }
 
 }

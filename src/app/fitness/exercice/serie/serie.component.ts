@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Serie } from '../../fitness.service';
 
@@ -10,6 +10,7 @@ import { Serie } from '../../fitness.service';
   styleUrl: './serie.component.scss'
 })
 export class SerieComponent {
+  @Output() removeRequest = new EventEmitter<void>(); // Événement pour signaler la suppression
 
   newSerie: Serie = {
     id: 0,
@@ -20,7 +21,7 @@ export class SerieComponent {
   }
 
   removeSerie() {
-    throw new Error('Method not implemented.');
+    this.removeRequest.emit(); // Emet l'événement vers le parent
   }
 
 }
