@@ -21,7 +21,8 @@ export class ExerciceComponent {
 
   newExercice: Exercice = {
     id: 0,
-    name_exo: ''
+    name_exo: '',
+    id_seance: 0
   }
 
   removeExercice() {

@@ -65,7 +65,7 @@ export class SwimComponent {
         });
       },
       error: (err) => {
-        console.error('Erreur lors de l\'ajout du swim : ', err);
+        console.error('Erreur lors de l\'ajout de la swim : ', err);
       }
     });
     this.newSwim = { ...this.emptySwim }; // Vide le formulaire après l'ajout
@@ -73,17 +73,17 @@ export class SwimComponent {
 
   // SUPPRESSION D'UNE SWIM
   removeSwim(index: number) {
-    // Recuperation de l'id du swim a supprimer
+    // Recuperation de l'id de la swim a supprimer
     const id = this.swims[index].id;
-    // Suppression du swim en BD
+    // Suppression de la swim en BD
     this.swimService.deleteSwim(id).subscribe({
       next: (response) => {
         console.log('Réponse du serveur : ', response);
-        // Suppression du swim de l'affichage local
+        // Suppression de la swim de l'affichage local
         this.swims.splice(index, 1);
       },
       error: (err) => {
-        console.error('Erreur lors de la suppression du swim : ', err);
+        console.error('Erreur lors de la suppression de la swim : ', err);
       }
     });
   }

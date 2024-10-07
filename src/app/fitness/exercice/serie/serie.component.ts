@@ -17,7 +17,8 @@ export class SerieComponent {
     nb_serie: 0,
     nb_repetition: 0,
     weight: 0,
-    type_serie: ''
+    type_serie: '',
+    id_exercice: 0
   }
 
   removeSerie() {

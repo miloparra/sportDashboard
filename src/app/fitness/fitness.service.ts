@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 
 export interface Seance {
   id: number;
-  date_fitness: string
+  date_seance: string
 }
 
 export interface Exercice {
   id: number;
-  name_exo: string
+  name_exo: string;
+  id_seance: number
 }
 
 export interface Serie {
@@ -17,42 +18,110 @@ export interface Serie {
   nb_serie: number;
   nb_repetition: number;
   weight: number;
-  type_serie: string
+  type_serie: string;
+  id_exercice: number
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class FitnessService {
-  private apiUrl = 'http://localhost:3000/api/seances';
+  private apiUrlSeance = 'http://localhost:3000/api/seances';
+  private apiUrlExercice = 'http://localhost:3000/api/exercices';
+  private apiUrlSerie = 'http://localhost:3000/api/series';
 
   constructor(private http: HttpClient) {}
 
-  // RECUPERATION DES SWIMS
+//_______________________________________________________
+//________________________SEANCE_________________________
+
+  // RECUPERATION DES SEANCES
   getSeances(): Observable<Seance[]> {
-    return this.http.get<Seance[]>(this.apiUrl);
+    return this.http.get<Seance[]>(this.apiUrlSeance);
   }
 
-  // RECUPERATION D'UNE SWIM
+  // RECUPERATION D'UNE SEANCE
   getSeance(id: number): Observable<any> {
-    const url = `${this.apiUrl}/${id}`; // Construction de l'URL avec l'identifiant
+    const url = `${this.apiUrlSeance}/${id}`; // Construction de l'URL avec l'identifiant
     return this.http.get(url);
   }
 
-  // AJOUT D'UNE SWIM
-  addSeance(fitness: Seance): Observable<any> {
-    return this.http.post(this.apiUrl, fitness);
+  // AJOUT D'UNE SEANCE
+  addSeance(seance: Seance): Observable<any> {
+    return this.http.post(this.apiUrlSeance, seance);
   }
 
-  // MODIFICATION D'UNE SWIM
-  updateSeance(id: number, fitness: Seance): Observable<any> {
-    const url = `${this.apiUrl}/${id}`; // Construction de l'URL avec l'identifiant
-    return this.http.put(url, fitness);
+  // MODIFICATION D'UNE SEANCE
+  updateSeance(id: number, seance: Seance): Observable<any> {
+    const url = `${this.apiUrlSeance}/${id}`; // Construction de l'URL avec l'identifiant
+    return this.http.put(url, seance);
   }
 
-  // SUPPRESSION D'UNE SWIM
+  // SUPPRESSION D'UNE SEANCE
   deleteSeance(id: number): Observable<any> {
-    const url = `${this.apiUrl}/${id}`; // Construction de l'URL avec l'identifiant
+    const url = `${this.apiUrlSeance}/${id}`; // Construction de l'URL avec l'identifiant
     return this.http.delete(url);
   }
+
+//_______________________________________________________
+//________________________EXERCICE_______________________
+
+  // RECUPERATION DES EXERCICES
+  getExercices(): Observable<Exercice[]> {
+    return this.http.get<Exercice[]>(this.apiUrlExercice);
+  }
+
+  // RECUPERATION D'UN EXERCICE
+  getExercice(id: number): Observable<any> {
+    const url = `${this.apiUrlExercice}/${id}`; // Construction de l'URL avec l'identifiant
+    return this.http.get(url);
+  }
+
+  // AJOUT D'UN EXERCICE
+  addExercice(exercice: Exercice): Observable<any> {
+    return this.http.post(this.apiUrlExercice, exercice);
+  }
+
+  // MODIFICATION D'UN EXERCICE
+  updateExercice(id: number, exercice: Exercice): Observable<any> {
+    const url = `${this.apiUrlExercice}/${id}`; // Construction de l'URL avec l'identifiant
+    return this.http.put(url, exercice);
+  }
+
+  // SUPPRESSION D'UN EXERCICE
+  deleteExercice(id: number): Observable<any> {
+    const url = `${this.apiUrlExercice}/${id}`; // Construction de l'URL avec l'identifiant
+    return this.http.delete(url);
+  }
+//______________________________________________________
+//________________________SERIE_________________________
+
+  // RECUPERATION DES SERIES
+  getSeries(): Observable<Serie[]> {
+    return this.http.get<Serie[]>(this.apiUrlSerie);
+  }
+
+  // RECUPERATION D'UNE SERIE
+  getSerie(id: number): Observable<any> {
+    const url = `${this.apiUrlSerie}/${id}`; // Construction de l'URL avec l'identifiant
+    return this.http.get(url);
+  }
+
+  // AJOUT D'UNE SERIE
+  addSerie(seance: Serie): Observable<any> {
+    return this.http.post(this.apiUrlSerie, seance);
+  }
+
+  // MODIFICATION D'UNE SERIE
+  updateSerie(id: number, serie: Serie): Observable<any> {
+    const url = `${this.apiUrlSerie}/${id}`; // Construction de l'URL avec l'identifiant
+    return this.http.put(url, serie);
+  }
+
+  // SUPPRESSION D'UNE SERIE
+  deleteSerie(id: number): Observable<any> {
+    const url = `${this.apiUrlSerie}/${id}`; // Construction de l'URL avec l'identifiant
+    return this.http.delete(url);
+  }
+
 }

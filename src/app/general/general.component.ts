@@ -8,12 +8,13 @@ import { RunService, Run } from '../run/run.service';
 import { BikeService, Ride } from './../bike/bike.service';
 import { SwimService, Swim } from '../swim/swim.service';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-bike',
   standalone: true,
   providers: [RunService, BikeService, SwimService],
-  imports: [CommonModule, FormsModule, RunModalComponent, BikeModalComponent, SwimModalComponent, HttpClientModule],
+  imports: [CommonModule, FormsModule, RunModalComponent, BikeModalComponent, SwimModalComponent, HttpClientModule, RouterLink],
   templateUrl: './general.component.html',
   styleUrl: './general.component.scss'
 })
