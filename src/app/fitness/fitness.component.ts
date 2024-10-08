@@ -42,17 +42,7 @@ export class FitnessComponent {
 
   // AJOUT D'UNE SEANCE
   addSeance() {
-    // console.log(this.newSeance.date_seance);
-    // this.exerciceFormComponents.forEach((exercice) => {
-    //   const series = exercice.serieFormComponents;
-    //   console.log(exercice.newExercice.name_exo);
-    //   series.forEach((serie: any) => {
-    //     console.log(serie.newSerie.nb_repetition);
-    //     console.log(serie.newSerie.weight);
-    //     console.log(serie.newSerie.type_serie);
-    //   })
-    // })
-
+    
     // Ajout d'une nouvelle seance
     this.fitnessService.addSeance(this.newSeance).subscribe({
       next: (response) => {
