@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BikeModalComponent } from '../bike-modal/bike-modal.component';
+import { BikeModalComponent } from './bike-modal/bike-modal.component';
 import { BikeService, Ride } from './bike.service';
 import { HttpClientModule } from '@angular/common/http';
 

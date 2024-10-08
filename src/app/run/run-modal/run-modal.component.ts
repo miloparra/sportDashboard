@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Run, RunService } from '../run/run.service';
+import { Run, RunService } from '../run.service';
 
 @Component({
   selector: 'app-run-modal',

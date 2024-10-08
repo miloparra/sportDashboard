@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Swim, SwimService } from '../swim/swim.service';
+import { Swim, SwimService } from '../swim.service';
 
 @Component({
   selector: 'app-swim-modal',

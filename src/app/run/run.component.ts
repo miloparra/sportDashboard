@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RunModalComponent } from '../run-modal/run-modal.component';
+import { RunModalComponent } from './run-modal/run-modal.component';
 import { RunService, Run } from './run.service';
 import { HttpClientModule } from '@angular/common/http';
 

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BikeService, Ride } from '../bike/bike.service';
+import { BikeService, Ride } from '../bike.service';
 
 @Component({
   selector: 'app-bike-modal',

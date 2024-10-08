@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SwimModalComponent } from '../swim-modal/swim-modal.component';
+import { SwimModalComponent } from './swim-modal/swim-modal.component';
 import { SwimService, Swim } from './swim.service';
 import { HttpClientModule } from '@angular/common/http';
 

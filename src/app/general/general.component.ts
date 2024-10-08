@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RunModalComponent } from '../run-modal/run-modal.component';
-import { BikeModalComponent } from '../bike-modal/bike-modal.component';
-import { SwimModalComponent } from '../swim-modal/swim-modal.component';
+import { RunModalComponent } from '../run/run-modal/run-modal.component';
+import { BikeModalComponent } from '../bike/bike-modal/bike-modal.component';
+import { SwimModalComponent } from '../swim/swim-modal/swim-modal.component';
 import { RunService, Run } from '../run/run.service';
 import { BikeService, Ride } from './../bike/bike.service';
 import { SwimService, Swim } from '../swim/swim.service';
