@@ -21,6 +21,8 @@ export class FitnessComponent {
 
   exerciceComponents: any[] = [];
 
+  exerciceComponentRefs: any[] = [];
+
   constructor(private fitnessService: FitnessService, private resolver: ComponentFactoryResolver) {}
 
   private emptySeance: Seance = {
@@ -67,7 +69,7 @@ export class FitnessComponent {
               const newExerciceId = response.id;
               console.log('ID du nouvel exercice : ', newExerciceId);
 
-              const series = exercice.serieFormComponents;
+              const series = exercice.serieComponents;
               series.forEach((serie: any) => {
 
                 // Attribution de l'id de l'exercice a chaque cles etrangeres des series
@@ -95,6 +97,12 @@ export class FitnessComponent {
           this.seances = data;
           console.log(this.seances);
         });
+
+        // Suppression des composants apres ajout de la seance
+        this.exerciceComponents.length = 0;
+        this.exerciceComponentRefs.forEach((exercice) => {
+          exercice.destroy();
+        })
 
         this.newSeance = { ...this.emptySeance }; // Vide le formulaire après l'ajout
       },
@@ -133,6 +141,7 @@ export class FitnessComponent {
 
     // Stocker la référence du composant enfant créé
     this.exerciceComponents.push(exerciceComponentRef.instance);
+    this.exerciceComponentRefs.push(exerciceComponentRef);
     console.log(this.exerciceComponents);
 
     // Ecouter l'événement `removeRequest` du composant Exercice
