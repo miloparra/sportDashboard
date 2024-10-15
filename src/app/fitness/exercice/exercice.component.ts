@@ -15,7 +15,7 @@ export class ExerciceComponent {
 
   @ViewChild('container', { read: ViewContainerRef, static: true }) container!: ViewContainerRef;
 
-  serieFormComponents: any[] = [];
+  serieComponents: any[] = [];
 
   constructor(private resolver: ComponentFactoryResolver) {}
 
@@ -25,29 +25,29 @@ export class ExerciceComponent {
     id_seance: 0
   }
 
-  removeExercice() {
+  removeExerciceComponent() {
     this.removeRequest.emit(); // Emet l'événement vers le parent
   }
 
-  addSerie() {
+  addSerieComponent() {
     const factory = this.resolver.resolveComponentFactory(SerieComponent);
     const serieComponentRef = this.container.createComponent(factory);
 
     // Stocker la référence du composant enfant créé
-    this.serieFormComponents.push(serieComponentRef.instance);
-    console.log(this.serieFormComponents);
+    this.serieComponents.push(serieComponentRef.instance);
+    console.log(this.serieComponents);
 
     // Ecouter l'événement `removeRequest` du composant Exercice
     serieComponentRef.instance.removeRequest.subscribe(() => {
-      this.removeSerieForm(serieComponentRef.instance, serieComponentRef);
+      this.removeSerieComponent(serieComponentRef.instance, serieComponentRef);
     });
   }
 
   // Méthode pour supprimer un composant Exercice
-  removeSerieForm(exerciceComponentInstance: any, exerciceComponentRef: any) {
-    const index = this.serieFormComponents.indexOf(exerciceComponentInstance);
+  removeSerieComponent(exerciceComponentInstance: any, exerciceComponentRef: any) {
+    const index = this.serieComponents.indexOf(exerciceComponentInstance);
     if (index !== -1) {
-      this.serieFormComponents.splice(index, 1); // Supprimer de la liste
+      this.serieComponents.splice(index, 1); // Supprimer de la liste
       exerciceComponentRef.destroy(); // Détruire le composant visuellement
     }
   }

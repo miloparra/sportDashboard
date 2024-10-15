@@ -21,7 +21,7 @@ export class SerieComponent {
     id_exercice: 0
   }
 
-  removeSerie() {
+  removeSerieComponent() {
     this.removeRequest.emit(); // Emet l'événement vers le parent
   }
 

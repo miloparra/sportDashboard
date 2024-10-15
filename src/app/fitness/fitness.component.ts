@@ -19,7 +19,7 @@ export class FitnessComponent {
 
   seances: Seance[] = [];
 
-  exerciceFormComponents: any[] = [];
+  exerciceComponents: any[] = [];
 
   constructor(private fitnessService: FitnessService, private resolver: ComponentFactoryResolver) {}
 
@@ -53,7 +53,7 @@ export class FitnessComponent {
         console.log('ID de la nouvelle séance : ', newSeanceId);
 
         // Ajout des exercices et des series
-        this.exerciceFormComponents.forEach((exercice) => {
+        this.exerciceComponents.forEach((exercice) => {
 
           // Attribution de l'id de la seance a chaque cles etrangeres des exercices
           exercice.newExercice.id_seance = newSeanceId
@@ -127,25 +127,25 @@ export class FitnessComponent {
   }
   
   // AJOUT D'UN COMPOSANT EXERCICE
-  addExercice() {
+  addExerciceComponent() {
     const factory = this.resolver.resolveComponentFactory(ExerciceComponent);
     const exerciceComponentRef = this.container.createComponent(factory);
 
     // Stocker la référence du composant enfant créé
-    this.exerciceFormComponents.push(exerciceComponentRef.instance);
-    console.log(this.exerciceFormComponents);
+    this.exerciceComponents.push(exerciceComponentRef.instance);
+    console.log(this.exerciceComponents);
 
     // Ecouter l'événement `removeRequest` du composant Exercice
     exerciceComponentRef.instance.removeRequest.subscribe(() => {
-      this.removeExerciceForm(exerciceComponentRef.instance, exerciceComponentRef);
+      this.removeExerciceComponent(exerciceComponentRef.instance, exerciceComponentRef);
     });
   }
 
   // SUPPRESSION D'UN COMPOSANT EXERCICE
-  removeExerciceForm(exerciceComponentInstance: any, exerciceComponentRef: any) {
-    const index = this.exerciceFormComponents.indexOf(exerciceComponentInstance);
+  removeExerciceComponent(exerciceComponentInstance: any, exerciceComponentRef: any) {
+    const index = this.exerciceComponents.indexOf(exerciceComponentInstance);
     if (index !== -1) {
-      this.exerciceFormComponents.splice(index, 1); // Supprimer de la liste
+      this.exerciceComponents.splice(index, 1); // Supprimer de la liste
       exerciceComponentRef.destroy(); // Détruire le composant visuellement
     }
   }
