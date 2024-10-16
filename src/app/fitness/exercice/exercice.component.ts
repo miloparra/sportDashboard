@@ -35,7 +35,6 @@ export class ExerciceComponent {
 
     // Stocker la référence du composant enfant créé
     this.serieComponents.push(serieComponentRef.instance);
-    console.log(this.serieComponents);
 
     // Ecouter l'événement `removeRequest` du composant Exercice
     serieComponentRef.instance.removeRequest.subscribe(() => {

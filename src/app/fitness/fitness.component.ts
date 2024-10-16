@@ -148,7 +148,32 @@ export class FitnessComponent {
 
   // MODIFICATION D'UNE SEANCE
   editSeance(seance: SeanceLinked) {
+    seance.date = seance.date.slice(0, 10);
+    this.newSeance.date_seance = seance.date;
     console.log(seance);
+
+    let exerciceComponentIndex = 0;
+    seance.exercices.forEach((exercice) => {
+      this.addExerciceComponent();
+      this.exerciceComponents[exerciceComponentIndex].newExercice.id = exercice.exercice_id;
+      this.exerciceComponents[exerciceComponentIndex].newExercice.name_exo = exercice.name;
+      let serieComponentIndex = 0;
+      exercice.series.forEach((serie) => {
+        this.exerciceComponents[exerciceComponentIndex].addSerieComponent()
+        this.exerciceComponents[exerciceComponentIndex].serieComponents[serieComponentIndex].newSerie.id = serie.serie_id;
+        this.exerciceComponents[exerciceComponentIndex].serieComponents[serieComponentIndex].newSerie.nb_serie = serie.nb_serie;
+        this.exerciceComponents[exerciceComponentIndex].serieComponents[serieComponentIndex].newSerie.nb_repetition = serie.nb_repetition;
+        this.exerciceComponents[exerciceComponentIndex].serieComponents[serieComponentIndex].newSerie.weight = serie.weight;
+        this.exerciceComponents[exerciceComponentIndex].serieComponents[serieComponentIndex].newSerie.type_serie = serie.type;
+        serieComponentIndex++;
+      })
+      exerciceComponentIndex++;
+    })
+
+    console.log(this.exerciceComponents);
+
+
+
   }
   
   // AJOUT D'UN COMPOSANT EXERCICE
@@ -159,7 +184,6 @@ export class FitnessComponent {
     // Stocker la référence du composant enfant créé
     this.exerciceComponents.push(exerciceComponentRef.instance);
     this.exerciceComponentRefs.push(exerciceComponentRef);
-    console.log(this.exerciceComponents);
 
     // Ecouter l'événement `removeRequest` du composant Exercice
     exerciceComponentRef.instance.removeRequest.subscribe(() => {

@@ -11,6 +11,7 @@ export interface SeanceLinked {
 export interface ExerciceLinked {
   exercice_id: number;
   name: string;
+  id_seance: number;
   series: SerieLinked[]
 }
 
@@ -19,7 +20,8 @@ export interface SerieLinked {
   nb_serie: number;
   nb_repetition: number;
   weight: number;
-  type: string
+  type: string;
+  id_exercice: number
 }
 
 export interface Seance {
