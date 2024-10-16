@@ -2,7 +2,7 @@ import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver } from
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ExerciceComponent } from './exercice/exercice.component';
-import { FitnessService, Seance } from './fitness.service';
+import { FitnessService, SeanceLinked, Seance } from './fitness.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
@@ -17,7 +17,7 @@ export class FitnessComponent {
 
   @ViewChild('container', { read: ViewContainerRef, static: true }) container!: ViewContainerRef;
 
-  seances: Seance[] = [];
+  seancesLinked: SeanceLinked[] = [];
 
   exerciceComponents: any[] = [];
 
@@ -37,8 +37,9 @@ export class FitnessComponent {
 
   // AFFICHAGE DES RUNS
   ngOnInit(): void {
-    this.fitnessService.getSeances().subscribe(data => { 
-      this.seances = data;
+    this.fitnessService.getSeancesLinked().subscribe(data => { 
+      this.seancesLinked = data;
+      console.log(this.seancesLinked)
     });
   }
 
@@ -92,10 +93,10 @@ export class FitnessComponent {
           });
         })
 
-        // Mettre à jour le tableau après l'ajout
-        this.fitnessService.getSeances().subscribe(data => { 
-          this.seances = data;
-          console.log(this.seances);
+        // Mettre à jour le tableau SEANCE avec leurs LIENS après l'ajout
+        this.fitnessService.getSeancesLinked().subscribe(data => { 
+          this.seancesLinked = data;
+          console.log(this.seancesLinked)
         });
 
         // Suppression des composants apres ajout de la seance
@@ -115,13 +116,13 @@ export class FitnessComponent {
   // SUPPRESSION D'UNE SEANCE
   removeSeance(index: number) {
     // Recuperation de l'id de la seance a supprimer
-    const id = this.seances[index].id;
+    const id = this.seancesLinked[index].seance_id;
     // Suppression de la seance en BD
     this.fitnessService.deleteSeance(id).subscribe({
       next: (response) => {
         console.log('Réponse du serveur : ', response);
         // Suppression de la seance de l'affichage local
-        this.seances.splice(index, 1);
+        this.seancesLinked.splice(index, 1);
       },
       error: (err) => {
         console.error('Erreur lors de la suppression de la seance : ', err);
@@ -130,7 +131,7 @@ export class FitnessComponent {
   }
 
   // MODIFICATION D'UNE SEANCE
-  editSeance(seance: Seance) {
+  editSeance(seance: SeanceLinked) {
     console.log(seance);
   }
   

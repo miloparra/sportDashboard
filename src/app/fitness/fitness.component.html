@@ -29,8 +29,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let seance of seances, let i = index">
-                <td>{{ seance.date_seance.slice(0, 10) }}</td>
+              <tr *ngFor="let seance of seancesLinked, let i = index">
+                <td>{{ seance.date.slice(0, 10) }}</td>
                 <td>
                     <button class="btn deleteButton" (click)="removeSeance(i)">
                         <i class="bi bi-trash"></i>

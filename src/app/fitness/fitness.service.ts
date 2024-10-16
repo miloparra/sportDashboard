@@ -2,6 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface SeanceLinked {
+  seance_id: number;
+  date: string;
+  exercices: ExerciceLinked[]
+}
+
+export interface ExerciceLinked {
+  exercice_id: number;
+  name: string;
+  series: SerieLinked[]
+}
+
+export interface SerieLinked {
+  serie_id: number;
+  nb_serie: number;
+  nb_repetition: number;
+  weight: number;
+  type: string
+}
+
 export interface Seance {
   id: number;
   date_seance: string
@@ -26,6 +46,7 @@ export interface Serie {
   providedIn: 'root',
 })
 export class FitnessService {
+  private apiUrlSeanceLinked = 'http://localhost:3000/api/seanceslinked';
   private apiUrlSeance = 'http://localhost:3000/api/seances';
   private apiUrlExercice = 'http://localhost:3000/api/exercices';
   private apiUrlSerie = 'http://localhost:3000/api/series';
@@ -34,6 +55,11 @@ export class FitnessService {
 
 //_______________________________________________________
 //________________________SEANCE_________________________
+
+  // RECUPERATION DES SEANCES ET LEURS LIENS
+  getSeancesLinked(): Observable<[]> {
+    return this.http.get<[]>(this.apiUrlSeanceLinked);
+  }
 
   // RECUPERATION DES SEANCES
   getSeances(): Observable<Seance[]> {
