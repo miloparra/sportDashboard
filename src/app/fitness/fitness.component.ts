@@ -114,20 +114,36 @@ export class FitnessComponent {
   }
 
   // SUPPRESSION D'UNE SEANCE
-  removeSeance(index: number) {
+  async removeSeance(index: number) {
     // Recuperation de l'id de la seance a supprimer
-    const id = this.seancesLinked[index].seance_id;
-    // Suppression de la seance en BD
-    this.fitnessService.deleteSeance(id).subscribe({
-      next: (response) => {
-        console.log('Réponse du serveur : ', response);
-        // Suppression de la seance de l'affichage local
-        this.seancesLinked.splice(index, 1);
-      },
-      error: (err) => {
-        console.error('Erreur lors de la suppression de la seance : ', err);
+    const seanceId = this.seancesLinked[index].seance_id;
+
+    try {
+      // Boucle sur les exercices de la séance
+      for (const exercice of this.seancesLinked[index].exercices) {
+        // Boucle sur les séries de chaque exercice
+        for (const serie of exercice.series) {
+          // Suppression de la série en base de données
+          await this.fitnessService.deleteSerie(serie.serie_id).toPromise();
+          console.log('Série supprimée avec succès');
+        }
+  
+        // Suppression de l'exercice en base de données une fois toutes les séries supprimées
+        await this.fitnessService.deleteExercice(exercice.exercice_id).toPromise();
+        console.log('Exercice supprimé avec succès');
       }
-    });
+  
+      // Suppression de la séance en base de données une fois tous les exercices supprimés
+      await this.fitnessService.deleteSeance(seanceId).toPromise();
+      console.log('Séance supprimée avec succès');
+  
+      // Suppression de la séance de l'affichage local
+      this.seancesLinked.splice(index, 1);
+  
+    } catch (err) {
+      console.error('Erreur lors de la suppression : ', err);
+    }
+
   }
 
   // MODIFICATION D'UNE SEANCE
