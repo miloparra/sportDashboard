@@ -19,6 +19,8 @@ export class RunComponent {
 
   constructor(private runService: RunService) {}
 
+  indexRunToDelete = 0;
+
   private emptyRun: Run = {
     id: 0,
     date_run: '',
@@ -74,8 +76,15 @@ export class RunComponent {
     this.newRun = { ...this.emptyRun }; // Vide le formulaire après l'ajout
   }
 
+  // APPEL DE LA MODAL DE SUPPRESSION
+  openDeleteModal(index: number) {
+    this.indexRunToDelete = index;
+  }
+
   // SUPPRESSION D'UN RUN
-  removeRun(index: number) {
+  removeRun() {
+    // Recuperation de l'index du run a supprimer
+    let index = this.indexRunToDelete;
     // Recuperation de l'id du run a supprimer
     const id = this.runs[index].id;
     // Suppression du run en BD

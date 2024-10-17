@@ -19,6 +19,8 @@ export class BikeComponent {
 
   constructor(private bikeService: BikeService) {}
 
+  indexRideToDelete = 0;
+
   private emptyRide: Ride = {
     id: 0,
     date_sortie: '',
@@ -77,8 +79,15 @@ export class BikeComponent {
     this.newRide = { ...this.emptyRide }; // Vide le formulaire après l'ajout
   }
 
+  // APPEL DE LA MODAL DE SUPPRESSION
+  openDeleteModal(index: number) {
+    this.indexRideToDelete = index;
+  }
+
   // SUPPRESSION D'UNE RIDE
-  removeRide(index: number) {
+  removeRide() {
+    // Recuperation de l'index de la ride a supprimer
+    let index = this.indexRideToDelete;
     // Recuperation de l'id de la ride a supprimer
     const id = this.outings[index].id;
     // Suppression de la ride en BD

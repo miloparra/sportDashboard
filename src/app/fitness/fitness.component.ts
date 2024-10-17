@@ -17,6 +17,8 @@ export class FitnessComponent {
 
   @ViewChild('container', { read: ViewContainerRef, static: true }) container!: ViewContainerRef;
 
+  constructor(private fitnessService: FitnessService, private resolver: ComponentFactoryResolver) {}
+
   seancesLinked: SeanceLinked[] = [];
 
   exerciceComponents: any[] = [];
@@ -25,7 +27,7 @@ export class FitnessComponent {
 
   createMode: boolean = true;
 
-  constructor(private fitnessService: FitnessService, private resolver: ComponentFactoryResolver) {}
+  indexSeanceToDelete = 0;
 
   private emptySeance: Seance = {
     id: 0,
@@ -120,8 +122,17 @@ export class FitnessComponent {
     });
   }
 
+  // APPEL DE LA MODAL DE SUPPRESSION
+  openDeleteModal(index: number) {
+    this.indexSeanceToDelete = index;
+  }
+
   // SUPPRESSION D'UNE SEANCE
-  async removeSeance(index: number) {
+  async removeSeance() {
+
+    // Recuperation de l'index de la seance a supprimer
+    let index = this.indexSeanceToDelete;
+
     // Recuperation de l'id de la seance a supprimer
     const seanceId = this.seancesLinked[index].seance_id;
 

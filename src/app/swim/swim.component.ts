@@ -19,6 +19,8 @@ export class SwimComponent {
 
   constructor(private swimService: SwimService) {}
 
+  indexSwimToDelete = 0;
+
   private emptySwim: Swim = {
     id: 0,
     date_swim: '',
@@ -71,8 +73,15 @@ export class SwimComponent {
     this.newSwim = { ...this.emptySwim }; // Vide le formulaire après l'ajout
   }
 
+  // APPEL DE LA MODAL DE SUPPRESSION
+  openDeleteModal(index: number) {
+    this.indexSwimToDelete = index;
+  }
+
   // SUPPRESSION D'UNE SWIM
-  removeSwim(index: number) {
+  removeSwim() {
+    // Recuperation de l'index de la swim a supprimer
+    let index = this.indexSwimToDelete;
     // Recuperation de l'id de la swim a supprimer
     const id = this.swims[index].id;
     // Suppression de la swim en BD
