@@ -23,6 +23,8 @@ export class FitnessComponent {
 
   exerciceComponentRefs: any[] = [];
 
+  createMode: boolean = true;
+
   constructor(private fitnessService: FitnessService, private resolver: ComponentFactoryResolver) {}
 
   private emptySeance: Seance = {
@@ -37,7 +39,7 @@ export class FitnessComponent {
 
   seanceToEdit: SeanceLinked = {
     seance_id: 0,
-    date: '',
+    date_seance: '',
     exercices: []
   }
 
@@ -153,9 +155,11 @@ export class FitnessComponent {
 
   // MODIFICATION D'UNE SEANCE
   editSeance(seance: SeanceLinked) {
-    seance.date = seance.date.slice(0, 10);
-    this.newSeance.date_seance = seance.date;
+    // Afficher la date dans le formulaire
+    seance.date_seance = seance.date_seance.slice(0, 10);
+    this.newSeance.date_seance = seance.date_seance;
 
+    // Afficher les data des exercices et series dans le formulaire
     let exerciceComponentIndex = 0;
     seance.exercices.forEach((exercice) => {
       this.addExerciceComponent();
@@ -176,92 +180,116 @@ export class FitnessComponent {
       exerciceComponentIndex++;
     })
 
-    // Allimenter la seance a modifier (juste pour modifier la serie sans les exercices et series)
+    // Allimenter la seance a modifier (juste pour modifier la seance sans les exercices et series)
     this.seanceToEdit = seance;
+
+    // Switch en mode edition
+    this.createMode = false;
 
     console.log(this.exerciceComponents);
   }
 
   saveChanges() {
 
-    // Recuperation de la seance a modifier (juste pour modifier la serie sans les exercices et series)
+    // Switch en mode creation
+    this.createMode = true;
+
+    // Recuperation de la seance a modifier (juste pour modifier la seance sans les exercices et series)
     let seance = this.seanceToEdit;
+    seance.date_seance = this.newSeance.date_seance;
     
     // Récupérer l'ID de la séance a modifier
     const seanceId = seance.seance_id
-    // Modification de la seance
-    this.fitnessService.updateSeance(seanceId, seance)
 
-    this.exerciceComponents.forEach((exercice) => {
-      if (exercice.newExercice.id != 0) {
-        // CAS OU L'EXERCICE EXISTE :
-        // Modification de chaque exercice
-        this.fitnessService.updateExercice(exercice.newExercice.id, exercice.newExercice).subscribe({
-          next: (response) => {
-            console.log('Exercice modifiée avec succès', response);
-            exercice.serieComponents.forEach((serie: any) => {
-              if (serie.newSerie.id != 0) {
-                // CAS OU LA SERIE EXISTE :
-                // Modification de chaque serie
-                this.fitnessService.updateSerie(serie.newSerie.id, serie.newSerie).subscribe({
-                  next: (response) => {
-                    console.log('Serie modifiée avec succès', response);
-                  },
-                  error: (err) => {
-                    console.error('Erreur lors de la modification de la serie', err);
+    // Modification de la seance
+    this.fitnessService.updateSeance(seanceId, seance).subscribe({
+      next: (response) => {
+        console.log('Seance modifiée avec succès', response);
+          this.exerciceComponents.forEach((exercice) => {
+          if (exercice.newExercice.id != 0) {
+            // CAS OU L'EXERCICE EXISTE :
+            // Modification de chaque exercice
+            this.fitnessService.updateExercice(exercice.newExercice.id, exercice.newExercice).subscribe({
+              next: (response) => {
+                console.log('Exercice modifiée avec succès', response);
+                exercice.serieComponents.forEach((serie: any) => {
+                  if (serie.newSerie.id != 0) {
+                    // CAS OU LA SERIE EXISTE :
+                    // Modification de chaque serie
+                    this.fitnessService.updateSerie(serie.newSerie.id, serie.newSerie).subscribe({
+                      next: (response) => {
+                        console.log('Serie modifiée avec succès', response);
+                      },
+                      error: (err) => {
+                        console.error('Erreur lors de la modification de la serie', err);
+                      }
+                    });
+                  } else {
+                    // CAS OU LA SERIE A ETE AJOUTEE :
+                    // Attribution de l'id de l'exercice a chaque cles etrangeres des serie
+                    serie.newSerie.id_exercice = exercice.newExercice.id
+                    // Ajout de chaque serie
+                    this.fitnessService.addSerie(serie.newSerie).subscribe({
+                      next: (response) => {
+                        console.log('Réponse du serveur : ', response);
+                      },
+                      error: (err) => {
+                        console.error('Erreur lors de l\'ajout de la serie : ', err);
+                      }
+                    });
                   }
-                });
-              } else {
-                // CAS OU LA SERIE A ETE AJOUTEE :
-                // Attribution de l'id de l'exercice a chaque cles etrangeres des serie
-                serie.newSerie.id_exercice = exercice.newExercice.id
-                // Ajout de chaque serie
-                this.fitnessService.addSerie(serie.newSerie).subscribe({
-                  next: (response) => {
-                    console.log('Réponse du serveur : ', response);
-                  },
-                  error: (err) => {
-                    console.error('Erreur lors de l\'ajout de la serie : ', err);
-                  }
-                });
+                })
+              },
+              error: (err) => {
+                console.error('Erreur lors de la modification de l\'exercice', err);
               }
-            })
-          },
-          error: (err) => {
-            console.error('Erreur lors de la modification de l\'exercice', err);
+            });
+          } else {
+            // CAS OU L'EXERCICE A ETE AJOUTE :
+            // Attribution de l'id de la seance a chaque cles etrangeres des exercices
+            exercice.newExercice.id_seance = seanceId
+            // Ajout de chaque exercice
+            this.fitnessService.addExercice(exercice.newExercice).subscribe({
+              next: (response) => {
+                console.log('Réponse du serveur : ', response);
+                // Récupérer l'ID du nouvel exercice depuis la réponse
+                const newExerciceId = response.id;
+                const series = exercice.serieComponents;
+                series.forEach((serie: any) => {
+                  // Attribution de l'id de l'exercice a chaque cles etrangeres des series
+                  serie.newSerie.id_exercice = newExerciceId
+                  // Ajout de chaque serie
+                  this.fitnessService.addSerie(serie.newSerie).subscribe({
+                    next: (response) => {
+                      console.log('Réponse du serveur : ', response);
+                    },
+                    error: (err) => {
+                      console.error('Erreur lors de l\'ajout de la serie : ', err);
+                    }
+                  });
+                })
+              },
+              error: (err) => {
+                console.error('Erreur lors de l\'ajout de l\'exercice : ', err);
+              }
+            });
           }
-        });
-      } else {
-        // CAS OU L'EXERCICE A ETE AJOUTE :
-        // Attribution de l'id de la seance a chaque cles etrangeres des exercices
-        exercice.newExercice.id_seance = seanceId
-        // Ajout de chaque exercice
-        this.fitnessService.addExercice(exercice.newExercice).subscribe({
-          next: (response) => {
-            console.log('Réponse du serveur : ', response);
-            // Récupérer l'ID du nouvel exercice depuis la réponse
-            const newExerciceId = response.id;
-            const series = exercice.serieComponents;
-            series.forEach((serie: any) => {
-              // Attribution de l'id de l'exercice a chaque cles etrangeres des series
-              serie.newSerie.id_exercice = newExerciceId
-              // Ajout de chaque serie
-              this.fitnessService.addSerie(serie.newSerie).subscribe({
-                next: (response) => {
-                  console.log('Réponse du serveur : ', response);
-                },
-                error: (err) => {
-                  console.error('Erreur lors de l\'ajout de la serie : ', err);
-                }
-              });
-            })
-          },
-          error: (err) => {
-            console.error('Erreur lors de l\'ajout de l\'exercice : ', err);
-          }
-        });
+        })
+
+        // Suppression des composants apres ajout de la seance
+        this.exerciceComponents.length = 0;
+        this.exerciceComponentRefs.forEach((exercice) => {
+          exercice.destroy();
+        })
+
+        this.newSeance = { ...this.emptySeance }; // Vide le formulaire après l'ajout
+
+      },
+      error: (err) => {
+        console.error('Erreur lors de la modification de la seance', err);
       }
-    })
+    });
+
     console.log(this.exerciceComponents);
   }
   

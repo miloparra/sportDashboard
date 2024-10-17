@@ -8,8 +8,8 @@
                 </div>
                 <div class="form-floating form-control-sm col">
                     <button type="button" class="btn btn-outline-primary bouton" (click)="addExerciceComponent()">Add Exercice</button>
-                    <button type="submit" class="btn btn-outline-success boutonSave" [disabled]="!fitnessForm.form.valid">Add Seance</button>
-                    <button type="button" class="btn btn-outline-success boutonSave" (click)="saveChanges()">Save changes</button>
+                    <button type="submit" class="btn btn-outline-success boutonSave" [disabled]="!fitnessForm.form.valid" *ngIf="createMode">Add Seance</button>
+                    <button type="button" class="btn btn-outline-success boutonSave" (click)="saveChanges()" *ngIf="!createMode">Save changes</button>
                 </div>
             </div>
             <div class="row">
@@ -31,7 +31,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let seance of seancesLinked, let i = index">
-                <td>{{ seance.date.slice(0, 10) }}</td>
+                <td>{{ seance.date_seance.slice(0, 10) }}</td>
                 <td>
                     <button class="btn deleteButton" (click)="removeSeance(i)">
                         <i class="bi bi-trash"></i>

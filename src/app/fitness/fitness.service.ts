@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 export interface SeanceLinked {
   seance_id: number;
-  date: string;
+  date_seance: string;
   exercices: ExerciceLinked[]
 }
 
