@@ -80,7 +80,7 @@ export class FitnessService {
   }
 
   // MODIFICATION D'UNE SEANCE
-  updateSeance(id: number, seance: Seance): Observable<any> {
+  updateSeance(id: number, seance: SeanceLinked): Observable<any> {
     const url = `${this.apiUrlSeance}/${id}`; // Construction de l'URL avec l'identifiant
     return this.http.put(url, seance);
   }

@@ -35,6 +35,12 @@ export class FitnessComponent {
     date_seance: ''
   }
 
+  seanceToEdit: SeanceLinked = {
+    seance_id: 0,
+    date: '',
+    exercices: []
+  }
+
   // AFFICHAGE DES RUNS
   ngOnInit(): void {
     this.fitnessService.getSeancesLinked().subscribe(data => { 
@@ -96,7 +102,6 @@ export class FitnessComponent {
         // Mettre à jour le tableau SEANCE avec leurs LIENS après l'ajout
         this.fitnessService.getSeancesLinked().subscribe(data => { 
           this.seancesLinked = data;
-          console.log(this.seancesLinked)
         });
 
         // Suppression des composants apres ajout de la seance
@@ -136,7 +141,7 @@ export class FitnessComponent {
       // Suppression de la séance en base de données une fois tous les exercices supprimés
       await this.fitnessService.deleteSeance(seanceId).toPromise();
       console.log('Séance supprimée avec succès');
-  
+
       // Suppression de la séance de l'affichage local
       this.seancesLinked.splice(index, 1);
   
@@ -150,13 +155,13 @@ export class FitnessComponent {
   editSeance(seance: SeanceLinked) {
     seance.date = seance.date.slice(0, 10);
     this.newSeance.date_seance = seance.date;
-    console.log(seance);
 
     let exerciceComponentIndex = 0;
     seance.exercices.forEach((exercice) => {
       this.addExerciceComponent();
       this.exerciceComponents[exerciceComponentIndex].newExercice.id = exercice.exercice_id;
       this.exerciceComponents[exerciceComponentIndex].newExercice.name_exo = exercice.name;
+      this.exerciceComponents[exerciceComponentIndex].newExercice.id_seance = exercice.id_seance;
       let serieComponentIndex = 0;
       exercice.series.forEach((serie) => {
         this.exerciceComponents[exerciceComponentIndex].addSerieComponent()
@@ -165,15 +170,99 @@ export class FitnessComponent {
         this.exerciceComponents[exerciceComponentIndex].serieComponents[serieComponentIndex].newSerie.nb_repetition = serie.nb_repetition;
         this.exerciceComponents[exerciceComponentIndex].serieComponents[serieComponentIndex].newSerie.weight = serie.weight;
         this.exerciceComponents[exerciceComponentIndex].serieComponents[serieComponentIndex].newSerie.type_serie = serie.type;
+        this.exerciceComponents[exerciceComponentIndex].serieComponents[serieComponentIndex].newSerie.id_exercice = serie.id_exercice;
         serieComponentIndex++;
       })
       exerciceComponentIndex++;
     })
 
+    // Allimenter la seance a modifier (juste pour modifier la serie sans les exercices et series)
+    this.seanceToEdit = seance;
+
     console.log(this.exerciceComponents);
+  }
 
+  saveChanges() {
 
+    // Recuperation de la seance a modifier (juste pour modifier la serie sans les exercices et series)
+    let seance = this.seanceToEdit;
+    
+    // Récupérer l'ID de la séance a modifier
+    const seanceId = seance.seance_id
+    // Modification de la seance
+    this.fitnessService.updateSeance(seanceId, seance)
 
+    this.exerciceComponents.forEach((exercice) => {
+      if (exercice.newExercice.id != 0) {
+        // CAS OU L'EXERCICE EXISTE :
+        // Modification de chaque exercice
+        this.fitnessService.updateExercice(exercice.newExercice.id, exercice.newExercice).subscribe({
+          next: (response) => {
+            console.log('Exercice modifiée avec succès', response);
+            exercice.serieComponents.forEach((serie: any) => {
+              if (serie.newSerie.id != 0) {
+                // CAS OU LA SERIE EXISTE :
+                // Modification de chaque serie
+                this.fitnessService.updateSerie(serie.newSerie.id, serie.newSerie).subscribe({
+                  next: (response) => {
+                    console.log('Serie modifiée avec succès', response);
+                  },
+                  error: (err) => {
+                    console.error('Erreur lors de la modification de la serie', err);
+                  }
+                });
+              } else {
+                // CAS OU LA SERIE A ETE AJOUTEE :
+                // Attribution de l'id de l'exercice a chaque cles etrangeres des serie
+                serie.newSerie.id_exercice = exercice.newExercice.id
+                // Ajout de chaque serie
+                this.fitnessService.addSerie(serie.newSerie).subscribe({
+                  next: (response) => {
+                    console.log('Réponse du serveur : ', response);
+                  },
+                  error: (err) => {
+                    console.error('Erreur lors de l\'ajout de la serie : ', err);
+                  }
+                });
+              }
+            })
+          },
+          error: (err) => {
+            console.error('Erreur lors de la modification de l\'exercice', err);
+          }
+        });
+      } else {
+        // CAS OU L'EXERCICE A ETE AJOUTE :
+        // Attribution de l'id de la seance a chaque cles etrangeres des exercices
+        exercice.newExercice.id_seance = seanceId
+        // Ajout de chaque exercice
+        this.fitnessService.addExercice(exercice.newExercice).subscribe({
+          next: (response) => {
+            console.log('Réponse du serveur : ', response);
+            // Récupérer l'ID du nouvel exercice depuis la réponse
+            const newExerciceId = response.id;
+            const series = exercice.serieComponents;
+            series.forEach((serie: any) => {
+              // Attribution de l'id de l'exercice a chaque cles etrangeres des series
+              serie.newSerie.id_exercice = newExerciceId
+              // Ajout de chaque serie
+              this.fitnessService.addSerie(serie.newSerie).subscribe({
+                next: (response) => {
+                  console.log('Réponse du serveur : ', response);
+                },
+                error: (err) => {
+                  console.error('Erreur lors de l\'ajout de la serie : ', err);
+                }
+              });
+            })
+          },
+          error: (err) => {
+            console.error('Erreur lors de l\'ajout de l\'exercice : ', err);
+          }
+        });
+      }
+    })
+    console.log(this.exerciceComponents);
   }
   
   // AJOUT D'UN COMPOSANT EXERCICE
