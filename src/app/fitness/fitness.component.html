@@ -13,14 +13,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-floating form-control-sm col">
-                    <button type="button" class="btn btn-outline-primary bouton" (click)="addExerciceComponent()"><i class="bi bi-plus-circle"></i>Add Exercice</button>
-                    
-                </div>
+                
             </div>
             <div class="row">
                 <div class="form-floating form-control-sm col">
                     <ng-template #container></ng-template>
+                    <hr>
+                    <div class="d-flex justify-content-center form-control-sm col">
+                      <button type="button" class="btn btn-outline-primary bouton" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" (click)="addExerciceComponent()"><i class="bi bi-plus-circle"></i>Add Exercice</button>
+                    </div>
                 </div>
             </div>
         </form>

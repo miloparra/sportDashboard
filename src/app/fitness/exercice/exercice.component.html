@@ -8,11 +8,11 @@
             <input type="text" id="exercice" class="form-control" [(ngModel)]="newExercice.name_exo" name="exercice">
             <label for="exercice">Exercice</label>
         </div>
-        <div class="form-floating form-control-sm col">
-            <button type="button" class="btn btn-outline-primary bouton" (click)="addSerieComponent()"><i class="bi bi-plus-circle"></i>Add Series</button>
-        </div>
     </div>
     <div class="row">
         <ng-template #container></ng-template>
+    </div>
+    <div class="d-flex justify-content-center form-control-sm col">
+        <button type="button" class="btn btn-outline-primary bouton" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" (click)="addSerieComponent()"><i class="bi bi-plus-circle"></i>Add Series</button>
     </div>
 </div>
