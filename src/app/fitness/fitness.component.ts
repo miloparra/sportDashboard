@@ -29,6 +29,8 @@ export class FitnessComponent {
 
   createMode: boolean = true;
 
+  seanceShown: boolean = false;
+
   indexSeanceToDelete = 0;
 
   private emptySeance: Seance = {
@@ -171,6 +173,13 @@ export class FitnessComponent {
 
   // MODIFICATION D'UNE SEANCE
   editSeance(seance: SeanceLinked) {
+    // Supprimer les composants dans le cas ou il y a deja une seance en edition
+    if (this.seanceShown) {
+      this.exerciceComponents.length = 0;
+      this.exerciceComponentRefs.forEach((exercice) => {
+        exercice.destroy();
+      })
+    }
     // Afficher la date dans le formulaire
     seance.date_seance = seance.date_seance.slice(0, 10);
     this.newSeance.date_seance = seance.date_seance;
@@ -202,7 +211,8 @@ export class FitnessComponent {
     // Switch en mode edition
     this.createMode = false;
 
-    console.log(this.exerciceComponents);
+    // Seance deja en edition
+    this.seanceShown = true;
   }
 
   saveChanges() {
