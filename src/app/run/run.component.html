@@ -45,7 +45,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let run of runs, let i = index">
-                <td>{{ run.date_run.slice(0, 10) }}</td>
+                <td>{{ run.formatted_date_run }}</td>
                 <td>{{ run.distance }} km</td>
                 <td>{{ run.cumul }} km</td>
                 <td>{{ run.vitesse }} min/km</td>

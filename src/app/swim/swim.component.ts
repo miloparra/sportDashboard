@@ -27,7 +27,8 @@ export class SwimComponent {
     temps: '',
     distance: 0,
     cumul: 0,
-    vitesse: 0
+    vitesse: 0,
+    formatted_date_swim: ''
   };
 
   newSwim: Swim = {
@@ -36,7 +37,8 @@ export class SwimComponent {
     temps: '',
     distance: 0,
     cumul: 0,
-    vitesse: 0
+    vitesse: 0,
+    formatted_date_swim: ''
   };
 
   editedSwim: Swim = {
@@ -45,7 +47,8 @@ export class SwimComponent {
     temps: '',
     distance: 0,
     cumul: 0,
-    vitesse: 0
+    vitesse: 0,
+    formatted_date_swim: ''
   };
 
   // AFFICHAGE DES SWIMS

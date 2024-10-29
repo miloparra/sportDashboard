@@ -24,7 +24,8 @@ export class BikeModalComponent {
     cumul_velo: 0,
     denivele: 0,
     temps: '',
-    parcours: ''
+    parcours: '',
+    formatted_date_sortie: ''
   };
 
   addRide() {

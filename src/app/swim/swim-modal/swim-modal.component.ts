@@ -22,7 +22,8 @@ export class SwimModalComponent {
     temps: '',
     distance: 0,
     cumul: 0,
-    vitesse: 0
+    vitesse: 0,
+    formatted_date_swim: ''
   };
 
   addSwim() {

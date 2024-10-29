@@ -33,18 +33,21 @@ export class FitnessComponent {
 
   private emptySeance: Seance = {
     id: 0,
-    date_seance: ''
+    date_seance: '',
+    formatted_date_seance: ''
   }
 
   newSeance: Seance = {
     id: 0,
-    date_seance: ''
+    date_seance: '',
+    formatted_date_seance: ''
   }
 
   seanceToEdit: SeanceLinked = {
     seance_id: 0,
     date_seance: '',
-    exercices: []
+    exercices: [],
+    formatted_date_seance: ''
   }
 
   // AFFICHAGE DES RUNS

@@ -40,7 +40,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let swim of swims, let i = index">
-                <td>{{ swim.date_swim.slice(0, 10) }}</td>
+                <td>{{ swim.formatted_date_swim }}</td>
                 <td>{{ swim.temps }}</td>
                 <td>{{ swim.distance }} km</td>
                 <td>{{ swim.cumul }} km</td>

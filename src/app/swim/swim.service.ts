@@ -8,7 +8,8 @@ export interface Swim {
   temps: string;
   distance: number;
   cumul: number;
-  vitesse: number
+  vitesse: number;
+  formatted_date_swim: string
 }
 
 @Injectable({

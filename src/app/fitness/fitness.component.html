@@ -34,7 +34,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let seance of seancesLinked, let i = index">
-                <td>{{ seance.date_seance.slice(0, 10) }}</td>
+                <td>{{ seance.formatted_date_seance }}</td>
                 <td class="d-flex justify-content-end">
                     <button class="btn deleteButton" (click)="openDeleteModal(i)" data-bs-toggle="modal" data-bs-target="#deleteSeanceModal">
                         <i class="bi bi-trash"></i>

@@ -29,7 +29,8 @@ export class GeneralComponent {
     cumul: 0,
     vitesse: 0,
     denivele: 0,
-    temps: ''
+    temps: '',
+    formatted_date_run: ''
   }
 
   newRide: Ride = {
@@ -40,7 +41,8 @@ export class GeneralComponent {
     cumul_velo: 0,
     denivele: 0,
     temps: '',
-    parcours: ''
+    parcours: '',
+    formatted_date_sortie: ''
   }
 
   newSwim: Swim = {
@@ -49,7 +51,8 @@ export class GeneralComponent {
     temps: '',
     distance: 0,
     cumul: 0,
-    vitesse: 0
+    vitesse: 0,
+    formatted_date_swim: ''
   }
   
 }

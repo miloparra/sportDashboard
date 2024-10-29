@@ -28,7 +28,8 @@ export class RunComponent {
     cumul: 0,
     vitesse: 0,
     denivele: 0,
-    temps: ''
+    temps: '',
+    formatted_date_run: ''
   };
 
   newRun: Run = {
@@ -38,7 +39,8 @@ export class RunComponent {
     cumul: 0,
     vitesse: 0,
     denivele: 0,
-    temps: ''
+    temps: '',
+    formatted_date_run: ''
   };
 
   editedRun: Run = {
@@ -48,7 +50,8 @@ export class RunComponent {
     cumul: 0,
     vitesse: 0,
     denivele: 0,
-    temps: ''
+    temps: '',
+    formatted_date_run: ''
   };
 
   // AFFICHAGE DES RUNS

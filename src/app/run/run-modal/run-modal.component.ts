@@ -23,7 +23,8 @@ export class RunModalComponent {
     cumul: 0,
     vitesse: 0,
     denivele: 0,
-    temps: ''
+    temps: '',
+    formatted_date_run: ''
   };
 
   addRun() {

@@ -50,7 +50,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let ride of outings, let i = index">
-                <td>{{ ride.date_sortie.slice(0, 10) }}</td>
+                <td>{{ ride.formatted_date_sortie }}</td>
                 <td>{{ ride.distance }} km</td>
                 <td>{{ ride.cumul_coureur }} km</td>
                 <td>{{ ride.cumul_velo }} km</td>

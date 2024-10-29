@@ -29,7 +29,8 @@ export class BikeComponent {
     cumul_velo: 0,
     denivele: 0,
     temps: '',
-    parcours: ''
+    parcours: '',
+    formatted_date_sortie: ''
   };
 
   newRide: Ride = {
@@ -40,7 +41,8 @@ export class BikeComponent {
     cumul_velo: 0,
     denivele: 0,
     temps: '',
-    parcours: ''
+    parcours: '',
+    formatted_date_sortie: ''
   };
 
   editedRide: Ride = {
@@ -51,7 +53,8 @@ export class BikeComponent {
     cumul_velo: 0,
     denivele: 0,
     temps: '',
-    parcours: ''
+    parcours: '',
+    formatted_date_sortie: ''
   }
 
   // AFFICHAGE DES RIDES

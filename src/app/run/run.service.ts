@@ -9,7 +9,8 @@ export interface Run {
   cumul: number;
   vitesse: number;
   denivele: number;
-  temps: string
+  temps: string;
+  formatted_date_run: string
 }
 
 @Injectable({

@@ -11,6 +11,7 @@ export interface Ride {
   denivele: number;
   temps: string;
   parcours: string;
+  formatted_date_sortie: string
 }
 
 @Injectable({
