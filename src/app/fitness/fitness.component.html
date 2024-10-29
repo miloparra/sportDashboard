@@ -7,9 +7,15 @@
                     <label for="date">Date</label>
                 </div>
                 <div class="form-floating form-control-sm col">
-                    <button type="button" class="btn btn-outline-primary bouton" (click)="addExerciceComponent()">Add Exercice</button>
                     <button type="submit" class="btn btn-outline-success boutonSave" [disabled]="!fitnessForm.form.valid" *ngIf="createMode">Add Seance</button>
                     <button type="button" class="btn btn-outline-success boutonSave" (click)="saveChanges()" *ngIf="!createMode">Save changes</button>
+                    <button type="button" class="btn btn-outline-danger boutonSave" (click)="cancelAddOrChanges()">Cancel</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating form-control-sm col">
+                    <button type="button" class="btn btn-outline-primary bouton" (click)="addExerciceComponent()"><i class="bi bi-plus-circle"></i>Add Exercice</button>
+                    
                 </div>
             </div>
             <div class="row">

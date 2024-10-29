@@ -344,6 +344,10 @@ export class FitnessComponent {
       }
     });
   }
+
+  cancelAddOrChanges() {
+    window.location.reload(); // Recharger la page
+  }
   
   // AJOUT D'UN COMPOSANT EXERCICE
   addExerciceComponent() {
