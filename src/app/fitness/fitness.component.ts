@@ -25,6 +25,8 @@ export class FitnessComponent {
 
   exerciceComponentRefs: any[] = [];
 
+  exerciceComponentsToDeleteFromEdit: any[] = [];
+
   createMode: boolean = true;
 
   indexSeanceToDelete = 0;
@@ -216,7 +218,7 @@ export class FitnessComponent {
     this.fitnessService.updateSeance(seanceId, seance).subscribe({
       next: (response) => {
         console.log('Seance modifiée avec succès', response);
-          this.exerciceComponents.forEach((exercice) => {
+        this.exerciceComponents.forEach((exercice) => {
           if (exercice.newExercice.id != 0) {
             // CAS OU L'EXERCICE EXISTE :
             // Modification de chaque exercice
@@ -287,6 +289,46 @@ export class FitnessComponent {
           }
         })
 
+        // Suppression des exercices et series supprimes pendant la modification
+        this.exerciceComponents.forEach((exercice) => {
+          exercice.serieComponentsToDeleteFromEdit.forEach((serie: { newSerie: { id: any; }; }) => {
+            this.fitnessService.deleteSerie(serie.newSerie.id).subscribe({
+              next: (response) => {
+                console.log('Réponse du serveur : ', response);
+              },
+              error: (err) => {
+                console.error('Erreur lors de la suppression de la serie : ', err);
+              }
+            });
+          })
+        })
+        this.exerciceComponentsToDeleteFromEdit.forEach((exercice) => {
+          let i = 0;
+          console.log(exercice.serieComponents.length)
+          exercice.serieComponents.forEach((serie: { newSerie: { id: number; }; }) => {
+            i++;
+            this.fitnessService.deleteSerie(serie.newSerie.id).subscribe({
+              next: (response) => {
+                console.log('Réponse du serveur : ', response);
+                if (i == exercice.serieComponents.length) {
+                  this.fitnessService.deleteExercice(exercice.newExercice.id).subscribe({
+                    next: (response) => {
+                      console.log('Réponse du serveur : ', response);
+                    },
+                    error: (err) => {
+                      console.error('Erreur lors de la suppression de l\'exercice : ', err);
+                    }
+                  });
+                }
+              },
+              error: (err) => {
+                console.error('Erreur lors de la suppression de la serie : ', err);
+              }
+            });
+          })
+          
+        })
+
         // Suppression des composants apres ajout de la seance
         this.exerciceComponents.length = 0;
         this.exerciceComponentRefs.forEach((exercice) => {
@@ -295,13 +337,12 @@ export class FitnessComponent {
 
         this.newSeance = { ...this.emptySeance }; // Vide le formulaire après l'ajout
 
+        window.location.reload(); // Recharger la page
       },
       error: (err) => {
         console.error('Erreur lors de la modification de la seance', err);
       }
     });
-
-    console.log(this.exerciceComponents);
   }
   
   // AJOUT D'UN COMPOSANT EXERCICE
@@ -314,7 +355,7 @@ export class FitnessComponent {
     this.exerciceComponentRefs.push(exerciceComponentRef);
 
     // Ecouter l'événement `removeRequest` du composant Exercice
-    exerciceComponentRef.instance.removeRequest.subscribe(() => {
+    exerciceComponentRef.instance.removeExerciceRequest.subscribe(() => {
       this.removeExerciceComponent(exerciceComponentRef.instance, exerciceComponentRef);
     });
   }
@@ -326,6 +367,8 @@ export class FitnessComponent {
       this.exerciceComponents.splice(index, 1); // Supprimer de la liste
       exerciceComponentRef.destroy(); // Détruire le composant visuellement
     }
+    // Edit : Stocker les composants Exercices a supprimer lors d'une modification d'une seance
+    this.exerciceComponentsToDeleteFromEdit.push(exerciceComponentInstance);
   }
 
 }

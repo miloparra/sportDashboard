@@ -18,12 +18,8 @@
                 </div>
             </div>
         </form>
-        <div class="seanceview col-6">
-            
-        </div>
-    </div>
-    <div class="fitnesstable">
-        <table class="table table-striped align-middle table-borderless">
+        <div class="fitnesstable col-6">
+          <table class="table table-striped align-middle table-borderless">
             <thead>
               <tr>
                 <th>Date</th>
@@ -32,7 +28,7 @@
             <tbody>
               <tr *ngFor="let seance of seancesLinked, let i = index">
                 <td>{{ seance.date_seance.slice(0, 10) }}</td>
-                <td>
+                <td class="d-flex justify-content-end">
                     <button class="btn deleteButton" (click)="openDeleteModal(i)" data-bs-toggle="modal" data-bs-target="#deleteSeanceModal">
                         <i class="bi bi-trash"></i>
                     </button>
@@ -42,7 +38,8 @@
                 </td>
               </tr>
             </tbody>
-        </table>
+          </table>
+        </div>
     </div>
 </div>
 <div class="modal fade" id="deleteSeanceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

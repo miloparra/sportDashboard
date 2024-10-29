@@ -11,11 +11,13 @@ import { Exercice } from '../fitness.service';
   styleUrl: './exercice.component.scss'
 })
 export class ExerciceComponent {
-  @Output() removeRequest = new EventEmitter<void>(); // Événement pour signaler la suppression
+  @Output() removeExerciceRequest = new EventEmitter<void>(); // Événement pour signaler la suppression
 
   @ViewChild('container', { read: ViewContainerRef, static: true }) container!: ViewContainerRef;
 
   serieComponents: any[] = [];
+
+  serieComponentsToDeleteFromEdit: any[] = [];
 
   constructor(private resolver: ComponentFactoryResolver) {}
 
@@ -26,7 +28,7 @@ export class ExerciceComponent {
   }
 
   removeExerciceComponent() {
-    this.removeRequest.emit(); // Emet l'événement vers le parent
+    this.removeExerciceRequest.emit(); // Emet l'événement vers le parent
   }
 
   addSerieComponent() {
@@ -36,19 +38,21 @@ export class ExerciceComponent {
     // Stocker la référence du composant enfant créé
     this.serieComponents.push(serieComponentRef.instance);
 
-    // Ecouter l'événement `removeRequest` du composant Exercice
-    serieComponentRef.instance.removeRequest.subscribe(() => {
+    // Ecouter l'événement `removeRequest` du composant Serie
+    serieComponentRef.instance.removeSerieRequest.subscribe(() => {
       this.removeSerieComponent(serieComponentRef.instance, serieComponentRef);
     });
   }
 
-  // Méthode pour supprimer un composant Exercice
-  removeSerieComponent(exerciceComponentInstance: any, exerciceComponentRef: any) {
-    const index = this.serieComponents.indexOf(exerciceComponentInstance);
+  // Méthode pour supprimer un composant Serie
+  removeSerieComponent(serieComponentInstance: any, serieComponentRef: any) {
+    const index = this.serieComponents.indexOf(serieComponentInstance);
     if (index !== -1) {
       this.serieComponents.splice(index, 1); // Supprimer de la liste
-      exerciceComponentRef.destroy(); // Détruire le composant visuellement
+      serieComponentRef.destroy(); // Détruire le composant visuellement
     }
+    // Edit : Stocker les composants Serie a supprimer lors d'une modification d'une seance
+    this.serieComponentsToDeleteFromEdit.push(serieComponentInstance);
   }
 
 }
