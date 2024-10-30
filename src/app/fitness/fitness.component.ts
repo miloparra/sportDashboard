@@ -56,7 +56,6 @@ export class FitnessComponent {
   ngOnInit(): void {
     this.fitnessService.getSeancesLinked().subscribe(data => { 
       this.seancesLinked = data;
-      console.log(this.seancesLinked)
     });
   }
 

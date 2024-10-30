@@ -59,9 +59,6 @@ export class RunDashboardComponent {
       runsToDisplay.push([date, dist]);
     }
 
-    console.log(runsToDisplay);
-
-
     this.series = [
       {
         name: "Distance",
