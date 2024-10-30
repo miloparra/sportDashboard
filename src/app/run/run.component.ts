@@ -58,6 +58,7 @@ export class RunComponent {
   ngOnInit(): void {
     this.runService.getRuns().subscribe(data => {
       this.runs = data;
+      this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
     });
   }
 
@@ -70,6 +71,7 @@ export class RunComponent {
         // Mettre à jour le tableau après l'ajout
         this.runService.getRuns().subscribe(data => { 
           this.runs = data;
+          this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
         });
       },
       error: (err) => {

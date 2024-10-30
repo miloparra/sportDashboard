@@ -61,6 +61,7 @@ export class BikeComponent {
   ngOnInit(): void {
     this.bikeService.getOutings().subscribe(data => {
       this.outings = data;
+      this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
     });
   }
 
@@ -73,6 +74,7 @@ export class BikeComponent {
         // Mettre à jour le tableau après l'ajout
         this.bikeService.getOutings().subscribe(data => { 
           this.outings = data;
+          this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
         });
       },
       error: (err) => {

@@ -55,6 +55,7 @@ export class SwimComponent {
   ngOnInit(): void {
     this.swimService.getSwims().subscribe(data => {
       this.swims = data;
+      this.swims.sort((a, b) => new Date(b.date_swim).getTime() - new Date(a.date_swim).getTime());
     });
   }
 
@@ -67,6 +68,7 @@ export class SwimComponent {
         // Mettre à jour le tableau après l'ajout
         this.swimService.getSwims().subscribe(data => { 
           this.swims = data;
+          this.swims.sort((a, b) => new Date(b.date_swim).getTime() - new Date(a.date_swim).getTime());
         });
       },
       error: (err) => {
