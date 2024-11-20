@@ -1,44 +1,49 @@
-<div class="modal fade" id="runModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="runModal" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <form class="">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel" *ngIf="createMode">Add a run</h5>
           <h5 class="modal-title" id="exampleModalLabel" *ngIf="!createMode">Edit a run</h5>
-          <button type="button" class="btn-close" onclick="window.location.reload()" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" onclick="window.location.reload()" data-bs-dismiss="modal"
+            aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <div class="">
-              <div class="form-floating form-control-sm">
-                    <input type="date" id="date" class="form-control" [(ngModel)]="modalRun.date_run" name="date">
-                    <label for="date">Date</label>
-                </div>
-                <div class="form-floating form-control-sm">
-                    <input type="number" id="dist" class="form-control" [(ngModel)]="modalRun.distance" name="dist" required>
-                    <label for="dist">Distance</label>
-                </div>
-                <div class="form-floating form-control-sm">
-                    <input type="number" id="cumul" class="form-control" [(ngModel)]="modalRun.cumul" name="cumul">
-                    <label for="cumul">Cumul</label>
-                </div>
-                <div class="form-floating form-control-sm">
-                    <input type="number" id="vitesse" class="form-control" [(ngModel)]="modalRun.vitesse" name="vitesse">
-                    <label for="vitesse">Vitesse</label>
-                </div>
-                <div class="form-floating form-control-sm">
-                    <input type="number" id="deniv" class="form-control" [(ngModel)]="modalRun.denivele" name="deniv">
-                    <label for="deniv">Denivele</label>
-                </div>
-                <div class="form-floating form-control-sm">
-                    <input type="time" id="temps" class="form-control" [(ngModel)]="modalRun.temps" name="temps" step="2">
-                    <label for="temps">Temps</label>
-                </div>
+          <div class="">
+            <div class="form-floating form-control-sm">
+              <input type="date" id="date" class="form-control" [(ngModel)]="modalRun.date_run" name="date">
+              <label for="date">Date</label>
             </div>
+            <div class="form-floating form-control-sm">
+              <input type="number" id="dist" class="form-control" [(ngModel)]="modalRun.distance" name="dist" required>
+              <label for="dist">Distance</label>
+            </div>
+            <div class="form-floating form-control-sm">
+              <input type="number" id="cumul" class="form-control" [(ngModel)]="modalRun.cumul" name="cumul">
+              <label for="cumul">Cumul</label>
+            </div>
+            <div class="form-floating form-control-sm">
+              <input type="number" id="vitesse" class="form-control" [(ngModel)]="modalRun.vitesse" name="vitesse">
+              <label for="vitesse">Vitesse</label>
+            </div>
+            <div class="form-floating form-control-sm">
+              <input type="number" id="deniv" class="form-control" [(ngModel)]="modalRun.denivele" name="deniv">
+              <label for="deniv">Denivele</label>
+            </div>
+            <div class="form-floating form-control-sm">
+              <input type="time" id="temps" class="form-control" [(ngModel)]="modalRun.temps" name="temps" step="2">
+              <label for="temps">Temps</label>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-danger" onclick="window.location.reload()" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-outline-success" (click)="addRun()" data-bs-dismiss="modal" *ngIf="createMode">Add</button>
-          <button type="button" class="btn btn-outline-success" (click)="saveRun()" *ngIf="!createMode">Save</button>
+          <button type="button" class="btn btn-outline-danger" onclick="window.location.reload()"
+            data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-outline-success" (click)="addRun()" data-bs-dismiss="modal"
+            *ngIf="createMode">Add</button>
+          <button type="button" class="btn btn-outline-success" (click)="saveRun()" data-bs-dismiss="modal"
+            *ngIf="!createMode">Save</button>
         </div>
       </form>
     </div>

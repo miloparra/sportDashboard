@@ -56,6 +56,7 @@ export class FitnessComponent {
   ngOnInit(): void {
     this.fitnessService.getSeancesLinked().subscribe(data => { 
       this.seancesLinked = data;
+      // Triage par date de la Seance la plus recente a la plus ancienne
       this.seancesLinked.sort((a, b) => new Date(b.date_seance).getTime() - new Date(a.date_seance).getTime());
     });
   }
@@ -113,6 +114,7 @@ export class FitnessComponent {
         // Mettre à jour le tableau SEANCE avec leurs LIENS après l'ajout
         this.fitnessService.getSeancesLinked().subscribe(data => { 
           this.seancesLinked = data;
+          // Triage par date de la Seance la plus recente a la plus ancienne
           this.seancesLinked.sort((a, b) => new Date(b.date_seance).getTime() - new Date(a.date_seance).getTime());
         });
 

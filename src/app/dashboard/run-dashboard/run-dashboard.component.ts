@@ -52,6 +52,8 @@ export class RunDashboardComponent {
   public initChartData(): void {
     let runsToDisplay = [];
 
+    this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
+
     for (let i = 0; i < this.runs.length; i++) {
       const date = new Date(this.runs[i].date_run).getTime();  // Convertir la date en timestamp
       const dist = this.runs[i].distance;

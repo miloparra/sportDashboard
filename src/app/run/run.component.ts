@@ -17,9 +17,13 @@ export class RunComponent {
 
   runs: Run[] = [];
 
-  constructor(private runService: RunService) {}
+  constructor(private runService: RunService) { }
 
   indexRunToDelete = 0;
+
+  oldDate = '';
+  oldDistance = 0;
+  oldCumul = 0;
 
   private emptyRun: Run = {
     id: 0,
@@ -58,8 +62,27 @@ export class RunComponent {
   ngOnInit(): void {
     this.runService.getRuns().subscribe(data => {
       this.runs = data;
+      // Triage par date de la Run la plus recente a la plus ancienne
       this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
     });
+  }
+
+  cumulCalcul() {
+    let prevRunFind = false
+    if (this.runs.length == 0) {
+      this.newRun.cumul = this.newRun.distance;
+    } else {
+      this.runs.forEach((run) => {
+        if (new Date(run.date_run).getTime() <= new Date(this.newRun.date_run).getTime() && prevRunFind == false) {
+          let lastCumul = +run.cumul + +this.newRun.distance;
+          this.newRun.cumul = lastCumul;
+          prevRunFind = true
+        }
+      })
+      if (prevRunFind == false) {
+        this.newRun.cumul = this.newRun.distance;
+      }
+    }
   }
 
   // AJOUT D'UN RUN
@@ -68,17 +91,13 @@ export class RunComponent {
     this.runService.addRun(this.newRun).subscribe({
       next: (response) => {
         console.log('Réponse du serveur : ', response);
-        // Mettre à jour le tableau après l'ajout
-        this.runService.getRuns().subscribe(data => { 
-          this.runs = data;
-          this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
-        });
+        // Mettre à jour les cumuls des runs plus recentes après l'ajout
+        this.updateMoreRecentRuns(this.newRun.id, this.newRun.date_run);
       },
       error: (err) => {
         console.error('Erreur lors de l\'ajout du run : ', err);
       }
     });
-    this.newRun = { ...this.emptyRun }; // Vide le formulaire après l'ajout
   }
 
   // APPEL DE LA MODAL DE SUPPRESSION
@@ -90,14 +109,17 @@ export class RunComponent {
   removeRun() {
     // Recuperation de l'index du run a supprimer
     let index = this.indexRunToDelete;
-    // Recuperation de l'id du run a supprimer
-    const id = this.runs[index].id;
+    // Recuperation de l'id et la date du run a supprimer
+    const supRunId = this.runs[index].id;
+    const supRunDate = this.runs[index].date_run;
     // Suppression du run en BD
-    this.runService.deleteRun(id).subscribe({
+    this.runService.deleteRun(supRunId).subscribe({
       next: (response) => {
         console.log('Réponse du serveur : ', response);
         // Suppression du run de l'affichage local
         this.runs.splice(index, 1);
+        // Mettre à jour les cumuls des runs plus recentes après la suppression
+        this.updateMoreRecentRuns(supRunId, supRunDate);
       },
       error: (err) => {
         console.error('Erreur lors de la suppression du run : ', err);
@@ -109,5 +131,124 @@ export class RunComponent {
   editRun(run: Run) {
     run.date_run = run.date_run.slice(0, 10);
     this.editedRun = run;
+    this.oldDate = run.date_run;
+    this.oldDistance = run.distance;
+    this.oldCumul = run.cumul;
   }
+
+  onSaveChanges() {
+    let cumulDif = this.editedRun.cumul - this.oldCumul;
+    let dateDif = new Date(this.editedRun.date_run).getTime() - new Date(this.oldDate).getTime() // Positif si nouvelle date plus recente - Negatif si nouvelle date plus ancienne
+
+    // MISE A JOUR DES CUMULS APRES MODIFICATION D'UNE RUN
+    this.runService.updateRun(this.editedRun.id, this.editedRun).subscribe({
+      next: (response) => {
+        console.log('Run modifiée avec succès', response);
+        this.runService.getRuns().subscribe(data => {
+          this.runs = data;
+          // Triage par date de la Run la plus recente a la plus ancienne
+          this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
+
+          this.runs.slice().reverse().forEach((run) => {
+
+            // 1. MISE A JOUR DU CUMUL DE LA RUN QUI A ETE MODIFIEE
+            if (run.id == this.editedRun.id) {
+              if (cumulDif == 0) {
+                // Recuperation de l'index de la Run modifiee
+                let editedRunIndex = this.runs.findIndex(r => r.id === run.id);
+                let previousRunIndex = editedRunIndex + 1;
+                run.cumul = +this.runs[previousRunIndex].cumul + +run.distance;
+              }
+            }
+
+            // 2. MISE A JOUR DU CUMUL DE TOUTES LES AUTRES RUNS
+            else {
+
+              // CAS 1 : La nouvelle date est plus recente
+              if (dateDif > 0) {
+                // Modification des Run avec une date entre l'ancienne et la nouvelle date de la Run qui a ete modifiee
+                if (new Date(run.date_run).getTime() < new Date(this.editedRun.date_run).getTime() && new Date(this.oldDate).getTime() < new Date(run.date_run).getTime()) {
+                  console.log('recente entre')
+                  run.cumul -= +this.oldDistance;
+                }
+                // Modification des Run avec une date plus recentes que la nouvelle date de la Run qui a ete modifiee
+                if (new Date(run.date_run).getTime() > new Date(this.editedRun.date_run).getTime()) {
+                  console.log('recente recente')
+                  let runIndex = this.runs.findIndex(r => r.id === run.id);
+                  let prevRunIndex = runIndex + 1;
+                  run.cumul = +this.runs[prevRunIndex].cumul + +run.distance
+                }
+              }
+
+              // CAS 2 : La nouvelle date est plus ancienne OU La date n'a pas ete modifiee
+              else {
+                // Modification des Run avec une date plus recentes que la date de la Run qui a ete modifiee
+                if (new Date(run.date_run).getTime() > new Date(this.editedRun.date_run).getTime()) {
+                  console.log('ancienne recente')
+                  let runIndex = this.runs.findIndex(r => r.id === run.id);
+                  let prevRunIndex = runIndex + 1;
+                  run.cumul = +this.runs[prevRunIndex].cumul + +run.distance
+                }
+              }
+            }
+            run.date_run = run.date_run.slice(0, 10);
+            this.runService.updateRun(run.id, run).subscribe({
+              next: (response) => {
+                console.log('Run modifiée avec succès', response);
+              },
+              error: (err) => {
+                console.error('Erreur lors de la modification de la run', err);
+              }
+            });
+          })
+          // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
+          this.runService.getRuns().subscribe(data => {
+            console.log()
+            this.runs = data;
+            // Triage par date de la Run la plus recente a la plus ancienne
+            this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
+          });
+        });
+      },
+      error: (err) => {
+        console.error('Erreur lors de la modification de la run', err);
+      }
+    });
+  }
+
+  updateMoreRecentRuns(id: number, date: string) {
+    // Mettre à jour le tableau après l'ajout ou la supression
+    this.runService.getRuns().subscribe(data => {
+      this.runs = data;
+      // Triage par date de la Run la plus recente a la plus ancienne
+      this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
+      // MISE A JOUR DES CUMULS APRES AJOUT OU SUPPRESSION D'UNE RUN
+      this.runs.slice().reverse().forEach((run) => {
+        if (run.id != id && new Date(run.date_run).getTime() > new Date(date).getTime()) {
+          console.log();
+          let runIndex = this.runs.findIndex(r => r.id === run.id);
+          let prevRunIndex = runIndex + 1;
+          run.cumul = +this.runs[prevRunIndex].cumul + +run.distance
+        }
+        run.date_run = run.date_run.slice(0, 10);
+        this.runService.updateRun(run.id, run).subscribe({
+          next: (response) => {
+            console.log('Run modifiée avec succès', response);
+          },
+          error: (err) => {
+            console.error('Erreur lors de la modification de la run', err);
+          }
+        });
+      })
+      this.newRun = { ...this.emptyRun }; // Vide le formulaire après l'ajout
+      // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
+      this.runService.getRuns().subscribe(data => {
+        console.log()
+        this.runs = data;
+        // Triage par date de la Run la plus recente a la plus ancienne
+        this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
+      });
+    });
+  }
+
 }

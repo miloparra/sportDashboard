@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Run, RunService } from '../run.service';
@@ -14,7 +14,9 @@ export class RunModalComponent {
   @Input() modalRun: any;
   @Input() createMode: boolean = true;
 
-  constructor(private runService: RunService) {}
+  @Output() saveChanges = new EventEmitter<void>(); // Événement pour mettre a jour le tableau de Runs
+
+  constructor(private runService: RunService) { }
 
   private emptyRun: Run = {
     id: 0,
@@ -41,14 +43,6 @@ export class RunModalComponent {
   }
 
   saveRun() {
-    this.runService.updateRun(this.modalRun.id, this.modalRun).subscribe({
-      next: (response) => {
-        window.location.reload();
-        console.log('Run modifiée avec succès', response);
-      },
-      error: (err) => {
-        console.error('Erreur lors de la modification de la run', err);
-      }
-    });
+    this.saveChanges.emit();
   }
 }

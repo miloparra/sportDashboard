@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BikeService, Ride } from '../bike.service';
@@ -14,7 +14,9 @@ export class BikeModalComponent {
   @Input() modalRide: any;
   @Input() createMode: boolean = true;
 
-  constructor(private bikeService: BikeService) {}
+  @Output() saveChanges = new EventEmitter<void>(); // Événement pour mettre a jour le tableau de Rides
+
+  constructor(private bikeService: BikeService) { }
 
   private emptyRide: Ride = {
     id: 0,
@@ -42,14 +44,6 @@ export class BikeModalComponent {
   }
 
   saveRide() {
-    this.bikeService.updateRide(this.modalRide.id, this.modalRide).subscribe({
-      next: (response) => {
-        window.location.reload();
-        console.log('Ride modifiée avec succès', response);
-      },
-      error: (err) => {
-        console.error('Erreur lors de la modification de la ride', err);
-      }
-    });
+    this.saveChanges.emit();
   }
 }

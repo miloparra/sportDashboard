@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Swim, SwimService } from '../swim.service';
@@ -14,7 +14,9 @@ export class SwimModalComponent {
   @Input() modalSwim: any;
   @Input() createMode: boolean = true;
 
-  constructor(private swimService: SwimService) {}
+  @Output() saveChanges = new EventEmitter<void>(); // Événement pour mettre a jour le tableau des Swims
+
+  constructor(private swimService: SwimService) { }
 
   private emptySwim: Swim = {
     id: 0,
@@ -40,14 +42,6 @@ export class SwimModalComponent {
   }
 
   saveSwim() {
-    this.swimService.updateSwim(this.modalSwim.id, this.modalSwim).subscribe({
-      next: (response) => {
-        window.location.reload();
-        console.log('Swim modifiée avec succès', response);
-      },
-      error: (err) => {
-        console.error('Erreur lors de la modification de la swim', err);
-      }
-    });
+    this.saveChanges.emit();
   }
 }
