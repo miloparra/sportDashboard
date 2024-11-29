@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BikeModalComponent } from './bike-modal/bike-modal.component';
 import { BikeService, Ride } from './bike.service';
 import { HttpClientModule } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-bike',
@@ -159,7 +160,7 @@ export class BikeComponent {
           // Triage par date de la Ride la plus recente a la plus ancienne
           this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
 
-          this.outings.slice().reverse().forEach((ride) => {
+          const updateObservables = this.outings.slice().reverse().map((ride) => {
 
             // 1. MISE A JOUR DU CUMUL DE LA RIDE QUI A ETE MODIFIEE
             if (ride.id == this.editedRide.id) {
@@ -211,22 +212,22 @@ export class BikeComponent {
               }
             }
             ride.date_sortie = ride.date_sortie.slice(0, 10);
-            this.bikeService.updateRide(ride.id, ride).subscribe({
-              next: (response) => {
-                console.log('Ride modifiée avec succès', response);
-              },
-              error: (err) => {
-                console.error('Erreur lors de la modification de la ride', err);
-              }
-            });
+            return this.bikeService.updateRide(ride.id, ride);
           })
-          // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
-          this.bikeService.getOutings().subscribe(data => {
-            console.log()
-            this.outings = data;
-            // Triage par date de la Ride la plus recente a la plus ancienne
-            this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
-          });
+          forkJoin(updateObservables).subscribe({
+            next: () => {
+              console.log('Toutes les rides ont été mises à jour.');
+              // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
+              this.bikeService.getOutings().subscribe(data => {
+                this.outings = data;
+                // Triage par date de la Ride la plus recente a la plus ancienne
+                this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
+              });
+            },
+            error: (err) => {
+              console.error('Erreur lors de la mise à jour des rides', err);
+            }
+          })
         });
       },
       error: (err) => {
@@ -242,32 +243,36 @@ export class BikeComponent {
       // Triage par date de la Ride la plus recente a la plus ancienne
       this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
       // MISE A JOUR DES CUMULS APRES AJOUT D'UNE RIDE
-      this.outings.slice().reverse().forEach((ride) => {
+      const updateObservables = this.outings.slice().reverse().map((ride) => {
         if (ride.id != id && new Date(ride.date_sortie).getTime() > new Date(date).getTime()) {
-          console.log();
           let rideIndex = this.outings.findIndex(r => r.id === ride.id);
           let prevRideIndex = rideIndex + 1;
-          ride.cumul_coureur = +this.outings[prevRideIndex].cumul_coureur + +ride.distance
-          ride.cumul_velo = +this.outings[prevRideIndex].cumul_velo + +ride.distance
+          if (prevRideIndex != this.outings.length) {
+            ride.cumul_coureur = +this.outings[prevRideIndex].cumul_coureur + +ride.distance;
+            ride.cumul_velo = +this.outings[prevRideIndex].cumul_velo + +ride.distance;
+          } else {
+            ride.cumul_coureur = ride.distance;
+            ride.cumul_velo = ride.distance;
+          }
         }
         ride.date_sortie = ride.date_sortie.slice(0, 10);
-        this.bikeService.updateRide(ride.id, ride).subscribe({
-          next: (response) => {
-            console.log('Ride modifiée avec succès', response);
-          },
-          error: (err) => {
-            console.error('Erreur lors de la modification de la ride', err);
-          }
-        });
+        return this.bikeService.updateRide(ride.id, ride);
+      })
+      forkJoin(updateObservables).subscribe({
+        next: () => {
+          console.log('Toutes les rides ont été mises à jour.');
+          // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
+          this.bikeService.getOutings().subscribe(data => {
+            this.outings = data;
+            // Triage par date de la Ride la plus recente a la plus ancienne
+            this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
+          });
+        },
+        error: (err) => {
+          console.error('Erreur lors de la mise à jour des rides', err);
+        }
       })
       this.newRide = { ...this.emptyRide }; // Vide le formulaire après l'ajout
-      // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
-      this.bikeService.getOutings().subscribe(data => {
-        console.log()
-        this.outings = data;
-        // Triage par date de la Ride la plus recente a la plus ancienne
-        this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
-      });
     });
   }
 }

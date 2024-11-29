@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RunModalComponent } from './run-modal/run-modal.component';
 import { RunService, Run } from './run.service';
 import { HttpClientModule } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-run',
@@ -149,7 +150,7 @@ export class RunComponent {
           // Triage par date de la Run la plus recente a la plus ancienne
           this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
 
-          this.runs.slice().reverse().forEach((run) => {
+          const updateObservables = this.runs.slice().reverse().map((run) => {
 
             // 1. MISE A JOUR DU CUMUL DE LA RUN QUI A ETE MODIFIEE
             if (run.id == this.editedRun.id) {
@@ -192,22 +193,23 @@ export class RunComponent {
               }
             }
             run.date_run = run.date_run.slice(0, 10);
-            this.runService.updateRun(run.id, run).subscribe({
-              next: (response) => {
-                console.log('Run modifiée avec succès', response);
-              },
-              error: (err) => {
-                console.error('Erreur lors de la modification de la run', err);
-              }
-            });
+            // Retourne l'observable de mise a jour
+            return this.runService.updateRun(run.id, run);
           })
-          // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
-          this.runService.getRuns().subscribe(data => {
-            console.log()
-            this.runs = data;
-            // Triage par date de la Run la plus recente a la plus ancienne
-            this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
-          });
+          forkJoin(updateObservables).subscribe({
+            next: () => {
+              console.log('Toutes les runs ont été mises à jour.');
+              // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
+              this.runService.getRuns().subscribe(data => {
+                this.runs = data;
+                // Triage par date de la Run la plus recente a la plus ancienne
+                this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
+              });
+            },
+            error: (err) => {
+              console.error('Erreur lors de la mise à jour des runs', err);
+            }
+          })
         });
       },
       error: (err) => {
@@ -223,31 +225,35 @@ export class RunComponent {
       // Triage par date de la Run la plus recente a la plus ancienne
       this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
       // MISE A JOUR DES CUMULS APRES AJOUT OU SUPPRESSION D'UNE RUN
-      this.runs.slice().reverse().forEach((run) => {
+      const updateObservables = this.runs.slice().reverse().map((run) => {
         if (run.id != id && new Date(run.date_run).getTime() > new Date(date).getTime()) {
-          console.log();
           let runIndex = this.runs.findIndex(r => r.id === run.id);
           let prevRunIndex = runIndex + 1;
-          run.cumul = +this.runs[prevRunIndex].cumul + +run.distance
+          if (prevRunIndex != this.runs.length) {
+            run.cumul = +this.runs[prevRunIndex].cumul + +run.distance;
+          } else {
+            run.cumul = run.distance;
+          }
         }
         run.date_run = run.date_run.slice(0, 10);
-        this.runService.updateRun(run.id, run).subscribe({
-          next: (response) => {
-            console.log('Run modifiée avec succès', response);
-          },
-          error: (err) => {
-            console.error('Erreur lors de la modification de la run', err);
-          }
-        });
+        // Retourne l'observable de mise a jour
+        return this.runService.updateRun(run.id, run);
+      });
+      forkJoin(updateObservables).subscribe({
+        next: () => {
+          console.log('Toutes les runs ont été mises à jour.');
+          // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
+          this.runService.getRuns().subscribe(data => {
+            this.runs = data;
+            // Triage par date de la Run la plus recente a la plus ancienne
+            this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
+          });
+        },
+        error: (err) => {
+          console.error('Erreur lors de la mise à jour des runs', err);
+        }
       })
       this.newRun = { ...this.emptyRun }; // Vide le formulaire après l'ajout
-      // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
-      this.runService.getRuns().subscribe(data => {
-        console.log()
-        this.runs = data;
-        // Triage par date de la Run la plus recente a la plus ancienne
-        this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
-      });
     });
   }
 

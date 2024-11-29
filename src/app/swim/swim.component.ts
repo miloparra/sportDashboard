@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { SwimModalComponent } from './swim-modal/swim-modal.component';
 import { SwimService, Swim } from './swim.service';
 import { HttpClientModule } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-swim',
@@ -146,7 +147,7 @@ export class SwimComponent {
           // Triage par date de la Swim la plus recente a la plus ancienne
           this.swims.sort((a, b) => new Date(b.date_swim).getTime() - new Date(a.date_swim).getTime());
 
-          this.swims.slice().reverse().forEach((swim) => {
+          const updateObservables = this.swims.slice().reverse().map((swim) => {
 
             // 1. MISE A JOUR DU CUMUL DE LA SWIM QUI A ETE MODIFIEE
             if (swim.id == this.editedSwim.id) {
@@ -189,22 +190,23 @@ export class SwimComponent {
               }
             }
             swim.date_swim = swim.date_swim.slice(0, 10);
-            this.swimService.updateSwim(swim.id, swim).subscribe({
-              next: (response) => {
-                console.log('Swim modifiée avec succès', response);
-              },
-              error: (err) => {
-                console.error('Erreur lors de la modification de la swim', err);
-              }
-            });
+            // Retourne l'observable de mise a jour
+            return this.swimService.updateSwim(swim.id, swim);
           })
-          // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
-          this.swimService.getSwims().subscribe(data => {
-            console.log()
-            this.swims = data;
-            // Triage par date de la Swim la plus recente a la plus ancienne
-            this.swims.sort((a, b) => new Date(b.date_swim).getTime() - new Date(a.date_swim).getTime());
-          });
+          forkJoin(updateObservables).subscribe({
+            next: () => {
+              console.log('Toutes les swims ont été mises à jour.');
+              // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
+              this.swimService.getSwims().subscribe(data => {
+                this.swims = data;
+                // Triage par date de la Swim la plus recente a la plus ancienne
+                this.swims.sort((a, b) => new Date(b.date_swim).getTime() - new Date(a.date_swim).getTime());
+              });
+            },
+            error: (err) => {
+              console.error('Erreur lors de la mise à jour des swims', err);
+            }
+          })
         });
       },
       error: (err) => {
@@ -220,31 +222,35 @@ export class SwimComponent {
       // Triage par date de la Swim la plus recente a la plus ancienne
       this.swims.sort((a, b) => new Date(b.date_swim).getTime() - new Date(a.date_swim).getTime());
       // MISE A JOUR DES CUMULS APRES AJOUT D'UNE SWIM
-      this.swims.slice().reverse().forEach((swim) => {
+      const updateObservables = this.swims.slice().reverse().map((swim) => {
         if (swim.id != id && new Date(swim.date_swim).getTime() > new Date(date).getTime()) {
-          console.log();
           let swimIndex = this.swims.findIndex(r => r.id === swim.id);
           let prevSwimIndex = swimIndex + 1;
-          swim.cumul = +this.swims[prevSwimIndex].cumul + +swim.distance
+          if (prevSwimIndex != this.swims.length) {
+            swim.cumul = +this.swims[prevSwimIndex].cumul + +swim.distance;
+          } else {
+            swim.cumul = swim.distance;
+          }
+
         }
         swim.date_swim = swim.date_swim.slice(0, 10);
-        this.swimService.updateSwim(swim.id, swim).subscribe({
-          next: (response) => {
-            console.log('Swim modifiée avec succès', response);
-          },
-          error: (err) => {
-            console.error('Erreur lors de la modification de la swim', err);
-          }
-        });
+        return this.swimService.updateSwim(swim.id, swim);
+      });
+      forkJoin(updateObservables).subscribe({
+        next: () => {
+          console.log('Toutes les swims ont été mises à jour.');
+          // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
+          this.swimService.getSwims().subscribe(data => {
+            this.swims = data;
+            // Triage par date de la Swim la plus recente a la plus ancienne
+            this.swims.sort((a, b) => new Date(b.date_swim).getTime() - new Date(a.date_swim).getTime());
+          });
+        },
+        error: (err) => {
+          console.error('Erreur lors de la mise à jour des swims', err);
+        }
       })
       this.newSwim = { ...this.emptySwim }; // Vide le formulaire après l'ajout
-      // REMISE A JOUR DU TABLEAU (Affichage des decimales (.00))
-      this.swimService.getSwims().subscribe(data => {
-        console.log()
-        this.swims = data;
-        // Triage par date de la Swim la plus recente a la plus ancienne
-        this.swims.sort((a, b) => new Date(b.date_swim).getTime() - new Date(a.date_swim).getTime());
-      });
     });
   }
 }
