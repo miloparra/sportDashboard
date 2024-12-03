@@ -18,6 +18,8 @@ export class BikeModalComponent {
 
   constructor(private bikeService: BikeService) { }
 
+  outings: Ride[] = [];
+
   private emptyRide: Ride = {
     id: 0,
     date_sortie: '',
@@ -45,5 +47,11 @@ export class BikeModalComponent {
 
   saveRide() {
     this.saveChanges.emit();
+  }
+
+  cancelModification() {
+    this.bikeService.getOutings().subscribe(data => {
+      this.outings = data;
+    });
   }
 }

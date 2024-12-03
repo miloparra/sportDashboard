@@ -18,6 +18,8 @@ export class RunModalComponent {
 
   constructor(private runService: RunService) { }
 
+  runs: Run[] = [];
+
   private emptyRun: Run = {
     id: 0,
     date_run: '',
@@ -44,5 +46,11 @@ export class RunModalComponent {
 
   saveRun() {
     this.saveChanges.emit();
+  }
+
+  cancelModification() {
+    this.runService.getRuns().subscribe(data => {
+      this.runs = data;
+    });
   }
 }

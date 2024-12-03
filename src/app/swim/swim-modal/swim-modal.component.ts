@@ -18,6 +18,8 @@ export class SwimModalComponent {
 
   constructor(private swimService: SwimService) { }
 
+  swims: Swim[] = [];
+
   private emptySwim: Swim = {
     id: 0,
     date_swim: '',
@@ -43,5 +45,11 @@ export class SwimModalComponent {
 
   saveSwim() {
     this.saveChanges.emit();
+  }
+
+  cancelModification() {
+    this.swimService.getSwims().subscribe(data => {
+      this.swims = data;
+    });
   }
 }
