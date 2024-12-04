@@ -1,42 +1,44 @@
 <div class="generalcomponent">
-  <div class="generalform d-flex justify-content-center">
-    <button class="btn btn-outline-dark bouton" data-bs-toggle="modal" data-bs-target="#runModal">Add Run</button>
-    <app-run-modal [modalRun]="newRun" [createMode]="true"></app-run-modal>
-    <button class="btn btn-outline-dark bouton" data-bs-toggle="modal" data-bs-target="#bikeModal">Add Ride</button>
-    <app-bike-modal [modalRide]="newRide" [createMode]="true"></app-bike-modal>
-    <button class="btn btn-outline-dark bouton" data-bs-toggle="modal" data-bs-target="#swimModal">Add Swim</button>
-    <app-swim-modal [modalSwim]="newSwim" [createMode]="true"></app-swim-modal>
-    <a routerLink="/fitness"><button class="btn btn-outline-dark bouton">Add Fitness Session</button></a>
+  <div class="container-fluid vh-100">
+    <div class="row h-100">
+      <div class="position-relative col-3 p-0">
+        <img src="/assets/photos/runner2.jpeg" class="img-fluid w-100 h-100 object-cover" alt="Image 1" />
+        <div class=" position-absolute top-50 start-50 translate-middle">
+          <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#runModal">Add
+            Run</button>
+          <button type="button" class="btn btn-outline-light" routerLink="/running">My Runs</button>
+          <button type="button" class="btn btn-outline-light" routerLink="/dashboard">Stats</button>
+        </div>
+      </div>
+      <div class="position-relative col-3 p-0">
+        <img src="/assets/photos/rider1.jpeg" class="img-fluid w-100 h-100 object-cover" alt="Image 2" />
+        <div class=" position-absolute top-50 start-50 translate-middle">
+          <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#bikeModal">Add
+            Ride</button>
+          <button type="button" class="btn btn-outline-light" routerLink="/bike">My Rides</button>
+          <button type="button" class="btn btn-outline-light" routerLink="/dashboard">Stats</button>
+        </div>
+      </div>
+      <div class="position-relative col-3 p-0">
+        <img src="/assets/photos/swimer1.jpeg" class="img-fluid w-100 h-100 object-cover" alt="Image 3" />
+        <div class=" position-absolute top-50 start-50 translate-middle">
+          <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#swimModal">Add
+            Swim</button>
+          <button type="button" class="btn btn-outline-light" routerLink="/swim">My Swims</button>
+          <button type="button" class="btn btn-outline-light" routerLink="/dashboard">Stats</button>
+        </div>
+      </div>
+      <div class="position-relative col-3 p-0">
+        <img src="/assets/photos/runner1.jpeg" class="img-fluid w-100 h-100 object-cover" alt="Image 4" />
+        <div class=" position-absolute top-50 start-50 translate-middle">
+          <button type="button" class="btn btn-outline-light" routerLink="/fitness">My Sessions</button>
+          <button type="button" class="btn btn-outline-light" routerLink="/dashboard">Stats</button>
+        </div>
+      </div>
+    </div>
   </div>
-  
-  <div class="generaltable">
-      <table class="table  table-striped">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Run</th>
-              <th>Bike</th>
-              <th>Swim</th>
-              <th>Fitness</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td>
-                <button class="btn"><i class="bi bi-plus-square"></i></button>
-              </td>
-              <td>
-                <button class="btn"><i class="bi bi-plus-square"></i></button>
-              </td>
-              <td>
-                <button class="btn"><i class="bi bi-plus-square"></i></button>
-              </td>
-              <td>
-                <button class="btn"><i class="bi bi-plus-square"></i></button>
-              </td>
-            </tr>
-          </tbody>
-      </table>
-  </div>  
 </div>
+
+<app-run-modal [modalRun]="newRun" [createMode]="true"></app-run-modal>
+<app-bike-modal [modalRide]="newRide" [createMode]="true"></app-bike-modal>
+<app-swim-modal [modalSwim]="newSwim" [createMode]="true"></app-swim-modal>

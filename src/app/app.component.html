@@ -1,18 +1,18 @@
 <nav class="navbar navbar-expand bg-body-tertiary" data-bs-theme="dark">
-   <div class="container-fluid">
-     <a class="navbar-brand" href="#">SPORTBOARD</a>
-     <div class="collapse navbar-collapse" id="navbarNav">
-       <ul class="navbar-nav">
-         <li class="nav-item active">
-           <a routerLink="/general" routerLinkActive="active" class="nav-link">General</a>
-         </li>
-         <li class="nav-item">
-           <a routerLink="/running" routerLinkActive="active" class="nav-link">Running</a>
-         </li>
-         <li class="nav-item">
-           <a routerLink="/bike" routerLinkActive="active" class="nav-link">Bike</a>
-         </li>
-         <li class="nav-item">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">SPORTBOARD</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a routerLink="/general" routerLinkActive="active" class="nav-link">General</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/running" routerLinkActive="active" class="nav-link">Running</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/bike" routerLinkActive="active" class="nav-link">Bike</a>
+        </li>
+        <li class="nav-item">
           <a routerLink="/swim" routerLinkActive="active" class="nav-link">Swim</a>
         </li>
         <li class="nav-item">
@@ -21,9 +21,9 @@
         <li class="nav-item">
           <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
         </li>
-       </ul>
-     </div>
-     <button type="button" class="btn" (click)="openApp()"><i class="bi bi-speedometer"></i></button>
-   </div>
- </nav>
+      </ul>
+    </div>
+    <button type="button" class="btn" (click)="openApp()"><i class="bi bi-speedometer"></i></button>
+  </div>
+</nav>
 <router-outlet></router-outlet>

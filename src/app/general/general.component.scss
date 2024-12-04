@@ -1,17 +1,13 @@
-.generalcomponent {
-    padding: 30px;
+.object-cover {
+    object-fit: cover;
+    /* Recadre l'image en la centrant */
+    object-position: center;
+    /* Centre l'image */
 }
 
-.bouton {
-    height: 200px;
-    width: 140px;
-    margin: 20px;
-}
-
-.generaltable {
-    margin-top: 20px;
-}
-
-.deleteButton {
-    color: rgb(205, 50, 50);
+.btn {
+    height: 100px;
+    width: 200px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
