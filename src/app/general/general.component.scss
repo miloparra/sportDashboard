@@ -7,33 +7,43 @@
 
 .activity {
     opacity: 0.7;
+    height: 100%;
 }
 
 .activity:hover {
     opacity: 1;
+    transition: opacity 0.3s;
 }
 
 .object-cover {
-    object-fit: cover;
-    /* Recadre l'image en la centrant */
-    object-position: center;
-    /* Centre l'image */
+    object-fit: cover; // Recadre l'image en la centrant
+    object-position: center; // Centre l'image
 }
 
-.btngroup {
-    display: none;
-    /* Hide button */
-    margin-top: -28px;
+.overlay {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 56px); // Prend toute la hauteur
+    opacity: 0;
 }
 
-.activity:hover .btngroup {
-    display: block;
-    /* On :hover of div show button */
+.activity:hover .overlay {
+    opacity: 1;
+    transition: opacity 0.3s ease;
 }
 
-.btn {
-    height: 100px;
-    width: 200px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+.menu-item {
+    flex: 1; // Prend une part égale de l'espace vertical
+    text-align: center;
+    font-size: 1.5rem;
+    border: solid 2px;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.menu-item:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fond plus sombre au survol */
+    transition: background-color 0.3s;
+    opacity: 1;
 }
