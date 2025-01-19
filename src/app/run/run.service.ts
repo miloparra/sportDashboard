@@ -13,13 +13,21 @@ export interface Run {
   formatted_date_run: string
 }
 
+export interface RunWeek {
+  week: string;
+  yearweek: number;
+  distSum: number;
+  timeSum: number;
+  denivSUM: number
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class RunService {
   private apiUrl = 'http://localhost:3000/api/runs';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // RECUPERATION DES RUNS
   getRuns(): Observable<Run[]> {
@@ -30,6 +38,11 @@ export class RunService {
   getRun(id: number): Observable<any> {
     const url = `${this.apiUrl}/${id}`; // Construction de l'URL avec l'identifiant
     return this.http.get(url);
+  }
+
+  // RECUPERATION DES MOYENNES PAR SEMAINE
+  getRunWeekTotal(): Observable<RunWeek[]> {
+    return this.http.get<RunWeek[]>('http://localhost:3000/api/weekruns');
   }
 
   // AJOUT D'UN RUN
