@@ -97,7 +97,8 @@ export class WeekrunDashboardComponent {
       enabled: false
     };
     this.stroke1 = {
-      width: 3
+      width: 1,
+      colors: ["#0000cc"]
     };
     this.markers1 = {
       size: 0
@@ -105,11 +106,8 @@ export class WeekrunDashboardComponent {
     this.yaxis1 = {
       labels: {
         formatter: function (val) {
-          return val.toFixed(0);
-        }
-      },
-      title: {
-        text: "Km"
+          return val.toFixed(0) + " km";
+        },
       },
       tickAmount: 3
     };
@@ -154,7 +152,8 @@ export class WeekrunDashboardComponent {
       enabled: false
     };
     this.stroke2 = {
-      width: 1
+      width: 1,
+      colors: ["#0000cc"],
     };
     this.markers2 = {
       size: 0
@@ -162,7 +161,7 @@ export class WeekrunDashboardComponent {
     this.yaxis2 = {
       labels: {
         formatter: function (val) {
-          return val.toFixed(0);
+          return val.toFixed(0) + " km";
         }
       },
       tickAmount: 2
