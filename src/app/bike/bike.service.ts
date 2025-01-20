@@ -14,13 +14,21 @@ export interface Ride {
   formatted_date_sortie: string
 }
 
+export interface RideWeek {
+  week: string;
+  yearweek: number;
+  distSum: number;
+  timeSum: number;
+  denivSUM: number
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class BikeService {
   private apiUrl = 'http://localhost:3000/api/outings';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // RECUPERATION DES RIDES
   getOutings(): Observable<Ride[]> {
@@ -31,6 +39,11 @@ export class BikeService {
   getRide(id: number): Observable<any> {
     const url = `${this.apiUrl}/${id}`; // Construction de l'URL avec l'identifiant
     return this.http.get(url);
+  }
+
+  // RECUPERATION DES MOYENNES PAR SEMAINE
+  getRideWeekTotal(): Observable<RideWeek[]> {
+    return this.http.get<RideWeek[]>('http://localhost:3000/api/weekrides');
   }
 
   // AJOUT D'UNE RIDE

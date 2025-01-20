@@ -12,13 +12,20 @@ export interface Swim {
   formatted_date_swim: string
 }
 
+export interface SwimWeek {
+  week: string;
+  yearweek: number;
+  distSum: number;
+  timeSum: number
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class SwimService {
   private apiUrl = 'http://localhost:3000/api/swims';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // RECUPERATION DES SWIMS
   getSwims(): Observable<Swim[]> {
@@ -29,6 +36,11 @@ export class SwimService {
   getSwim(id: number): Observable<any> {
     const url = `${this.apiUrl}/${id}`; // Construction de l'URL avec l'identifiant
     return this.http.get(url);
+  }
+
+  // RECUPERATION DES MOYENNES PAR SEMAINE
+  getSwimWeekTotal(): Observable<SwimWeek[]> {
+    return this.http.get<SwimWeek[]>('http://localhost:3000/api/weekswims');
   }
 
   // AJOUT D'UNE SWIM
