@@ -12,6 +12,12 @@ export interface Swim {
   formatted_date_swim: string
 }
 
+export interface SwimYear {
+  year: string;
+  distSum: number;
+  timeSum: number
+}
+
 export interface SwimWeek {
   week: string;
   yearweek: number;
@@ -36,6 +42,11 @@ export class SwimService {
   getSwim(id: number): Observable<any> {
     const url = `${this.apiUrl}/${id}`; // Construction de l'URL avec l'identifiant
     return this.http.get(url);
+  }
+
+  // RECUPERATION DES MOYENNES PAR AN
+  getSwimYearTotal(): Observable<SwimYear[]> {
+    return this.http.get<SwimYear[]>('http://localhost:3000/api/yearswims');
   }
 
   // RECUPERATION DES MOYENNES PAR SEMAINE

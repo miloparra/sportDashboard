@@ -13,6 +13,13 @@ export interface Run {
   formatted_date_run: string
 }
 
+export interface RunYear {
+  year: string;
+  distSum: string;
+  timeSum: string;
+  denivSUM: string
+}
+
 export interface RunWeek {
   week: string;
   yearweek: number;
@@ -38,6 +45,11 @@ export class RunService {
   getRun(id: number): Observable<any> {
     const url = `${this.apiUrl}/${id}`; // Construction de l'URL avec l'identifiant
     return this.http.get(url);
+  }
+
+  // RECUPERATION DES MOYENNES PAR AN
+  getRunYearTotal(): Observable<RunYear[]> {
+    return this.http.get<RunYear[]>('http://localhost:3000/api/yearruns');
   }
 
   // RECUPERATION DES MOYENNES PAR SEMAINE

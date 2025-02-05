@@ -14,6 +14,13 @@ export interface Ride {
   formatted_date_sortie: string
 }
 
+export interface RideYear {
+  year: string;
+  distSum: number;
+  timeSum: number;
+  denivSUM: number
+}
+
 export interface RideWeek {
   week: string;
   yearweek: number;
@@ -39,6 +46,11 @@ export class BikeService {
   getRide(id: number): Observable<any> {
     const url = `${this.apiUrl}/${id}`; // Construction de l'URL avec l'identifiant
     return this.http.get(url);
+  }
+
+  // RECUPERATION DES MOYENNES PAR AN
+  getRideYearTotal(): Observable<RideYear[]> {
+    return this.http.get<RideYear[]>('http://localhost:3000/api/yearrides');
   }
 
   // RECUPERATION DES MOYENNES PAR SEMAINE
