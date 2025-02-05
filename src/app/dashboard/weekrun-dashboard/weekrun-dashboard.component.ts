@@ -73,8 +73,6 @@ export class WeekrunDashboardComponent {
 
     this.getYearWeeksBetween(firstWeek, lastWeek);
 
-    console.log(this.yearWeeks);
-
     this.series1 = [
       {
         name: "Distance",
@@ -91,6 +89,9 @@ export class WeekrunDashboardComponent {
       toolbar: {
         autoSelected: "pan",
         show: false
+      },
+      zoom: {
+        enabled: false
       }
     };
     this.dataLabels1 = {
@@ -101,7 +102,9 @@ export class WeekrunDashboardComponent {
       colors: ["#0000cc"]
     };
     this.markers1 = {
-      size: 0
+      size: 3,
+      colors: ["#ffffff"],
+      strokeColors: ["#0000cc"]
     };
     this.yaxis1 = {
       labels: {
