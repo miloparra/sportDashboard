@@ -85,7 +85,7 @@ export class WeekswimDashboardComponent {
     this.chart1 = {
       id: "chart6",
       type: "line",
-      height: 250,
+      height: 150,
       toolbar: {
         autoSelected: "pan",
         show: false
@@ -115,7 +115,10 @@ export class WeekswimDashboardComponent {
       tickAmount: 3
     };
     this.xaxis1 = {
-      type: "category"
+      type: "category",
+      labels: {
+        show: false
+      }
     };
     this.tooltip1 = {
       shared: false,
@@ -138,7 +141,7 @@ export class WeekswimDashboardComponent {
     this.chart2 = {
       id: "chart5",
       type: "area",
-      height: 120,
+      height: 100,
       brush: {
         target: "chart6",
         enabled: true

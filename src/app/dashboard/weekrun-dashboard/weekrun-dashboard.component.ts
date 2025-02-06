@@ -85,7 +85,7 @@ export class WeekrunDashboardComponent {
     this.chart1 = {
       id: "chart2",
       type: "line",
-      height: 250,
+      height: 150,
       toolbar: {
         autoSelected: "pan",
         show: false
@@ -115,7 +115,10 @@ export class WeekrunDashboardComponent {
       tickAmount: 3
     };
     this.xaxis1 = {
-      type: "category"
+      type: "category",
+      labels: {
+        show: false
+      }
     };
     this.tooltip1 = {
       shared: false,
@@ -138,7 +141,7 @@ export class WeekrunDashboardComponent {
     this.chart2 = {
       id: "chart1",
       type: "area",
-      height: 120,
+      height: 100,
       brush: {
         target: "chart2",
         enabled: true
