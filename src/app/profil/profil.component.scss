@@ -4,3 +4,21 @@
     border-radius: 50%;
     border: solid 5px hsl(0, 0%, 100%);
 }
+
+.yearSlector {
+    margin-top: 20px;
+}
+
+button {
+    border: solid 1px;
+}
+
+.yearDatas {
+    font-size: 0.8em;
+    margin-top: 20px;
+    white-space: nowrap; // Eviter les retours à la ligne
+}
+
+.yearData {
+    margin-bottom: -3px;
+}
