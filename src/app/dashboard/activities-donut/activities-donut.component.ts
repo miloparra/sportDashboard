@@ -30,7 +30,7 @@ export class ActivitiesDonutComponent {
   constructor(private runService: RunService, private rideService: BikeService, private swimService: SwimService) { }
 
   runs: RunYear[] = [];
-  rides: Ride[] = [];
+  rides: RideYear[] = [];
   swims: SwimYear[] = [];
 
   ngOnInit(): void {
