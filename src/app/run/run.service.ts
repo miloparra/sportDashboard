@@ -17,7 +17,7 @@ export interface RunYear {
   year: string;
   distSum: string;
   timeSum: string;
-  denivSUM: string
+  denivSum: string
 }
 
 export interface RunWeek {
@@ -25,7 +25,7 @@ export interface RunWeek {
   yearweek: number;
   distSum: number;
   timeSum: number;
-  denivSUM: number
+  denivSum: number
 }
 
 @Injectable({
