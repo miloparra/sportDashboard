@@ -4,13 +4,12 @@ a {
 
 .navbar {
     background-color: hsl(240, 100%, 33%);
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 12%;
+    padding-right: 12%;
 }
 
 .corps {
-    margin-left: 10%;
-    margin-right: 10%;
+    margin: 0% 12% 0%;
     display: flex;
     flex-wrap: nowrap;
     gap: 1rem;
@@ -24,6 +23,7 @@ a {
 
 .profil {
     background-color: rgb(255, 255, 255);
+    padding-bottom: 70px;
     border-radius: 10px;
     position: sticky;
     width: 23%;
