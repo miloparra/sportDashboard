@@ -202,11 +202,11 @@ export class WeekrideDashboardComponent {
       for (let i = 0; i < this.weekRides.length; i++) {
         if (this.weekRides[i].week == yearWeek) {
           weekExist = true;
-          this.yearWeeks[indexWeek] = { week: this.getFirstAndLastDayFromYearWeek(yearWeek), yearweek: parseInt(yearWeek), distSum: this.weekRides[i].distSum, timeSum: this.weekRides[i].timeSum, denivSUM: this.weekRides[i].denivSUM };
+          this.yearWeeks[indexWeek] = { week: this.getFirstAndLastDayFromYearWeek(yearWeek), yearweek: parseInt(yearWeek), distSum: this.weekRides[i].distSum, timeSum: this.weekRides[i].timeSum, denivSum: this.weekRides[i].denivSum };
         }
       }
       if (weekExist == false) {
-        this.yearWeeks[indexWeek] = { week: this.getFirstAndLastDayFromYearWeek(yearWeek), yearweek: parseInt(yearWeek), distSum: 0, timeSum: 0, denivSUM: 0 };
+        this.yearWeeks[indexWeek] = { week: this.getFirstAndLastDayFromYearWeek(yearWeek), yearweek: parseInt(yearWeek), distSum: 0, timeSum: 0, denivSum: 0 };
       }
 
       // Passer à la semaine suivante
