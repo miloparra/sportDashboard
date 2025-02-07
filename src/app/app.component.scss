@@ -30,10 +30,3 @@ a {
     top: 116px; // Distance depuis le haut
     height: fit-content; // Ajuste la hauteur pour ne pas dépasser l'écran (La hauteur est ajustée en fonction du contenu)
 }
-
-.profilImg {
-    width: 80px;
-    margin-top: -40px;
-    border-radius: 50%;
-    border: solid 5px hsl(0, 0%, 100%);
-}
