@@ -4,22 +4,70 @@
 <h6 class="d-flex justify-content-center">Milo Parra</h6>
 <div class="yearSlector d-flex justify-content-center">
     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-        <button type="button" class="btn" (click)="this.selectedYear = 0">2023</button>
-        <button type="button" class="btn" (click)="this.selectedYear = 1">2024</button>
-        <button type="button" class="btn" (click)="this.selectedYear = 2">2025</button>
+        <button type="button" class="btn" [ngClass]="{ 'selected-btn': this.selectedYear === '2023' }"
+            (click)="this.selectedYear = '2023'; this.updateSelectedYearActivities()">2023</button>
+        <button type="button" class="btn" [ngClass]="{ 'selected-btn': this.selectedYear === '2024' }"
+            (click)="this.selectedYear = '2024'; this.updateSelectedYearActivities()">2024</button>
+        <button type="button" class="btn" [ngClass]="{ 'selected-btn': this.selectedYear === '2025' }"
+            (click)="this.selectedYear = '2025'; this.updateSelectedYearActivities()">2025</button>
     </div>
 </div>
-<div class="d-flex justify-content-center">
-    <div class="yearDatas row">
-        <div class="col-6">
-            <p class="yearData">Temps</p>
-            <p class="yearData">Distance</p>
-            <p class="yearData">Denivelé</p>
+
+
+<div class="activityDatas d-flex justify-content-center">
+    <div>
+        <div class="title row">
+            <div class="col-12">RUN</div>
         </div>
-        <div class="col-6">
-            <p class="yearData">{{ this.runs[this.selectedYear].timeSum }}</p>
-            <p class="yearData">{{ this.runs[this.selectedYear].distSum }}</p>
-            <p class="yearData">{{ this.runs[this.selectedYear].denivSum }}</p>
+        <div class="yearDatas row">
+            <div class="col-6">
+                <p class="yearData">Temps</p>
+                <p class="yearData">Distance</p>
+                <p class="yearData">Denivelé</p>
+            </div>
+            <div class="col-6">
+                <p class="yearData">{{ this.selectedRunYear.timeSum }}</p>
+                <p class="yearData">{{ this.selectedRunYear.distSum }}</p>
+                <p class="yearData">{{ this.selectedRunYear.denivSum }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="activityDatas d-flex justify-content-center">
+    <div>
+        <div class="title row">
+            <div class="col-12">RIDE</div>
+        </div>
+        <div class="yearDatas row">
+            <div class="col-6">
+                <p class="yearData">Temps</p>
+                <p class="yearData">Distance</p>
+                <p class="yearData">Denivelé</p>
+            </div>
+            <div class="col-6">
+                <p class="yearData">{{ this.selectedRideYear.timeSum }}</p>
+                <p class="yearData">{{ this.selectedRideYear.distSum }}</p>
+                <p class="yearData">{{ this.selectedRideYear.denivSum }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="activityDatas d-flex justify-content-center">
+    <div>
+        <div class="title row">
+            <div class="col-12">RIDE</div>
+        </div>
+        <div class="yearDatas row">
+            <div class="col-6">
+                <p class="yearData">Temps</p>
+                <p class="yearData">Distance</p>
+            </div>
+            <div class="col-6">
+                <p class="yearData">{{ this.selectedSwimYear.timeSum }}</p>
+                <p class="yearData">{{ this.selectedSwimYear.distSum }}</p>
+            </div>
         </div>
     </div>
 </div>

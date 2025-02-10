@@ -11,11 +11,21 @@
 
 button {
     border: solid 1px;
+    border-color: rgb(210, 210, 210);
+}
+
+.selected-btn {
+    color: white;
+    background-color: hsl(0, 0%, 9%);
+    border-color: hsl(0, 0%, 9%);
+}
+
+.activityDatas {
+    margin-top: 20px;
 }
 
 .yearDatas {
     font-size: 0.8em;
-    margin-top: 20px;
     white-space: nowrap; // Eviter les retours à la ligne
 }
 
