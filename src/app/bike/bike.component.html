@@ -10,22 +10,22 @@
       <thead>
         <tr>
           <th>Date</th>
+          <th>Temps</th>
           <th>Distance</th>
           <th>Cumul Coureur</th>
           <th>Cumul Velo</th>
           <th>Denivele</th>
-          <th>Temps</th>
           <th>Parcours</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let ride of outings, let i = index">
           <td>{{ ride.formatted_date_sortie }}</td>
+          <td>{{ ride.temps }}</td>
           <td>{{ ride.distance }} km</td>
           <td>{{ ride.cumul_coureur }} km</td>
           <td>{{ ride.cumul_velo }} km</td>
           <td>{{ ride.denivele }} m</td>
-          <td>{{ ride.temps }}</td>
           <td>{{ ride.parcours }}</td>
           <td class="d-flex justify-content-end">
             <button class="btn deleteButton" (click)="openDeleteModal(i)" data-bs-toggle="modal"
