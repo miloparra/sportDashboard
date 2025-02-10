@@ -6,7 +6,7 @@
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel" *ngIf="createMode">Add a run</h5>
           <h5 class="modal-title" id="exampleModalLabel" *ngIf="!createMode">Edit a run</h5>
-          <button type="button" class="btn-close" onclick="cancelModification()" data-bs-dismiss="modal"
+          <button type="button" class="btn-close" (click)="cancelModification()" data-bs-dismiss="modal"
             aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -16,7 +16,8 @@
               <label for="date">Date</label>
             </div>
             <div class="form-floating form-control-sm">
-              <input type="number" id="dist" class="form-control" [(ngModel)]="modalRun.distance" name="dist" required>
+              <input type="number" id="dist" class="form-control" [(ngModel)]="modalRun.distance"
+                (change)="cumulCalcul()" name="dist" required>
               <label for="dist">Distance</label>
             </div>
             <div class="form-floating form-control-sm">
@@ -38,7 +39,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-danger" onclick="cancelModification()"
+          <button type="button" class="btn btn-outline-danger" (click)="cancelModification()"
             data-bs-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-outline-success" (click)="addRun()" data-bs-dismiss="modal"
             *ngIf="createMode">Add</button>

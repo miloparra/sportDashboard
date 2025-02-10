@@ -20,33 +20,13 @@ export class RunComponent {
 
   constructor(private runService: RunService) { }
 
+  createMode = false;
+
   indexRunToDelete = 0;
 
   oldDate = '';
   oldDistance = 0;
   oldCumul = 0;
-
-  private emptyRun: Run = {
-    id: 0,
-    date_run: '',
-    distance: 0,
-    cumul: 0,
-    vitesse: 0,
-    denivele: 0,
-    temps: '',
-    formatted_date_run: ''
-  };
-
-  newRun: Run = {
-    id: 0,
-    date_run: '',
-    distance: 0,
-    cumul: 0,
-    vitesse: 0,
-    denivele: 0,
-    temps: '',
-    formatted_date_run: ''
-  };
 
   editedRun: Run = {
     id: 0,
@@ -68,32 +48,14 @@ export class RunComponent {
     });
   }
 
-  cumulCalcul() {
-    let prevRunFind = false
-    if (this.runs.length == 0) {
-      this.newRun.cumul = this.newRun.distance;
-    } else {
-      this.runs.forEach((run) => {
-        if (new Date(run.date_run).getTime() <= new Date(this.newRun.date_run).getTime() && prevRunFind == false) {
-          let lastCumul = +run.cumul + +this.newRun.distance;
-          this.newRun.cumul = lastCumul;
-          prevRunFind = true
-        }
-      })
-      if (prevRunFind == false) {
-        this.newRun.cumul = this.newRun.distance;
-      }
-    }
-  }
-
   // AJOUT D'UN RUN
-  addRun(): void {
+  onAddNewRun(): void {
     // Ajout d'un nouveau run
-    this.runService.addRun(this.newRun).subscribe({
+    this.runService.addRun(this.editedRun).subscribe({
       next: (response) => {
         console.log('Réponse du serveur : ', response);
         // Mettre à jour les cumuls des runs plus recentes après l'ajout
-        this.updateMoreRecentRuns(this.newRun.id, this.newRun.date_run);
+        this.updateMoreRecentRuns(this.editedRun.id, this.editedRun.date_run);
       },
       error: (err) => {
         console.error('Erreur lors de l\'ajout du run : ', err);
@@ -253,7 +215,6 @@ export class RunComponent {
           console.error('Erreur lors de la mise à jour des runs', err);
         }
       })
-      this.newRun = { ...this.emptyRun }; // Vide le formulaire après l'ajout
     });
   }
 

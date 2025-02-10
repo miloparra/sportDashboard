@@ -14,6 +14,7 @@ export class RunModalComponent {
   @Input() modalRun: any;
   @Input() createMode: boolean = true;
 
+  @Output() addNewRun = new EventEmitter<void>(); // Événement pour ajouter une nouvelle run
   @Output() saveChanges = new EventEmitter<void>(); // Événement pour mettre a jour le tableau de Runs
 
   constructor(private runService: RunService) { }
@@ -31,26 +32,46 @@ export class RunModalComponent {
     formatted_date_run: ''
   };
 
-  addRun() {
-    // Ajout de la nouvelle run
-    this.runService.addRun(this.modalRun).subscribe({
-      next: (response) => {
-        console.log('Réponse du serveur : ', response);
-      },
-      error: (err) => {
-        console.error('Erreur lors de l\'ajout de la run : ', err);
-      }
+  ngOnInit(): void {
+    this.runService.getRuns().subscribe(data => {
+      this.runs = data;
+      // Triage par date de la Run la plus recente a la plus ancienne
+      this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
     });
+  }
+
+  addRun() {
+    this.addNewRun.emit();
     this.modalRun = { ...this.emptyRun }; // Vide le formulaire après l'ajout
   }
 
   saveRun() {
     this.saveChanges.emit();
+    this.modalRun = { ...this.emptyRun }; // Vide le formulaire après la modif
+  }
+
+  cumulCalcul() {
+    let prevRunFind = false
+    if (this.runs.length == 0) {
+      this.modalRun.cumul = this.modalRun.distance;
+    } else {
+      this.runs.forEach((run) => {
+        if (new Date(run.date_run).getTime() <= new Date(this.modalRun.date_run).getTime() && prevRunFind == false) {
+          let lastCumul = +run.cumul + +this.modalRun.distance;
+          this.modalRun.cumul = lastCumul;
+          prevRunFind = true
+        }
+      })
+      if (prevRunFind == false) {
+        this.modalRun.cumul = this.modalRun.distance;
+      }
+    }
   }
 
   cancelModification() {
     this.runService.getRuns().subscribe(data => {
       this.runs = data;
+      this.modalRun = { ...this.emptyRun }; // Vide le formulaire après l'annulation
     });
   }
 }

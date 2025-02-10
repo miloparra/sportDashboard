@@ -1,35 +1,8 @@
 <div class="runcomponent">
-  <div class="runform">
-    <form class="d-flex justify-content-start gap-3" #runForm="ngForm" (ngSubmit)="addRun()">
-      <div class="row">
-        <div class="form-floating form-control-sm col">
-          <input type="date" id="date" class="form-control" [(ngModel)]="newRun.date_run" name="date" required>
-          <label for="date">Date</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="number" id="dist" class="form-control" [(ngModel)]="newRun.distance" (change)="cumulCalcul()"
-            name="dist" required>
-          <label for="dist">Distance</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="number" id="cumul" class="form-control" [(ngModel)]="newRun.cumul" name="cumul">
-          <label for="cumul">Cumul</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="number" id="vitesse" class="form-control" [(ngModel)]="newRun.vitesse" name="vitesse">
-          <label for="vitesse">Vitesse</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="number" id="deniv" class="form-control" [(ngModel)]="newRun.denivele" name="deniv">
-          <label for="deniv">Denivele</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="time" id="temps" class="form-control" [(ngModel)]="newRun.temps" name="temps" step="2">
-          <label for="temps">Temps</label>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-outline-primary bouton" [disabled]="!runForm.form.valid">Ajouter</button>
-    </form>
+  <div class="d-flex justify-content-end">
+    <button class="btn addButton" (click)="this.createMode = true" data-bs-toggle="modal" data-bs-target="#runModal">
+      <i class="bi bi-plus-circle-fill h6"> NEW RUN</i>
+    </button>
   </div>
 
   <div class="runtable">
@@ -57,7 +30,8 @@
               data-bs-target="#deleteRunModal">
               <i class="bi bi-trash"></i>
             </button>
-            <button class="btn editButton" (click)="editRun(run)" data-bs-toggle="modal" data-bs-target="#runModal">
+            <button class="btn editButton" (click)="editRun(run); this.createMode = false" data-bs-toggle="modal"
+              data-bs-target="#runModal">
               <i class="bi bi-pen"></i>
             </button>
           </td>
@@ -66,8 +40,9 @@
     </table>
   </div>
 </div>
-<app-run-modal [modalRun]="editedRun" [createMode]="false" (saveChanges)="onSaveChanges()"></app-run-modal>
-<div class="modal fade" id="deleteRunModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<app-run-modal [modalRun]="editedRun" [createMode]="this.createMode" (saveChanges)="onSaveChanges()"
+  (addNewRun)="onAddNewRun()"></app-run-modal>
+<div class="modal fade" id="deleteRunModal" tabindex="-1" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body">
