@@ -14,8 +14,8 @@ export interface Swim {
 
 export interface SwimYear {
   year: string;
-  distSum: number;
-  timeSum: number
+  distSum: string;
+  timeSum: string
 }
 
 export interface SwimWeek {

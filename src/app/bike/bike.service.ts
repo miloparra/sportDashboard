@@ -16,9 +16,9 @@ export interface Ride {
 
 export interface RideYear {
   year: string;
-  distSum: number;
-  timeSum: number;
-  denivSum: number
+  distSum: string;
+  timeSum: string;
+  denivSum: string
 }
 
 export interface RideWeek {
