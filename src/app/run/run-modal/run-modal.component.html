@@ -16,6 +16,10 @@
               <label for="date">Date</label>
             </div>
             <div class="form-floating form-control-sm">
+              <input type="time" id="temps" class="form-control" [(ngModel)]="modalRun.temps" name="temps" step="2">
+              <label for="temps">Temps</label>
+            </div>
+            <div class="form-floating form-control-sm">
               <input type="number" id="dist" class="form-control" [(ngModel)]="modalRun.distance"
                 (change)="cumulCalcul()" name="dist" required>
               <label for="dist">Distance</label>
@@ -25,16 +29,12 @@
               <label for="cumul">Cumul</label>
             </div>
             <div class="form-floating form-control-sm">
-              <input type="number" id="vitesse" class="form-control" [(ngModel)]="modalRun.vitesse" name="vitesse">
-              <label for="vitesse">Vitesse</label>
-            </div>
-            <div class="form-floating form-control-sm">
               <input type="number" id="deniv" class="form-control" [(ngModel)]="modalRun.denivele" name="deniv">
               <label for="deniv">Denivele</label>
             </div>
             <div class="form-floating form-control-sm">
-              <input type="time" id="temps" class="form-control" [(ngModel)]="modalRun.temps" name="temps" step="2">
-              <label for="temps">Temps</label>
+              <input type="number" id="vitesse" class="form-control" [(ngModel)]="modalRun.vitesse" name="vitesse">
+              <label for="vitesse">Vitesse</label>
             </div>
           </div>
         </div>

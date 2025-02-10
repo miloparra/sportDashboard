@@ -10,21 +10,21 @@
       <thead>
         <tr>
           <th>Date</th>
+          <th>Temps</th>
           <th>Distance</th>
           <th>Cumul</th>
-          <th>Vitesse</th>
           <th>Denivele</th>
-          <th>Temps</th>
+          <th>Vitesse</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let run of runs, let i = index">
           <td>{{ run.formatted_date_run }}</td>
+          <td>{{ run.temps }}</td>
           <td>{{ run.distance }} km</td>
           <td>{{ run.cumul }} km</td>
-          <td>{{ run.vitesse }} min/km</td>
           <td>{{ run.denivele }} m</td>
-          <td>{{ run.temps }}</td>
+          <td>{{ run.vitesse }} min/km</td>
           <td class="d-flex justify-content-end">
             <button class="btn deleteButton" (click)="openDeleteModal(i)" data-bs-toggle="modal"
               data-bs-target="#deleteRunModal">
