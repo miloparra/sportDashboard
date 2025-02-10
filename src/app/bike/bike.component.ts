@@ -20,36 +20,14 @@ export class BikeComponent {
 
   constructor(private bikeService: BikeService) { }
 
+  createMode = false;
+
   indexRideToDelete = 0;
 
   oldDate = '';
   oldDistance = 0;
   oldCumulCoureur = 0;
   oldCumulVelo = 0;
-
-  private emptyRide: Ride = {
-    id: 0,
-    date_sortie: '',
-    distance: 0,
-    cumul_coureur: 0,
-    cumul_velo: 0,
-    denivele: 0,
-    temps: '',
-    parcours: '',
-    formatted_date_sortie: ''
-  };
-
-  newRide: Ride = {
-    id: 0,
-    date_sortie: '',
-    distance: 0,
-    cumul_coureur: 0,
-    cumul_velo: 0,
-    denivele: 0,
-    temps: '',
-    parcours: '',
-    formatted_date_sortie: ''
-  };
 
   editedRide: Ride = {
     id: 0,
@@ -72,36 +50,14 @@ export class BikeComponent {
     });
   }
 
-  cumulCalcul() {
-    let prevRideFind = false
-    if (this.outings.length == 0) {
-      this.newRide.cumul_coureur = this.newRide.distance;
-      this.newRide.cumul_velo = this.newRide.distance;
-    } else {
-      this.outings.forEach((ride) => {
-        if (new Date(ride.date_sortie).getTime() <= new Date(this.newRide.date_sortie).getTime() && prevRideFind == false) {
-          let lastCumulCoureur = +ride.cumul_coureur + +this.newRide.distance;
-          this.newRide.cumul_coureur = lastCumulCoureur;
-          let lastCumulVelo = +ride.cumul_velo + +this.newRide.distance;
-          this.newRide.cumul_velo = lastCumulVelo;
-          prevRideFind = true
-        }
-      })
-      if (prevRideFind == false) {
-        this.newRide.cumul_coureur = this.newRide.distance;
-        this.newRide.cumul_velo = this.newRide.distance;
-      }
-    }
-  }
-
   // AJOUT D'UNE RIDE
-  addRide(): void {
+  onAddNewRide(): void {
     // Ajout de la nouvelle ride
-    this.bikeService.addRide(this.newRide).subscribe({
+    this.bikeService.addRide(this.editedRide).subscribe({
       next: (response) => {
         console.log('Réponse du serveur : ', response);
         // Mettre à jour les cumuls des rides plus recentes après l'ajout
-        this.updateMoreRecentRides(this.newRide.id, this.newRide.date_sortie);
+        this.updateMoreRecentRides(this.editedRide.id, this.editedRide.date_sortie);
       },
       error: (err) => {
         console.error('Erreur lors de l\'ajout de la ride : ', err);
@@ -272,7 +228,6 @@ export class BikeComponent {
           console.error('Erreur lors de la mise à jour des rides', err);
         }
       })
-      this.newRide = { ...this.emptyRide }; // Vide le formulaire après l'ajout
     });
   }
 }

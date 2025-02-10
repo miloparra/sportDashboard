@@ -1,16 +1,19 @@
 .ridecomponent {
-    margin-top: 10px;
-    padding: 30px;
+    padding: 20px 30px 30px;
 }
 
-.bouton {
-    height: 40px;
-    margin-top: 14px;
-    margin-left: 10px;
+.addButton {
+    color: hsl(240, 100%, 33%);
+    border: solid 1px hsl(240, 100%, 33%);
+}
+
+.addButton:hover {
+    background-color: hsl(240, 100%, 33%);
+    color: white;
 }
 
 .ridetable {
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .deleteButton {

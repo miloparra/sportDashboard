@@ -1,40 +1,8 @@
 <div class="ridecomponent">
-  <div class="rideform">
-    <form class="d-flex justify-content-start gap-3" #rideForm="ngForm" (ngSubmit)="addRide()">
-      <div class="row">
-        <div class="form-floating form-control-sm col">
-          <input type="date" id="date" class="form-control" [(ngModel)]="newRide.date_sortie" name="date" required>
-          <label for="date">Date</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="number" id="dist" class="form-control" [(ngModel)]="newRide.distance" (change)="cumulCalcul()"
-            name="dist" required>
-          <label for="dist">Distance</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="number" id="cumulCoureur" class="form-control" [(ngModel)]="newRide.cumul_coureur"
-            name="cumulCoureur">
-          <label for="cumulCoureur">Cumul Coureur</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="number" id="cumulVelo" class="form-control" [(ngModel)]="newRide.cumul_velo" name="cumulVelo">
-          <label for="cumulVelo">Cumul Velo</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="number" id="deniv" class="form-control" [(ngModel)]="newRide.denivele" name="deniv">
-          <label for="deniv">Denivele</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="time" id="temps" class="form-control" [(ngModel)]="newRide.temps" name="temps" step="2">
-          <label for="temps">Temps</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="text" id="parcours" class="form-control" [(ngModel)]="newRide.parcours" name="parcours">
-          <label for="parcours">Parcours</label>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-outline-primary bouton" [disabled]="!rideForm.form.valid">Ajouter</button>
-    </form>
+  <div class="d-flex justify-content-end">
+    <button class="btn addButton" (click)="this.createMode = true" data-bs-toggle="modal" data-bs-target="#bikeModal">
+      <i class="bi bi-plus-circle-fill h6"> NEW RIDE</i>
+    </button>
   </div>
 
   <div class="ridetable">
@@ -64,7 +32,8 @@
               data-bs-target="#deleteRideModal">
               <i class="bi bi-trash"></i>
             </button>
-            <button class="btn editButton" (click)="editRide(ride)" data-bs-toggle="modal" data-bs-target="#bikeModal">
+            <button class="btn editButton" (click)="editRide(ride); this.createMode = false" data-bs-toggle="modal"
+              data-bs-target="#bikeModal">
               <i class="bi bi-pen"></i>
             </button>
           </td>
@@ -73,8 +42,9 @@
     </table>
   </div>
 </div>
-<app-bike-modal [modalRide]="editedRide" [createMode]="false" (saveChanges)="onSaveChanges()"></app-bike-modal>
-<div class="modal fade" id="deleteRideModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<app-bike-modal [modalRide]="editedRide" [createMode]="this.createMode" (saveChanges)="onSaveChanges()"
+  (addNewRide)="onAddNewRide()"></app-bike-modal>
+<div class="modal fade" id="deleteRideModal" tabindex="-1" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body">

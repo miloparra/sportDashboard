@@ -14,6 +14,7 @@ export class BikeModalComponent {
   @Input() modalRide: any;
   @Input() createMode: boolean = true;
 
+  @Output() addNewRide = new EventEmitter<void>(); // Événement pour ajouter une nouvelle ride
   @Output() saveChanges = new EventEmitter<void>(); // Événement pour mettre a jour le tableau de Rides
 
   constructor(private bikeService: BikeService) { }
@@ -32,26 +33,51 @@ export class BikeModalComponent {
     formatted_date_sortie: ''
   };
 
-  addRide() {
-    // Ajout de la nouvelle ride
-    this.bikeService.addRide(this.modalRide).subscribe({
-      next: (response) => {
-        console.log('Réponse du serveur : ', response);
-      },
-      error: (err) => {
-        console.error('Erreur lors de l\'ajout de la ride : ', err);
-      }
+  ngOnInit(): void {
+    this.bikeService.getOutings().subscribe(data => {
+      this.outings = data;
+      // Triage par date de la Ride la plus recente a la plus ancienne
+      this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
     });
+  }
+
+  addRide() {
+    this.addNewRide.emit();
     this.modalRide = { ...this.emptyRide }; // Vide le formulaire après l'ajout
   }
 
   saveRide() {
     this.saveChanges.emit();
+    this.modalRide = { ...this.emptyRide }; // Vide le formulaire après la modif
+  }
+
+  cumulCalcul() {
+    console.log(this.outings)
+    let prevRideFind = false
+    if (this.outings.length == 0) {
+      this.modalRide.cumul_coureur = this.modalRide.distance;
+      this.modalRide.cumul_velo = this.modalRide.distance;
+    } else {
+      this.outings.forEach((ride) => {
+        if (new Date(ride.date_sortie).getTime() <= new Date(this.modalRide.date_sortie).getTime() && prevRideFind == false) {
+          let lastCumulCoureur = +ride.cumul_coureur + +this.modalRide.distance;
+          this.modalRide.cumul_coureur = lastCumulCoureur;
+          let lastCumulVelo = +ride.cumul_velo + +this.modalRide.distance;
+          this.modalRide.cumul_velo = lastCumulVelo;
+          prevRideFind = true
+        }
+      })
+      if (prevRideFind == false) {
+        this.modalRide.cumul_coureur = this.modalRide.distance;
+        this.modalRide.cumul_velo = this.modalRide.distance;
+      }
+    }
   }
 
   cancelModification() {
     this.bikeService.getOutings().subscribe(data => {
       this.outings = data;
+      this.modalRide = { ...this.emptyRide }; // Vide le formulaire après l'annulation
     });
   }
 }
