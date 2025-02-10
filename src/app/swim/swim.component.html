@@ -1,31 +1,8 @@
 <div class="swimcomponent">
-  <div class="swimform">
-    <form class="d-flex justify-content-start gap-3" #swimForm="ngForm" (ngSubmit)="addSwim()">
-      <div class="row">
-        <div class="form-floating form-control-sm col">
-          <input type="date" id="date" class="form-control" [(ngModel)]="newSwim.date_swim" name="date" required>
-          <label for="date">Date</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="time" id="temps" class="form-control" [(ngModel)]="newSwim.temps" name="temps" step="2">
-          <label for="temps">Temps</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="number" id="dist" class="form-control" [(ngModel)]="newSwim.distance" (change)="cumulCalcul()"
-            name="dist" required>
-          <label for="dist">Distance</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="number" id="cumul" class="form-control" [(ngModel)]="newSwim.cumul" name="cumul">
-          <label for="cumul">Cumul</label>
-        </div>
-        <div class="form-floating form-control-sm col">
-          <input type="number" id="vitesse" class="form-control" [(ngModel)]="newSwim.vitesse" name="vitesse">
-          <label for="vitesse">Vitesse</label>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-outline-primary bouton" [disabled]="!swimForm.form.valid">Ajouter</button>
-    </form>
+  <div class="d-flex justify-content-end">
+    <button class="btn addButton" (click)="this.createMode = true" data-bs-toggle="modal" data-bs-target="#swimModal">
+      <i class="bi bi-plus-circle-fill h6"> NEW SWIM</i>
+    </button>
   </div>
 
   <div class="swimtable">
@@ -51,7 +28,8 @@
               data-bs-target="#deleteSwimModal">
               <i class="bi bi-trash"></i>
             </button>
-            <button class="btn editButton" (click)="editSwim(swim)" data-bs-toggle="modal" data-bs-target="#swimModal">
+            <button class="btn editButton" (click)="editSwim(swim); this.createMode = false" data-bs-toggle="modal"
+              data-bs-target="#swimModal">
               <i class="bi bi-pen"></i>
             </button>
           </td>
@@ -60,8 +38,9 @@
     </table>
   </div>
 </div>
-<app-swim-modal [modalSwim]="editedSwim" [createMode]="false" (saveChanges)="onSaveChanges()"></app-swim-modal>
-<div class="modal fade" id="deleteSwimModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<app-swim-modal [modalSwim]="editedSwim" [createMode]="this.createMode" (saveChanges)="onSaveChanges()"
+  (addNewSwim)="onAddNewSwim()"></app-swim-modal>
+<div class="modal fade" id="deleteSwimModal" tabindex="-1" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body">

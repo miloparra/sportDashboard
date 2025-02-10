@@ -20,31 +20,13 @@ export class SwimComponent {
 
   constructor(private swimService: SwimService) { }
 
+  createMode = false;
+
   indexSwimToDelete = 0;
 
   oldDate = '';
   oldDistance = 0;
   oldCumul = 0;
-
-  private emptySwim: Swim = {
-    id: 0,
-    date_swim: '',
-    temps: '',
-    distance: 0,
-    cumul: 0,
-    vitesse: 0,
-    formatted_date_swim: ''
-  };
-
-  newSwim: Swim = {
-    id: 0,
-    date_swim: '',
-    temps: '',
-    distance: 0,
-    cumul: 0,
-    vitesse: 0,
-    formatted_date_swim: ''
-  };
 
   editedSwim: Swim = {
     id: 0,
@@ -65,32 +47,14 @@ export class SwimComponent {
     });
   }
 
-  cumulCalcul() {
-    let prevSwimFind = false
-    if (this.swims.length == 0) {
-      this.newSwim.cumul = this.newSwim.distance;
-    } else {
-      this.swims.forEach((swim) => {
-        if (new Date(swim.date_swim).getTime() <= new Date(this.newSwim.date_swim).getTime() && prevSwimFind == false) {
-          let lastCumul = +swim.cumul + +this.newSwim.distance;
-          this.newSwim.cumul = lastCumul;
-          prevSwimFind = true
-        }
-      })
-      if (prevSwimFind == false) {
-        this.newSwim.cumul = this.newSwim.distance;
-      }
-    }
-  }
-
   // AJOUT D'UNE SWIM
-  addSwim(): void {
+  onAddNewSwim(): void {
     // Ajout d'un nouveau swim
-    this.swimService.addSwim(this.newSwim).subscribe({
+    this.swimService.addSwim(this.editedSwim).subscribe({
       next: (response) => {
         console.log('Réponse du serveur : ', response);
         // Mettre à jour les cumuls des swims plus recentes après l'ajout
-        this.updateMoreRecentSwims(this.newSwim.id, this.newSwim.date_swim);
+        this.updateMoreRecentSwims(this.editedSwim.id, this.editedSwim.date_swim);
       },
       error: (err) => {
         console.error('Erreur lors de l\'ajout de la swim : ', err);
@@ -250,7 +214,6 @@ export class SwimComponent {
           console.error('Erreur lors de la mise à jour des swims', err);
         }
       })
-      this.newSwim = { ...this.emptySwim }; // Vide le formulaire après l'ajout
     });
   }
 }
