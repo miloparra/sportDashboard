@@ -50,6 +50,7 @@ export class SwimComponent {
   // AJOUT D'UNE SWIM
   onAddNewSwim(): void {
     // Ajout d'un nouveau swim
+    this.editedSwim.vitesse = this.speedCalculator(this.editedSwim.temps, this.editedSwim.distance);
     this.swimService.addSwim(this.editedSwim).subscribe({
       next: (response) => {
         console.log('Réponse du serveur : ', response);
@@ -215,5 +216,14 @@ export class SwimComponent {
         }
       })
     });
+  }
+
+  speedCalculator(time: string, distance: number) {
+    let nbSecSec = parseInt(time.substr(6, 2));
+    let nbSecMin = parseInt(time.substr(3, 2)) * 60;
+    let nbSecHr = parseInt(time.substr(0, 2)) * 3600;
+    let totalSec = nbSecSec + nbSecMin + nbSecHr;
+    let secKm = (distance * 3600) / totalSec;
+    return secKm
   }
 }
