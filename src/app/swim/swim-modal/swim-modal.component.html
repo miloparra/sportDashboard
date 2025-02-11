@@ -2,7 +2,7 @@
   aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form class="">
+      <form class="" #swimForm="ngForm">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel" *ngIf="createMode">Add a swim</h5>
           <h5 class="modal-title" id="exampleModalLabel" *ngIf="!createMode">Edit a swim</h5>
@@ -12,25 +12,23 @@
         <div class="modal-body">
           <div class="">
             <div class="form-floating form-control-sm">
-              <input type="date" id="date" class="form-control" [(ngModel)]="modalSwim.date_swim" name="date">
+              <input type="date" id="date" class="form-control" [(ngModel)]="modalSwim.date_swim" name="date" required>
               <label for="date">Date</label>
             </div>
             <div class="form-floating form-control-sm">
-              <input type="time" id="temps" class="form-control" [(ngModel)]="modalSwim.temps" name="temps" step="2">
+              <input type="time" id="temps" class="form-control" [(ngModel)]="modalSwim.temps"
+                [disabled]="!modalSwim.date_swim" name="temps" step="2">
               <label for="temps">Temps</label>
             </div>
             <div class="form-floating form-control-sm">
               <input type="number" id="dist" class="form-control" [(ngModel)]="modalSwim.distance"
-                (change)="cumulCalcul()" name="dist" required>
+                [disabled]="!modalSwim.date_swim" (change)="cumulCalcul()" name="dist" required>
               <label for="dist">Distance</label>
             </div>
             <div class="form-floating form-control-sm">
-              <input type="number" id="cumul" class="form-control" [(ngModel)]="modalSwim.cumul" name="cumul">
+              <input type="number" id="cumul" class="form-control" [(ngModel)]="modalSwim.cumul"
+                [disabled]="!modalSwim.date_swim" name="cumul">
               <label for="cumul">Cumul</label>
-            </div>
-            <div class="form-floating form-control-sm">
-              <input type="number" id="vitesse" class="form-control" [(ngModel)]="modalSwim.vitesse" name="vitesse">
-              <label for="vitesse">Vitesse</label>
             </div>
           </div>
         </div>
@@ -38,7 +36,7 @@
           <button type="button" class="btn btn-outline-danger" (click)="cancelModification()"
             data-bs-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-outline-success" (click)="addSwim()" data-bs-dismiss="modal"
-            *ngIf="createMode">Add</button>
+            *ngIf="createMode" [disabled]="!swimForm.form.valid">Add</button>
           <button type="button" class="btn btn-outline-success" (click)="saveSwim()" data-bs-dismiss="modal"
             *ngIf="!createMode">Save</button>
         </div>
