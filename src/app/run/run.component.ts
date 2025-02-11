@@ -51,6 +51,7 @@ export class RunComponent {
   // AJOUT D'UN RUN
   onAddNewRun(): void {
     // Ajout d'un nouveau run
+    this.editedRun.vitesse = this.speedCalculator(this.editedRun.temps, this.editedRun.distance);
     this.runService.addRun(this.editedRun).subscribe({
       next: (response) => {
         console.log('Réponse du serveur : ', response);
@@ -216,6 +217,17 @@ export class RunComponent {
         }
       })
     });
+  }
+
+  speedCalculator(time: string, distance: number) {
+    let nbSecSec = parseInt(time.substr(6, 2));
+    let nbSecMin = parseInt(time.substr(3, 2)) * 60;
+    let nbSecHr = parseInt(time.substr(0, 2)) * 3600;
+    let totalSec = nbSecSec + nbSecMin + nbSecHr;
+    let secKm = Math.floor(totalSec / distance);
+    let minKm = Math.floor(secKm / 60);
+    let resteSec = secKm % 60;
+    return parseFloat(minKm + '.' + resteSec);
   }
 
 }
