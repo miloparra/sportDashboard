@@ -21,8 +21,16 @@
         <li class="nav-item">
           <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
         </li>
+        <li class="nav-item" *ngIf="!authService.isAuthenticated()">
+          <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
+        </li>
+        <li class="nav-item" *ngIf="!authService.isAuthenticated()">
+          <a routerLink="/signin" routerLinkActive="active" class="nav-link">Signin</a>
+        </li>
       </ul>
     </div>
+    <button type="button" class="btn" (click)="logout()" *ngIf="authService.isAuthenticated()"><i
+        class="bi bi-box-arrow-right"></i></button>
     <button type="button" class="btn" (click)="openApp()"><i class="bi bi-speedometer"></i></button>
   </div>
 </nav>
