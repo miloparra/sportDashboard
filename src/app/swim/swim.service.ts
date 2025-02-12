@@ -29,7 +29,7 @@ export interface SwimWeek {
   providedIn: 'root',
 })
 export class SwimService {
-  private apiUrl = 'http://localhost:3000/api/swims';
+  private apiUrl = 'http://localhost:3000/api/activities/swims';
 
   constructor(private http: HttpClient) { }
 
@@ -46,12 +46,12 @@ export class SwimService {
 
   // RECUPERATION DES MOYENNES PAR AN
   getSwimYearTotal(): Observable<SwimYear[]> {
-    return this.http.get<SwimYear[]>('http://localhost:3000/api/yearswims');
+    return this.http.get<SwimYear[]>('http://localhost:3000/api/activities/yearswims');
   }
 
   // RECUPERATION DES MOYENNES PAR SEMAINE
   getSwimWeekTotal(): Observable<SwimWeek[]> {
-    return this.http.get<SwimWeek[]>('http://localhost:3000/api/weekswims');
+    return this.http.get<SwimWeek[]>('http://localhost:3000/api/activities/weekswims');
   }
 
   // AJOUT D'UNE SWIM

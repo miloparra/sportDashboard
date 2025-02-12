@@ -33,7 +33,7 @@ export interface RideWeek {
   providedIn: 'root',
 })
 export class BikeService {
-  private apiUrl = 'http://localhost:3000/api/outings';
+  private apiUrl = 'http://localhost:3000/api/activities/outings';
 
   constructor(private http: HttpClient) { }
 
@@ -50,12 +50,12 @@ export class BikeService {
 
   // RECUPERATION DES MOYENNES PAR AN
   getRideYearTotal(): Observable<RideYear[]> {
-    return this.http.get<RideYear[]>('http://localhost:3000/api/yearrides');
+    return this.http.get<RideYear[]>('http://localhost:3000/api/activities/yearrides');
   }
 
   // RECUPERATION DES MOYENNES PAR SEMAINE
   getRideWeekTotal(): Observable<RideWeek[]> {
-    return this.http.get<RideWeek[]>('http://localhost:3000/api/weekrides');
+    return this.http.get<RideWeek[]>('http://localhost:3000/api/activities/weekrides');
   }
 
   // AJOUT D'UNE RIDE

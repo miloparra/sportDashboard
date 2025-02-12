@@ -50,15 +50,15 @@ export interface Serie {
   providedIn: 'root',
 })
 export class FitnessService {
-  private apiUrlSeanceLinked = 'http://localhost:3000/api/seanceslinked';
-  private apiUrlSeance = 'http://localhost:3000/api/seances';
-  private apiUrlExercice = 'http://localhost:3000/api/exercices';
-  private apiUrlSerie = 'http://localhost:3000/api/series';
+  private apiUrlSeanceLinked = 'http://localhost:3000/api/activities/seanceslinked';
+  private apiUrlSeance = 'http://localhost:3000/api/activities/seances';
+  private apiUrlExercice = 'http://localhost:3000/api/activities/exercices';
+  private apiUrlSerie = 'http://localhost:3000/api/activities/series';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-//_______________________________________________________
-//________________________SEANCE_________________________
+  //_______________________________________________________
+  //________________________SEANCE_________________________
 
   // RECUPERATION DES SEANCES ET LEURS LIENS
   getSeancesLinked(): Observable<[]> {
@@ -93,8 +93,8 @@ export class FitnessService {
     return this.http.delete(url);
   }
 
-//_______________________________________________________
-//________________________EXERCICE_______________________
+  //_______________________________________________________
+  //________________________EXERCICE_______________________
 
   // RECUPERATION DES EXERCICES
   getExercices(): Observable<Exercice[]> {
@@ -123,8 +123,8 @@ export class FitnessService {
     const url = `${this.apiUrlExercice}/${id}`; // Construction de l'URL avec l'identifiant
     return this.http.delete(url);
   }
-//______________________________________________________
-//________________________SERIE_________________________
+  //______________________________________________________
+  //________________________SERIE_________________________
 
   // RECUPERATION DES SERIES
   getSeries(): Observable<Serie[]> {

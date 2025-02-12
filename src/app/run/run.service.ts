@@ -32,7 +32,7 @@ export interface RunWeek {
   providedIn: 'root',
 })
 export class RunService {
-  private apiUrl = 'http://localhost:3000/api/runs';
+  private apiUrl = 'http://localhost:3000/api/activities/runs';
 
   constructor(private http: HttpClient) { }
 
@@ -49,12 +49,12 @@ export class RunService {
 
   // RECUPERATION DES MOYENNES PAR AN
   getRunYearTotal(): Observable<RunYear[]> {
-    return this.http.get<RunYear[]>('http://localhost:3000/api/yearruns');
+    return this.http.get<RunYear[]>('http://localhost:3000/api/activities/yearruns');
   }
 
   // RECUPERATION DES MOYENNES PAR SEMAINE
   getRunWeekTotal(): Observable<RunWeek[]> {
-    return this.http.get<RunWeek[]>('http://localhost:3000/api/weekruns');
+    return this.http.get<RunWeek[]>('http://localhost:3000/api/activities/weekruns');
   }
 
   // AJOUT D'UN RUN
