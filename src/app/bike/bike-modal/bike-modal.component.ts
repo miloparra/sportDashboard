@@ -23,21 +23,21 @@ export class BikeModalComponent {
 
   private emptyRide: Ride = {
     id: 0,
-    date_sortie: '',
+    date_ride: '',
     distance: 0,
     cumul_coureur: 0,
     cumul_velo: 0,
     denivele: 0,
     temps: '',
     parcours: '',
-    formatted_date_sortie: ''
+    formatted_date_ride: ''
   };
 
   ngOnInit(): void {
     this.bikeService.getOutings().subscribe(data => {
       this.outings = data;
       // Triage par date de la Ride la plus recente a la plus ancienne
-      this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
+      this.outings.sort((a, b) => new Date(b.date_ride).getTime() - new Date(a.date_ride).getTime());
     });
   }
 
@@ -59,7 +59,7 @@ export class BikeModalComponent {
       this.modalRide.cumul_velo = this.modalRide.distance;
     } else {
       this.outings.forEach((ride) => {
-        if (new Date(ride.date_sortie).getTime() <= new Date(this.modalRide.date_sortie).getTime() && prevRideFind == false) {
+        if (new Date(ride.date_ride).getTime() <= new Date(this.modalRide.date_ride).getTime() && prevRideFind == false) {
           let lastCumulCoureur = +ride.cumul_coureur + +this.modalRide.distance;
           this.modalRide.cumul_coureur = lastCumulCoureur;
           let lastCumulVelo = +ride.cumul_velo + +this.modalRide.distance;

@@ -12,38 +12,37 @@
         <div class="modal-body">
           <div class="">
             <div class="form-floating form-control-sm">
-              <input type="date" id="date" class="form-control" [(ngModel)]="modalRide.date_sortie" name="date"
-                required>
+              <input type="date" id="date" class="form-control" [(ngModel)]="modalRide.date_ride" name="date" required>
               <label for="date">Date</label>
             </div>
             <div class="form-floating form-control-sm">
               <input type="time" id="temps" class="form-control" [(ngModel)]="modalRide.temps"
-                [disabled]="!modalRide.date_sortie" name="temps" step="2">
+                [disabled]="!modalRide.date_ride" name="temps" step="2">
               <label for="temps">Temps</label>
             </div>
             <div class="form-floating form-control-sm">
               <input type="number" id="dist" class="form-control" [(ngModel)]="modalRide.distance"
-                [disabled]="!modalRide.date_sortie" (change)="cumulCalcul()" name="dist" required>
+                [disabled]="!modalRide.date_ride" (change)="cumulCalcul()" name="dist" required>
               <label for="dist">Distance</label>
             </div>
             <div class="form-floating form-control-sm">
               <input type="number" id="cumulCoureur" class="form-control" [(ngModel)]="modalRide.cumul_coureur"
-                [disabled]="!modalRide.date_sortie" name="cumulCoureur">
+                [disabled]="!modalRide.date_ride" name="cumulCoureur">
               <label for="cumulCoureur">Cumul Coureur</label>
             </div>
             <div class="form-floating form-control-sm">
               <input type="number" id="cumulVelo" class="form-control" [(ngModel)]="modalRide.cumul_velo"
-                [disabled]="!modalRide.date_sortie" name="cumulVelo">
+                [disabled]="!modalRide.date_ride" name="cumulVelo">
               <label for="cumulVelo">Cumul Velo</label>
             </div>
             <div class="form-floating form-control-sm">
               <input type="number" id="deniv" class="form-control" [(ngModel)]="modalRide.denivele"
-                [disabled]="!modalRide.date_sortie" name="deniv">
+                [disabled]="!modalRide.date_ride" name="deniv">
               <label for="deniv">Denivele</label>
             </div>
             <div class="form-floating form-control-sm">
               <input type="text" id="parcours" class="form-control" [(ngModel)]="modalRide.parcours"
-                [disabled]="!modalRide.date_sortie" name="parcours">
+                [disabled]="!modalRide.date_ride" name="parcours">
               <label for="parcours">Parcours</label>
             </div>
           </div>

@@ -4,14 +4,14 @@ import { Observable } from 'rxjs';
 
 export interface Ride {
   id: number;
-  date_sortie: string;
+  date_ride: string;
   distance: number;
   cumul_coureur: number;
   cumul_velo: number;
   denivele: number;
   temps: string;
   parcours: string;
-  formatted_date_sortie: string
+  formatted_date_ride: string
 }
 
 export interface RideYear {
@@ -60,6 +60,7 @@ export class BikeService {
 
   // AJOUT D'UNE RIDE
   addRide(ride: Ride): Observable<any> {
+    console.log(ride)
     return this.http.post(this.apiUrl, ride);
   }
 

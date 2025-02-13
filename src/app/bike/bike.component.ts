@@ -31,14 +31,14 @@ export class BikeComponent {
 
   editedRide: Ride = {
     id: 0,
-    date_sortie: '',
+    date_ride: '',
     distance: 0,
     cumul_coureur: 0,
     cumul_velo: 0,
     denivele: 0,
     temps: '',
     parcours: '',
-    formatted_date_sortie: ''
+    formatted_date_ride: ''
   }
 
   // AFFICHAGE DES RIDES
@@ -46,7 +46,7 @@ export class BikeComponent {
     this.bikeService.getOutings().subscribe(data => {
       this.outings = data;
       // Triage par date de la Ride la plus recente a la plus ancienne
-      this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
+      this.outings.sort((a, b) => new Date(b.date_ride).getTime() - new Date(a.date_ride).getTime());
     });
   }
 
@@ -57,7 +57,7 @@ export class BikeComponent {
       next: (response) => {
         console.log('Réponse du serveur : ', response);
         // Mettre à jour les cumuls des rides plus recentes après l'ajout
-        this.updateMoreRecentRides(this.editedRide.id, this.editedRide.date_sortie);
+        this.updateMoreRecentRides(this.editedRide.id, this.editedRide.date_ride);
       },
       error: (err) => {
         console.error('Erreur lors de l\'ajout de la ride : ', err);
@@ -76,7 +76,7 @@ export class BikeComponent {
     let index = this.indexRideToDelete;
     // Recuperation de l'id et de la date de la ride a supprimer
     const supRideId = this.outings[index].id;
-    const supRideDate = this.outings[index].date_sortie;
+    const supRideDate = this.outings[index].date_ride;
     // Suppression de la ride en BD
     this.bikeService.deleteRide(supRideId).subscribe({
       next: (response) => {
@@ -94,9 +94,9 @@ export class BikeComponent {
 
   // MODIFICATION D'UNE RIDE
   editRide(ride: Ride) {
-    ride.date_sortie = ride.date_sortie.slice(0, 10);
+    ride.date_ride = ride.date_ride.slice(0, 10);
     this.editedRide = ride;
-    this.oldDate = ride.date_sortie;
+    this.oldDate = ride.date_ride;
     this.oldDistance = ride.distance;
     this.oldCumulCoureur = ride.cumul_coureur;
     this.oldCumulVelo = ride.cumul_velo;
@@ -105,7 +105,7 @@ export class BikeComponent {
   onSaveChanges() {
     let cumulCoureurDif = this.editedRide.cumul_coureur - this.oldCumulCoureur;
     let cumulVeloDif = this.editedRide.cumul_velo - this.oldCumulVelo;
-    let dateDif = new Date(this.editedRide.date_sortie).getTime() - new Date(this.oldDate).getTime() // Positif si nouvelle date plus recente - Negatif si nouvelle date plus ancienne
+    let dateDif = new Date(this.editedRide.date_ride).getTime() - new Date(this.oldDate).getTime() // Positif si nouvelle date plus recente - Negatif si nouvelle date plus ancienne
 
     // MISE A JOUR DES CUMULS APRES MODIFICATION D'UNE RIDE
     this.bikeService.updateRide(this.editedRide.id, this.editedRide).subscribe({
@@ -114,7 +114,7 @@ export class BikeComponent {
         this.bikeService.getOutings().subscribe(data => {
           this.outings = data;
           // Triage par date de la Ride la plus recente a la plus ancienne
-          this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
+          this.outings.sort((a, b) => new Date(b.date_ride).getTime() - new Date(a.date_ride).getTime());
 
           const updateObservables = this.outings.slice().reverse().map((ride) => {
 
@@ -140,13 +140,13 @@ export class BikeComponent {
               // CAS 1 : La nouvelle date est plus recente
               if (dateDif > 0) {
                 // Modification des Ride avec une date entre l'ancienne et la nouvelle date de la Ride qui a ete modifiee
-                if (new Date(ride.date_sortie).getTime() < new Date(this.editedRide.date_sortie).getTime() && new Date(this.oldDate).getTime() < new Date(ride.date_sortie).getTime()) {
+                if (new Date(ride.date_ride).getTime() < new Date(this.editedRide.date_ride).getTime() && new Date(this.oldDate).getTime() < new Date(ride.date_ride).getTime()) {
                   console.log('recente entre')
                   ride.cumul_coureur -= +this.oldDistance;
                   ride.cumul_velo -= +this.oldDistance;
                 }
                 // Modification des Ride avec une date plus recentes que la nouvelle date de la Ride qui a ete modifiee
-                if (new Date(ride.date_sortie).getTime() > new Date(this.editedRide.date_sortie).getTime()) {
+                if (new Date(ride.date_ride).getTime() > new Date(this.editedRide.date_ride).getTime()) {
                   console.log('recente rencente')
                   let rideIndex = this.outings.findIndex(r => r.id === ride.id);
                   let prevRideIndex = rideIndex + 1;
@@ -158,7 +158,7 @@ export class BikeComponent {
               // CAS 2 : La nouvelle date est plus ancienne OU La date n'a pas ete modifiee
               else {
                 // Modification des Ride avec une date plus recentes que la date de la Ride qui a ete modifiee
-                if (new Date(ride.date_sortie).getTime() > new Date(this.editedRide.date_sortie).getTime()) {
+                if (new Date(ride.date_ride).getTime() > new Date(this.editedRide.date_ride).getTime()) {
                   console.log('ancienne recente')
                   let rideIndex = this.outings.findIndex(r => r.id === ride.id);
                   let prevRideIndex = rideIndex + 1;
@@ -167,7 +167,7 @@ export class BikeComponent {
                 }
               }
             }
-            ride.date_sortie = ride.date_sortie.slice(0, 10);
+            ride.date_ride = ride.date_ride.slice(0, 10);
             return this.bikeService.updateRide(ride.id, ride);
           })
           forkJoin(updateObservables).subscribe({
@@ -177,7 +177,7 @@ export class BikeComponent {
               this.bikeService.getOutings().subscribe(data => {
                 this.outings = data;
                 // Triage par date de la Ride la plus recente a la plus ancienne
-                this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
+                this.outings.sort((a, b) => new Date(b.date_ride).getTime() - new Date(a.date_ride).getTime());
               });
             },
             error: (err) => {
@@ -197,10 +197,10 @@ export class BikeComponent {
     this.bikeService.getOutings().subscribe(data => {
       this.outings = data;
       // Triage par date de la Ride la plus recente a la plus ancienne
-      this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
+      this.outings.sort((a, b) => new Date(b.date_ride).getTime() - new Date(a.date_ride).getTime());
       // MISE A JOUR DES CUMULS APRES AJOUT D'UNE RIDE
       const updateObservables = this.outings.slice().reverse().map((ride) => {
-        if (ride.id != id && new Date(ride.date_sortie).getTime() > new Date(date).getTime()) {
+        if (ride.id != id && new Date(ride.date_ride).getTime() > new Date(date).getTime()) {
           let rideIndex = this.outings.findIndex(r => r.id === ride.id);
           let prevRideIndex = rideIndex + 1;
           if (prevRideIndex != this.outings.length) {
@@ -211,7 +211,7 @@ export class BikeComponent {
             ride.cumul_velo = ride.distance;
           }
         }
-        ride.date_sortie = ride.date_sortie.slice(0, 10);
+        ride.date_ride = ride.date_ride.slice(0, 10);
         return this.bikeService.updateRide(ride.id, ride);
       })
       forkJoin(updateObservables).subscribe({
@@ -221,7 +221,7 @@ export class BikeComponent {
           this.bikeService.getOutings().subscribe(data => {
             this.outings = data;
             // Triage par date de la Ride la plus recente a la plus ancienne
-            this.outings.sort((a, b) => new Date(b.date_sortie).getTime() - new Date(a.date_sortie).getTime());
+            this.outings.sort((a, b) => new Date(b.date_ride).getTime() - new Date(a.date_ride).getTime());
           });
         },
         error: (err) => {

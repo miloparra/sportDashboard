@@ -20,7 +20,7 @@ import { RouterLink } from '@angular/router';
 })
 export class GeneralComponent {
 
-  constructor(private bikeService: BikeService) {}
+  constructor(private bikeService: BikeService) { }
 
   newRun: Run = {
     id: 0,
@@ -35,14 +35,14 @@ export class GeneralComponent {
 
   newRide: Ride = {
     id: 0,
-    date_sortie: '',
+    date_ride: '',
     distance: 0,
     cumul_coureur: 0,
     cumul_velo: 0,
     denivele: 0,
     temps: '',
     parcours: '',
-    formatted_date_sortie: ''
+    formatted_date_ride: ''
   }
 
   newSwim: Swim = {
@@ -54,5 +54,5 @@ export class GeneralComponent {
     vitesse: 0,
     formatted_date_swim: ''
   }
-  
+
 }
