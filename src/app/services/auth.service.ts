@@ -33,10 +33,13 @@ export class AuthService {
     }
 
     login(email: string, password: string) {
-        return this.http.post<{ token: string }>(`${this.apiUrl}/login`, { email, password })
+        return this.http.post<{ token: string, user: any }>(`${this.apiUrl}/login`, { email, password })
             .subscribe({
                 next: (response) => {
                     localStorage.setItem('token', response.token);
+                    localStorage.setItem('user', JSON.stringify(response.user)); // Stocke les infos user
+                    console.log(response.user);
+                    this.userSubject.next(response.user);
                     this.loadUser();
                     console.log("✅ Connexion réussie !");
                     this.router.navigate(['/dashboard']); // Redirige après connexion
@@ -50,11 +53,16 @@ export class AuthService {
 
     logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         this.userSubject.next(null);
         console.log(this.isAuthenticated());
     }
 
     isAuthenticated(): boolean {
         return !!localStorage.getItem('token'); // Renvoie true si un token est stocké
+    }
+
+    getUser() {
+        return JSON.parse(localStorage.getItem('user') || 'null');
     }
 }

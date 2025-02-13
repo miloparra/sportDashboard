@@ -4,6 +4,7 @@ import { RunService, RunYear } from '../run/run.service';
 import { BikeService, RideYear } from '../bike/bike.service';
 import { SwimService, SwimYear } from '../swim/swim.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-profil',
@@ -15,7 +16,11 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class ProfilComponent {
 
-  constructor(private runService: RunService, private rideService: BikeService, private swimService: SwimService) { }
+  user: any;
+
+  constructor(private runService: RunService, private rideService: BikeService, private swimService: SwimService, private authService: AuthService) {
+    this.user = authService.getUser();
+  }
 
   runs: RunYear[] = [];
   rides: RideYear[] = [];
