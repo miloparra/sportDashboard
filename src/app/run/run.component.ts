@@ -51,7 +51,11 @@ export class RunComponent {
   // AJOUT D'UN RUN
   onAddNewRun(): void {
     // Ajout d'un nouveau run
-    this.editedRun.vitesse = this.speedCalculator(this.editedRun.temps, this.editedRun.distance);
+    if (this.editedRun.temps == '' || this.editedRun.distance == 0) {
+      this.editedRun.vitesse = 0;
+    } else {
+      this.editedRun.vitesse = this.speedCalculator(this.editedRun.temps, this.editedRun.distance);
+    }
     this.runService.addRun(this.editedRun).subscribe({
       next: (response) => {
         console.log('Réponse du serveur : ', response);
