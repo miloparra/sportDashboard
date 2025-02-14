@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ProfilComponent } from "./profil/profil.component";
 import { AuthService } from './services/auth.service';
 
@@ -14,8 +14,16 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   title = 'sportdashboard';
+  showProfil = false;
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const protectedRoutes = ['/running', '/bike', '/swim', '/fitness', '/dashboard'];
+        this.showProfil = protectedRoutes.includes(event.url);
+      }
+    });
+  }
 
   openApp() {
     window.open('http://localhost:8080', '_blank', 'width=600,height=550');

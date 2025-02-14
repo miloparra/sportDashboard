@@ -35,8 +35,8 @@
   </div>
 </nav>
 <div class="corps row gx-3">
-  <div class="pages col-9"><router-outlet></router-outlet></div>
-  <div class="profil col-3 sticky-column">
+  <div class="pages" [ngClass]="{'col-9': showProfil, 'col-12': !showProfil}"><router-outlet></router-outlet></div>
+  <div class="profil col-3 sticky-column" *ngIf="showProfil">
     <app-profil></app-profil>
   </div>
 </div>
