@@ -1,5 +1,10 @@
-<form (submit)="login()">
-    <input type="email" [(ngModel)]="email" name="email" placeholder="Email">
-    <input type="password" [(ngModel)]="password" name="password" placeholder="Mot de passe">
-    <button type="submit">Se connecter</button>
-</form>
+<div class="page d-flex justify-content-center align-items-center">
+    <div class="login d-flex justify-content-center align-items-center">
+        <form (submit)="login()">
+            <input type="email" class="form-control" [(ngModel)]="email" name="email" placeholder="Email">
+            <input type="password" class="form-control" [(ngModel)]="password" name="password"
+                placeholder="Mot de passe">
+            <button type="submit" class="btn btn-primary">Se connecter</button>
+        </form>
+    </div>
+</div>
