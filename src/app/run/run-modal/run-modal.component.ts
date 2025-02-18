@@ -51,21 +51,28 @@ export class RunModalComponent {
   }
 
   cumulCalcul() {
-    let prevRunFind = false
-    if (this.runs.length == 0) {
-      this.modalRun.cumul = this.modalRun.distance;
-    } else {
-      this.runs.forEach((run) => {
-        if (new Date(run.date_run).getTime() <= new Date(this.modalRun.date_run).getTime() && prevRunFind == false) {
-          let lastCumul = +run.cumul + +this.modalRun.distance;
-          this.modalRun.cumul = lastCumul;
-          prevRunFind = true
-        }
-      })
-      if (prevRunFind == false) {
+    this.runService.getRuns().subscribe(data => {
+      this.runs = data;
+      // Triage par date de la Run la plus recente a la plus ancienne
+      this.runs.sort((a, b) => new Date(b.date_run).getTime() - new Date(a.date_run).getTime());
+
+      let prevRunFind = false
+      if (this.runs.length == 0) {
         this.modalRun.cumul = this.modalRun.distance;
+      } else {
+        this.runs.forEach((run) => {
+          if (new Date(run.date_run).getTime() <= new Date(this.modalRun.date_run).getTime() && prevRunFind == false) {
+            let lastCumul = +run.cumul + +this.modalRun.distance;
+            this.modalRun.cumul = lastCumul;
+            prevRunFind = true
+          }
+        })
+        if (prevRunFind == false) {
+          this.modalRun.cumul = this.modalRun.distance;
+        }
       }
-    }
+
+    });
   }
 
   cancelModification() {
