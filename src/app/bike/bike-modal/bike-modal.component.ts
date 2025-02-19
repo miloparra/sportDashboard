@@ -52,26 +52,32 @@ export class BikeModalComponent {
   }
 
   cumulCalcul() {
-    console.log(this.outings)
-    let prevRideFind = false
-    if (this.outings.length == 0) {
-      this.modalRide.cumul_coureur = this.modalRide.distance;
-      this.modalRide.cumul_velo = this.modalRide.distance;
-    } else {
-      this.outings.forEach((ride) => {
-        if (new Date(ride.date_ride).getTime() <= new Date(this.modalRide.date_ride).getTime() && prevRideFind == false) {
-          let lastCumulCoureur = +ride.cumul_coureur + +this.modalRide.distance;
-          this.modalRide.cumul_coureur = lastCumulCoureur;
-          let lastCumulVelo = +ride.cumul_velo + +this.modalRide.distance;
-          this.modalRide.cumul_velo = lastCumulVelo;
-          prevRideFind = true
-        }
-      })
-      if (prevRideFind == false) {
+    this.bikeService.getOutings().subscribe(data => {
+      this.outings = data;
+      // Triage par date de la Ride la plus recente a la plus ancienne
+      this.outings.sort((a, b) => new Date(b.date_ride).getTime() - new Date(a.date_ride).getTime());
+
+      let prevRideFind = false
+      if (this.outings.length == 0) {
         this.modalRide.cumul_coureur = this.modalRide.distance;
         this.modalRide.cumul_velo = this.modalRide.distance;
+      } else {
+        this.outings.forEach((ride) => {
+          if (new Date(ride.date_ride).getTime() <= new Date(this.modalRide.date_ride).getTime() && prevRideFind == false) {
+            let lastCumulCoureur = +ride.cumul_coureur + +this.modalRide.distance;
+            this.modalRide.cumul_coureur = lastCumulCoureur;
+            let lastCumulVelo = +ride.cumul_velo + +this.modalRide.distance;
+            this.modalRide.cumul_velo = lastCumulVelo;
+            prevRideFind = true
+          }
+        })
+        if (prevRideFind == false) {
+          this.modalRide.cumul_coureur = this.modalRide.distance;
+          this.modalRide.cumul_velo = this.modalRide.distance;
+        }
       }
-    }
+
+    });
   }
 
   cancelModification() {
