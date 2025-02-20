@@ -50,21 +50,28 @@ export class SwimModalComponent {
   }
 
   cumulCalcul() {
-    let prevSwimFind = false
-    if (this.swims.length == 0) {
-      this.modalSwim.cumul = this.modalSwim.distance;
-    } else {
-      this.swims.forEach((swim) => {
-        if (new Date(swim.date_swim).getTime() <= new Date(this.modalSwim.date_swim).getTime() && prevSwimFind == false) {
-          let lastCumul = +swim.cumul + +this.modalSwim.distance;
-          this.modalSwim.cumul = lastCumul;
-          prevSwimFind = true
-        }
-      })
-      if (prevSwimFind == false) {
+    this.swimService.getSwims().subscribe(data => {
+      this.swims = data;
+      // Triage par date de la Swim la plus recente a la plus ancienne
+      this.swims.sort((a, b) => new Date(b.date_swim).getTime() - new Date(a.date_swim).getTime());
+
+      let prevSwimFind = false
+      if (this.swims.length == 0) {
         this.modalSwim.cumul = this.modalSwim.distance;
+      } else {
+        this.swims.forEach((swim) => {
+          if (new Date(swim.date_swim).getTime() <= new Date(this.modalSwim.date_swim).getTime() && prevSwimFind == false) {
+            let lastCumul = +swim.cumul + +this.modalSwim.distance;
+            this.modalSwim.cumul = lastCumul;
+            prevSwimFind = true
+          }
+        })
+        if (prevSwimFind == false) {
+          this.modalSwim.cumul = this.modalSwim.distance;
+        }
       }
-    }
+
+    });
   }
 
   cancelModification() {
