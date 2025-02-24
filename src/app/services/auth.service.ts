@@ -24,9 +24,9 @@ export class AuthService {
         }
     }
 
-    register(email: string, password: string) {
+    register(email: string, password: string, firstname: string, lastname: string) {
         const url = `${this.apiUrl}/register`;
-        return this.http.post(url, { email, password }).subscribe({
+        return this.http.post(url, { email, password, firstname, lastname }).subscribe({
             next: (res) => console.log("✅ Réponse reçue :", res),
             error: (err) => console.error("❌ Erreur lors de l'inscription :", err)
         });

@@ -16,9 +16,11 @@ export class SigninComponent {
 
   email = '';
   password = '';
+  firstname = '';
+  lastname = '';
 
   signin() {
-    this.authService.register(this.email, this.password);
+    this.authService.register(this.email, this.password, this.firstname, this.lastname);
   }
 
 }

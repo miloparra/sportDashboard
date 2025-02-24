@@ -1,10 +1,14 @@
 <div class="page d-flex justify-content-center align-items-center">
     <div class="signin d-flex justify-content-center align-items-center">
-        <form (submit)="signin()">
-            <input type="email" class="form-control" [(ngModel)]="email" name="email" placeholder="Email">
+        <form (submit)="signin()" #signinForm="ngForm">
+            <input type="email" class="form-control" [(ngModel)]="email" name="email" placeholder="Email" required>
+            <input type="text" class="form-control" [(ngModel)]="firstname" name="firstname" placeholder="Fist name"
+                required>
+            <input type="text" class="form-control" [(ngModel)]="lastname" name="lastname" placeholder="Last name"
+                required>
             <input type="password" class="form-control" [(ngModel)]="password" name="password"
-                placeholder="Mot de passe">
-            <button type="submit" class="btn btn-primary">Se connecter</button>
+                placeholder="Mot de passe" required>
+            <button type="submit" class="btn btn-primary" [disabled]="!signinForm.form.valid">Sign In</button>
         </form>
     </div>
 </div>
