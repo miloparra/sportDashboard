@@ -50,18 +50,7 @@ export class SwimComponent {
 
   // AJOUT D'UNE SWIM
   onAddNewSwim(): void {
-    // Ajout d'un nouveau swim
-    this.editedSwim.vitesse = kmHrSpeedCalculator(this.editedSwim.temps, this.editedSwim.distance);
-    this.swimService.addSwim(this.editedSwim).subscribe({
-      next: (response) => {
-        console.log('Réponse du serveur : ', response);
-        // Mettre à jour les cumuls des swims plus recentes après l'ajout
-        this.updateMoreRecentSwims(this.editedSwim.id, this.editedSwim.date_swim);
-      },
-      error: (err) => {
-        console.error('Erreur lors de l\'ajout de la swim : ', err);
-      }
-    });
+    this.ngOnInit();
   }
 
   // APPEL DE LA MODAL DE SUPPRESSION
@@ -181,7 +170,7 @@ export class SwimComponent {
     });
   }
 
-  updateMoreRecentSwims(id: number, date: string) {
+  public updateMoreRecentSwims(id: number, date: string) {
     // Mettre à jour le tableau après l'ajout ou la suppression
     this.swimService.getSwims().subscribe(data => {
       this.swims = data;
