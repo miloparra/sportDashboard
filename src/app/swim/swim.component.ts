@@ -48,8 +48,8 @@ export class SwimComponent {
     });
   }
 
-  // AJOUT D'UNE SWIM
-  onAddNewSwim(): void {
+  // REFRESH SWIM PAGE
+  refreshPage(): void {
     this.ngOnInit();
   }
 
