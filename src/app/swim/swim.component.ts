@@ -170,7 +170,7 @@ export class SwimComponent {
     });
   }
 
-  public updateMoreRecentSwims(id: number, date: string) {
+  updateMoreRecentSwims(id: number, date: string) {
     // Mettre à jour le tableau après l'ajout ou la suppression
     this.swimService.getSwims().subscribe(data => {
       this.swims = data;
