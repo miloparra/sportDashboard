@@ -50,19 +50,9 @@ export class BikeComponent {
     });
   }
 
-  // AJOUT D'UNE RIDE
-  onAddNewRide(): void {
-    // Ajout de la nouvelle ride
-    this.bikeService.addRide(this.editedRide).subscribe({
-      next: (response) => {
-        console.log('Réponse du serveur : ', response);
-        // Mettre à jour les cumuls des rides plus recentes après l'ajout
-        this.updateMoreRecentRides(this.editedRide.id, this.editedRide.date_ride);
-      },
-      error: (err) => {
-        console.error('Erreur lors de l\'ajout de la ride : ', err);
-      }
-    });
+  // REFRESH RIDE TABLE
+  refreshTable(): void {
+    this.ngOnInit();
   }
 
   // APPEL DE LA MODAL DE SUPPRESSION

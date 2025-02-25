@@ -43,7 +43,7 @@
   </div>
 </div>
 <app-bike-modal [modalRide]="editedRide" [createMode]="this.createMode" (saveChanges)="onSaveChanges()"
-  (addNewRide)="onAddNewRide()"></app-bike-modal>
+  (refreshRideTable)="refreshTable()"></app-bike-modal>
 <div class="modal fade" id="deleteRideModal" tabindex="-1" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog modal-dialog modal-dialog-centered">
     <div class="modal-content">
