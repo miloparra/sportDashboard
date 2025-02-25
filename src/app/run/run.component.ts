@@ -5,7 +5,6 @@ import { RunModalComponent } from './run-modal/run-modal.component';
 import { RunService, Run } from './run.service';
 import { HttpClientModule } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
-import { minKmSpeedCalculator } from './../utils/utils';
 
 @Component({
   selector: 'app-run',
@@ -49,24 +48,9 @@ export class RunComponent {
     });
   }
 
-  // AJOUT D'UN RUN
-  onAddNewRun(): void {
-    // Ajout d'un nouveau run
-    if (this.editedRun.temps == '' || this.editedRun.distance == 0) {
-      this.editedRun.vitesse = 0;
-    } else {
-      this.editedRun.vitesse = minKmSpeedCalculator(this.editedRun.temps, this.editedRun.distance);
-    }
-    this.runService.addRun(this.editedRun).subscribe({
-      next: (response) => {
-        console.log('Réponse du serveur : ', response);
-        // Mettre à jour les cumuls des runs plus recentes après l'ajout
-        this.updateMoreRecentRuns(this.editedRun.id, this.editedRun.date_run);
-      },
-      error: (err) => {
-        console.error('Erreur lors de l\'ajout du run : ', err);
-      }
-    });
+  // REFRESH RUN TABLE
+  refreshTable(): void {
+    this.ngOnInit();
   }
 
   // APPEL DE LA MODAL DE SUPPRESSION
@@ -223,5 +207,4 @@ export class RunComponent {
       })
     });
   }
-
 }
