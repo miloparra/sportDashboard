@@ -5,7 +5,6 @@ import { SwimModalComponent } from './swim-modal/swim-modal.component';
 import { SwimService, Swim } from './swim.service';
 import { HttpClientModule } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
-import { kmHrSpeedCalculator } from './../utils/utils';
 
 @Component({
   selector: 'app-swim',
