@@ -47,8 +47,8 @@ export class SwimComponent {
     });
   }
 
-  // REFRESH SWIM PAGE
-  refreshPage(): void {
+  // REFRESH SWIM TABLE
+  refreshTable(): void {
     this.ngOnInit();
   }
 
@@ -206,5 +206,4 @@ export class SwimComponent {
       })
     });
   }
-
 }

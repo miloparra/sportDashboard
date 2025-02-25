@@ -16,7 +16,7 @@ export class SwimModalComponent {
   @Input() modalSwim: any;
   @Input() createMode: boolean = true;
 
-  @Output() refreshSwimPage = new EventEmitter<void>(); // Événement pour ajouter une nouvelle ride
+  @Output() refreshSwimTable = new EventEmitter<void>(); // Événement pour ajouter une nouvelle ride
   @Output() saveChanges = new EventEmitter<void>(); // Événement pour mettre a jour le tableau des Swims
 
   constructor(private swimService: SwimService) { }
@@ -124,8 +124,8 @@ export class SwimModalComponent {
             this.swims = data;
             // Triage par date de la Swim la plus recente a la plus ancienne
             this.swims.sort((a, b) => new Date(b.date_swim).getTime() - new Date(a.date_swim).getTime());
-            // Reload swim component
-            this.refreshSwimPage.emit();
+            // Refresh swim table
+            this.refreshSwimTable.emit();
           });
         },
         error: (err) => {
@@ -134,5 +134,4 @@ export class SwimModalComponent {
       })
     });
   }
-
 }
