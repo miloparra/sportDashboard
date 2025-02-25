@@ -1,6 +1,7 @@
 <div class="page d-flex justify-content-center align-items-center">
     <div class="signin d-flex justify-content-center align-items-center">
         <form (submit)="signin()" #signinForm="ngForm">
+            <input type="file" class="form-control" (change)="onFileSelected($event)">
             <input type="email" class="form-control" [(ngModel)]="email" name="email" placeholder="Email" required>
             <input type="text" class="form-control" [(ngModel)]="firstname" name="firstname" placeholder="Fist name"
                 required>
