@@ -34,9 +34,14 @@
     <button type="button" class="btn" (click)="openApp()"><i class="bi bi-speedometer"></i></button>
   </div>
 </nav>
-<div class="corps row gx-3">
+
+<div class="corps row gx-3" *ngIf="!isAuthPage()">
   <div class="pages" [ngClass]="{'col-9': showProfil, 'col-12': !showProfil}"><router-outlet></router-outlet></div>
   <div class="profil col-3 sticky-column" *ngIf="showProfil">
     <app-profil></app-profil>
   </div>
 </div>
+
+<ng-container *ngIf="isAuthPage()">
+  <router-outlet></router-outlet>
+</ng-container>

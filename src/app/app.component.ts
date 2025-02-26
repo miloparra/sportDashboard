@@ -25,11 +25,15 @@ export class AppComponent {
     });
   }
 
-  openApp() {
-    window.open('http://localhost:8080', '_blank', 'width=600,height=550');
+  isAuthPage(): boolean {
+    return ['/login', '/signin'].includes(this.router.url);
   }
 
   logout() {
     this.authService.logout();
+  }
+
+  openApp() {
+    window.open('http://localhost:8080', '_blank', 'width=600,height=550');
   }
 }
