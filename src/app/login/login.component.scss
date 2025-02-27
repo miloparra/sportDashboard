@@ -1,14 +1,5 @@
-.page {
-    height: calc(100vh - 116px);
-}
-
-.login {
-    width: 400px;
-    height: 300px;
-    background-color: hsl(240, 100%, 33%);
-}
-
-.form-control {
-    width: 300px;
-    margin-bottom: 20px;
+@media (min-width: 1025px) {
+    .h-custom {
+        height: calc(100vh - 56px) !important;
+    }
 }
