@@ -1,35 +1,35 @@
 <nav class="navbar sticky-top navbar-expand shadow" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">AVANCE</a>
+    <a class="navbar-brand" routerLink="/general">AVANCE</a>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
           <a routerLink="/general" routerLinkActive="active" class="nav-link">General</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="authService.isAuthenticated()">
           <a routerLink="/running" routerLinkActive="active" class="nav-link">Running</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="authService.isAuthenticated()">
           <a routerLink="/bike" routerLinkActive="active" class="nav-link">Bike</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="authService.isAuthenticated()">
           <a routerLink="/swim" routerLinkActive="active" class="nav-link">Swim</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="authService.isAuthenticated()">
           <a routerLink="/fitness" routerLinkActive="active" class="nav-link">Fitness</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="authService.isAuthenticated()">
           <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
-        </li>
-        <li class="nav-item" *ngIf="!authService.isAuthenticated()">
-          <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
-        </li>
-        <li class="nav-item" *ngIf="!authService.isAuthenticated()">
-          <a routerLink="/signin" routerLinkActive="active" class="nav-link">Signin</a>
         </li>
       </ul>
     </div>
-    <button type="button" class="btn" (click)="logout()" *ngIf="authService.isAuthenticated()"><i
+    <button type="button" class="authbtn btn btn-outline-light" *ngIf="!authService.isAuthenticated()">
+      <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
+    </button>
+    <button type="button" class="authbtn btn btn-outline-light" *ngIf="!authService.isAuthenticated()">
+      <a routerLink="/signin" routerLinkActive="active" class="nav-link">Signin</a>
+    </button>
+    <button type="button" class="btn" routerLink="/login" (click)="logout()" *ngIf="authService.isAuthenticated()"><i
         class="bi bi-box-arrow-right"></i></button>
     <button type="button" class="btn" (click)="openApp()"><i class="bi bi-speedometer"></i></button>
   </div>

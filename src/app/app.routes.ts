@@ -10,7 +10,7 @@ import { SigninComponent } from './signin/signin.component';
 import { AuthGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/general', pathMatch: 'full' }, //A l'ouverture de l'app, l'utilisateur est dirige directement sur la page General
+    { path: '', redirectTo: '/login', pathMatch: 'full' }, //A l'ouverture de l'app, l'utilisateur est dirige directement sur la page General
     { path: 'general', component: GeneralComponent },
     { path: 'running', component: RunComponent, canActivate: [AuthGuard] },
     { path: 'bike', component: BikeComponent, canActivate: [AuthGuard] },
