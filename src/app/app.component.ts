@@ -25,6 +25,14 @@ export class AppComponent {
     });
   }
 
+  isLoginPage(): boolean {
+    return ['/login'].includes(this.router.url);
+  }
+
+  isSigninPage(): boolean {
+    return ['/signin'].includes(this.router.url);
+  }
+
   isAuthPage(): boolean {
     return ['/login', '/signin'].includes(this.router.url);
   }

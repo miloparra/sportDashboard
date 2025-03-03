@@ -23,10 +23,11 @@
         </li>
       </ul>
     </div>
-    <button type="button" class="authbtn btn btn-outline-light" *ngIf="!authService.isAuthenticated()">
+    <button type="button" class="authbtn btn btn-outline-light"
+      *ngIf="!authService.isAuthenticated() && isSigninPage()">
       <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
     </button>
-    <button type="button" class="authbtn btn btn-outline-light" *ngIf="!authService.isAuthenticated()">
+    <button type="button" class="authbtn btn btn-outline-light" *ngIf="!authService.isAuthenticated() && isLoginPage()">
       <a routerLink="/signin" routerLinkActive="active" class="nav-link">Signin</a>
     </button>
     <button type="button" class="btn" routerLink="/login" (click)="logout()" *ngIf="authService.isAuthenticated()"><i
