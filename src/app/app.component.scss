@@ -1,11 +1,14 @@
-a {
-    margin: 0px 20px 0px;
-}
-
 .navbar {
     background-color: hsl(240, 100%, 33%);
+    height: 56px;
     padding-left: 12%;
     padding-right: 12%;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.nav-link {
+    margin: 0px 20px 0px;
 }
 
 .authbtn {
@@ -14,6 +17,38 @@ a {
 
 .authbtn:hover {
     color: hsl(240, 100%, 33%);
+}
+
+.profilPicture {
+    display: flex;
+    align-items: center;
+    padding: 11px 11px;
+}
+
+.profilImg {
+    width: 34px;
+    border-radius: 50%;
+    border: solid 1px hsl(0, 0%, 100%);
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0px; // Corrige un éventuel décalage et permet le survol du menu deroulant
+}
+
+.dropdown-menu {
+    background-color: hsl(240, 100%, 33%);
+    border: solid 1px hsl(240, 100%, 33%);
+    border-radius: 0px;
+}
+
+.dropdown-item:hover {
+    color: hsl(240, 100%, 33%);
+    background-color: white;
+}
+
+.dropdowIcon {
+    padding-right: 12px;
 }
 
 .corps {

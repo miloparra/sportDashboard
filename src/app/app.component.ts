@@ -15,8 +15,10 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   title = 'sportdashboard';
   showProfil = false;
+  user: any;
 
   constructor(public authService: AuthService, private router: Router) {
+    this.user = authService.getUser();
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const protectedRoutes = ['/running', '/bike', '/swim', '/fitness', '/dashboard'];
