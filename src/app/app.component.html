@@ -30,8 +30,6 @@
     <button type="button" class="authbtn btn btn-outline-light" *ngIf="!authService.isAuthenticated() && isLoginPage()">
       <a routerLink="/signin" routerLinkActive="active" class="nav-link">Signin</a>
     </button>
-
-
     <div class="dropdown">
       <div class="profilPicture" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false"
         *ngIf="authService.isAuthenticated()">
@@ -39,8 +37,8 @@
           alt="Image 1" />
       </div>
       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" data-bs-popper="static">
-        <a class="dropdown-item" routerLink="/dashboard"><i class="bi accountIcon bi-person-circle"></i>Profil</a>
-        <a class="dropdown-item" href="#"><i class="bi accountIcon bi-gear"></i>Parameters</a>
+        <a class="dropdown-item" routerLink="/dashboard"><i class="bi dropdowIcon bi-person-circle"></i>Profil</a>
+        <a class="dropdown-item" href="#"><i class="bi dropdowIcon bi-gear"></i>Parameters</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" routerLink="/login" (click)="logout()" *ngIf="authService.isAuthenticated()"><i
             class="bi dropdowIcon bi-box-arrow-right"></i>Logout</a>
@@ -50,8 +48,10 @@
   </div>
 </nav>
 <div class="corps row gx-3" *ngIf="!isAuthPage()">
-  <div class="pages" [ngClass]="{'col-9': showProfil, 'col-12': !showProfil}"><router-outlet></router-outlet></div>
-  <div class="profil col-3 sticky-column" *ngIf="showProfil">
+  <div class="pages" [ngClass]="{'col-xl-9 col-12': showProfil, 'col-12': !showProfil}">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="profil col-3 d-none d-xl-block sticky-column" *ngIf="showProfil">
     <app-profil></app-profil>
   </div>
 </div>
